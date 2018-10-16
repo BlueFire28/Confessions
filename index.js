@@ -195,7 +195,7 @@ bot.on('message', async message => {
         .addField("Name, ID", rRoles)
         
         await message.channel.send(roleInfo)
-    }
+    };
 
 
     //reports
