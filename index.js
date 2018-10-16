@@ -127,7 +127,7 @@ bot.on('message', async message => {
 
     //serverinfo command
     if (msg === prefix + "serverinfo") {
-      let sicon = message.guild.avatarURL
+      let sicon = message.guild.iconURL
         
         let serverembed = new Discord.RichEmbed()
         .setDescription("__**Server Information**__")
