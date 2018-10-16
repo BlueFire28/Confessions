@@ -103,13 +103,13 @@ bot.on('message', async message => {
     if (msg === prefix + "pingrole"){
         message.member.addRole('501888773710282755');
         await message.reply('I have given you the ping role!')
-    }
+    };
     
     //remove ping role
     if (msg === prefix + "rpingrole"){
         message.member.removeRole('501888773710282755');
         await message.reply('I have removed the ping role from you!')
-    }
+    };
 
     //timed message
     //const generalchat = bot.channels.get("469490700845580298")
@@ -286,6 +286,27 @@ bot.on('message', async message => {
             let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
           }
         };
+    
+    // Dice roll
+    if(msg.split(" ")[0] === prefix + "diceroll"){
+        let args = msg.split(" ").slice(1)
+        let rand = Math.floor(Math.random() * ((6 - 1) + 1)) + 1)
+        console.log(args)
+        console.log(rand)
+        if(args >=1 || args <= 6){
+            if(args == rand + 1 || args == rand - 1){
+                let m = await message.reply("You guessed in a range of 1 and were correct!",
+                userData[sender.id].money = (userData[sender.id].money+150))
+                let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            }else{
+                let m = await message.reply("You guessed in a range of 1 and were incorrect!",
+                userData[sender.id].money = (userData[sender.id].money-50))
+                let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            }
+        }else{
+            return message.reply('Please enter a number between 1 and 6')
+        }
+       };
 
     
     //8ball
