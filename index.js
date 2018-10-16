@@ -127,7 +127,7 @@ bot.on('message', async message => {
 
     //serverinfo command
     if (msg === prefix + "serverinfo") {
-      let sicon = message.guild.displayAvatarURL
+      let sicon = message.guild.avatarURL
         
         let serverembed = new Discord.RichEmbed()
         .setDescription("__**Server Information**__")
@@ -136,7 +136,7 @@ bot.on('message', async message => {
         .addField("Server Name", message.guild.name)
         .addField("Created On", message.guild.createdAt)
         .addField("Total Members", message.guild.memberCount)
-        .addField("Emoji", guild.emojis + "*work in progress*")
+        .addField("Emoji", message.guild.emojis + "*work in progress*")
 
         await message.channel.send(serverembed)
 
