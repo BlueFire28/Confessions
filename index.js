@@ -164,7 +164,7 @@ bot.on('message', async message => {
 
     };
 
-    //role info
+   /* //role info
     if (msg.split(" ")[0] === prefix + "roleinfo") {
       //ex `roleinfo @owner
       let args = msg.split(" ").slice(1)
@@ -184,7 +184,16 @@ bot.on('message', async message => {
   
           await message.channel.send(memberembed)
 
-    };
+    }; */
+    
+    if (msg === prefix + "roles"){
+        let rRoles = guild.roles
+        
+        let roleInfo = new Discord.RichEmbed()
+        .setDescription("__**Role Information**__")
+        .setColor(0x15f153)
+        .addField("Name, ID", rRoles)
+    }
 
 
     //reports
