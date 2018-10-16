@@ -288,7 +288,7 @@ bot.on('message', async message => {
         };
     
     // Dice roll guess
-    const roll = Math.floor((Math.random() * ((6 - 1) + 1)) + 1);
+    const roll =  Math.floor((Math.random() * 6) + 1);
     if(msg.split(" ")[0] === prefix + "diceroll"){
         let args = msg.split(" ").slice(1)
         console.log(args)
