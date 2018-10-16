@@ -101,7 +101,7 @@ bot.on('message', async message => {
 
     //get ping role
     if (msg === prefix + "pingrole"){
-        message.member.addRole('Ping');
+        message.member.addRole('501888773710282755');
         await message.reply('I have given you the ping role!')
     }
 
