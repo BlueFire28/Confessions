@@ -192,8 +192,10 @@ bot.on('message', async message => {
         let roleInfo = new Discord.RichEmbed()
         .setDescription("__**Role Information**__")
         .setColor(0x15f153)
-        .addField("Name, ID", rRoles)
-        
+        for(var name in rRoles){
+            let id = rRoles[name]
+            .addField("Name, ID", name + id)
+        }
         await message.channel.send(roleInfo)
     };
 
