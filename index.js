@@ -167,8 +167,8 @@ bot.on('message', async message => {
     //role info
     if (msg.split(" ")[0] === prefix + "roleinfo") {
           //ex `roleinfo @owner
-          let args = msg.split(" ").slice(1)
-          let rRole = msg(message.mentions.roles.first() || message.guild.roles.get(args[0])
+          //let args = msg.split(" ").slice(1)
+          let rRole = message.mentions.roles.first()
                                            
             if(!rRole)
               return message.reply("Who dat role? I cant find it.")
