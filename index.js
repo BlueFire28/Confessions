@@ -293,7 +293,7 @@ bot.on('message', async message => {
         let args = msg.split(" ").slice(1)
         console.log(args)
         console.log(roll)
-        if(args >=1 || args <= 6){
+        if(args >=1 && args <= 6){
             if(args == roll + 1 || args == roll - 1 || args == roll){
                 let m = await message.reply("You guessed in a range of 1 and were correct!",
                 userData[sender.id].money = (userData[sender.id].money+150))
