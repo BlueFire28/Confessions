@@ -99,6 +99,10 @@ bot.on('message', async message => {
         } else {return};
       };
 
+    //get ping role
+    if (msg === prefix + "pingrole"){
+        message.member.addrole('Ping');
+    }
 
     //timed message
     //const generalchat = bot.channels.get("469490700845580298")
