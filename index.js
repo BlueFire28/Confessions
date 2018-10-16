@@ -254,11 +254,11 @@ bot.on('message', async message => {
           if (coin <= 1) {
             let m = await message.reply('The coin landed on Diamonds, You won!',// {files: ["Storage/images/diamond.png"]}) //128x128 images are ideal
             userData[sender.id].money = (userData[sender.id].money+300))
-            let m1 = await.message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
           } else if (coin >= 2) {
             let m = await message.reply("The coin landed on Nuggets, you lost.",// { files: ["Storage/images/nugget.png"]})
             userData[sender.id].money = (userData[sender.id].money-150))
-            let m1 = await.message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
           }
         };
         
@@ -268,11 +268,11 @@ bot.on('message', async message => {
           if (coin <= 1) {
             let m = await message.reply('The coin landed on Nuggets, You won!',// {files: ["Storage/images/nugget.png"]})
             userData[sender.id].money = (userData[sender.id].money+300))
-            let m1 = await.message.channel.send(` You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m1 = await message.channel.send(` You now have: ${userData[sender.id].money} insert super secret emoji here`)
           } else if (coin >= 2) {
             let m = await message.reply("The coin landed on Diamonds, you lost. ",// {files: ["Storage/images/diamond.png"]})
             userData[sender.id].money = (userData[sender.id].money-150))
-            let m1 = await.message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
           }
         };
 
