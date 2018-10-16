@@ -168,19 +168,17 @@ bot.on('message', async message => {
     if (msg.split(" ")[0] === prefix + "roleinfo") {
           //ex `roleinfo @owner
           let args = msg.split(" ").slice(1)
-          let rRole = message.guild.member(message.mentions.roles.first() || message.guild.roles.get(args[0]))
-
-
-
+          let rRole = msg(message.mentions.roles.first() || message.guild.roles.get(args[0])
+                                           
             if(!rRole)
               return message.reply("Who dat role? I cant find it.")
 
-              let memberembed = new Discord.RichEmbed()
+              let roleembed = new Discord.RichEmbed()
               .setDescription("__**Role Information**__")
               .setColor(0x15f153)
               .addField("Name", rRole)
               .addField("ID", rRole.id)
-              await message.channel.send(memberembed)
+              await message.channel.send(roleembed)
 
         }; 
 
