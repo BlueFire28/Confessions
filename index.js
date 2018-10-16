@@ -187,12 +187,14 @@ bot.on('message', async message => {
     }; */
     
     if (msg === prefix + "roles"){
-        let rRoles = guild.roles
+        let rRoles = message.guild.roles
         
         let roleInfo = new Discord.RichEmbed()
         .setDescription("__**Role Information**__")
         .setColor(0x15f153)
         .addField("Name, ID", rRoles)
+        
+        await message.channel.send(roleInfo)
     }
 
 
