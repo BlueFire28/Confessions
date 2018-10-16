@@ -169,10 +169,10 @@ bot.on('message', async message => {
       //ex `roleinfo @owner
       let args = msg.split(" ").slice(1)
       let rRole = message.guild.member(message.mentions.roles.first() || message.guild.roles.get(args[0]))
-      let rmembers = message.guild.roles.get(role.id).members.map(m => m.user.tag);
+      let rmembers = message.guild.roles.get(rRole.id).members.map(m => m.user.tag);
       
 
-        if(!rRole) 
+        if(!rRole)
           return message.reply("Who dat role? I cant find it.")
 
           let memberembed = new Discord.RichEmbed()
@@ -180,7 +180,7 @@ bot.on('message', async message => {
           .setColor(0x15f153)
           .addField("Name", rRole)
           .addField("ID", rRole.id)
-          .addField(`Members assigned to this role: ${message.guild.members.filter(m =>!m.user.bot).filter(m => m.roles.get(role.id)).map(m => `\n[${m.user.username} : ${m.user.id}]`)}`)
+          .addField(`Members assigned to this role: ${message.guild.members.filter(m =>!m.user.bot).filter(m => m.roles.get(rRole.id)).map(m => `\n[${m.user.username} : ${m.user.id}]`)}`)
   
           await message.channel.send(memberembed)
 
