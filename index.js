@@ -104,6 +104,12 @@ bot.on('message', async message => {
         message.member.addRole('501888773710282755');
         await message.reply('I have given you the ping role!')
     }
+    
+    //remove ping role
+    if (msg === prefix + "rpingrole"){
+        message.member.removeRole('501888773710282755');
+        await message.reply('I have removed the ping role from you!')
+    }
 
     //timed message
     //const generalchat = bot.channels.get("469490700845580298")
