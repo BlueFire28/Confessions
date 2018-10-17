@@ -343,9 +343,9 @@ bot.on('message', async message => {
         let userId = rUser.id
         let addedmoney = Number(args[1]);
         if(addedmoney > 1){
-            let m = async message.reply("You removed " + addedmoney + " from " + rUser,
+            let m = await message.reply("You removed " + addedmoney + " from " + rUser,
             userData[userId].money = (userData[userId].money - addedmoney))
-            let m1 = async message.channel.send(rUser + ` now has ${userData[userId].money} insert super secret emoji here`)
+            let m1 = await m.reply(rUser + ` now has ${userData[userId].money} insert super secret emoji here`)
         }else{
             return message.reply('Please enter a number greater than 1')
         }
