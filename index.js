@@ -84,12 +84,7 @@ bot.on('message', async message => {
         let lb = new Discord.RichEmbed()
         .setDescription('**___Leaderboard___**')
         .setColor(0x15f153)
-        for(var id in userData){
-            console.log(id)
-            var money = (userData[id])
-            var name = id
-        }
-        .addField("User -> Money", name + " " + money)
+        .addField("User -> Money", "TBC") // incomplete
         message.channel.send(lb)
     }
 
