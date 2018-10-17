@@ -197,6 +197,7 @@ bot.on('message', async message => {
               .setColor(0x15f153)
               .addField("Name", rRole)
               .addField("ID", rRole.id)
+              .addField("Members assigned this role" rRole.members)
               await message.channel.send(roleembed)
 
         }; 
