@@ -88,6 +88,7 @@ bot.on('message', async message => {
         for(var name in userData){
             var money = userData[name]
             console.log(name)
+            console.log(money)
             lb.addField("User -> Money", num + ": " + name + " " + money) // incomplete
             num++
         }
@@ -326,6 +327,9 @@ bot.on('message', async message => {
         let args = msg.split(" ").slice(1)
         console.log(args)
         let rUser = message.mentions.users.first()
+        if(!rUser){
+           return message.reply('Who is this person?')
+        }
         console.log(rUser)
         let userId = rUser.id
         console.log(userId)
@@ -334,6 +338,28 @@ bot.on('message', async message => {
         if(addedmoney > 1){
             let m = await message.reply("You added " + addedmoney + " to " + rUser,
             userData[userId].money = (userData[userId].money + addedmoney))
+            let m1 = await message.channel.send(rUser + ` now has ${userData[userId].money} insert super secret emoji here`)
+        }else{
+            return message.reply('Please enter a number greater than 1')
+        }
+    };
+    
+    // Remove money
+    if(msg.split(" ")[0] === prefix + "removemoney"){
+        let args = msg.split(" ").slice(1)
+        console.log(args)
+        let rUser = message.mentions.users.first()
+        if(!rUser){
+           return message.reply('Who is this person?')
+        }
+        console.log(rUser)
+        let userId = rUser.id
+        console.log(userId)
+        let addedmoney = Number(args[1]);
+        console.log(addedmoney)
+        if(addedmoney > 1){
+            let m = await message.reply("You removed " + addedmoney + " from " + rUser,
+            userData[userId].money = (userData[userId].money - addedmoney))
             let m1 = await message.channel.send(rUser + ` now has ${userData[userId].money} insert super secret emoji here`)
         }else{
             return message.reply('Please enter a number greater than 1')
