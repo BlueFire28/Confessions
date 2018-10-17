@@ -7,7 +7,7 @@ const ms = require("ms") // npm install ms -s
 
 
 // json files
-let userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
+var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
 
 // Listener Event: Bot Launched
 bot.on('ready', () => {
@@ -79,8 +79,15 @@ bot.on('message', async message => {
       } else {return}
     }
     
+    // leaderboard
     if (msg === prefix + "lb" || msg === prefix + "leaderboard"){
-        let m = await message.channel.send(userData)
+        let lb = new Discord.RichEmbed()
+        .setDescription('**___Leaderboard___**')
+        .setColor(0x15f153)
+        for(var name in userData){
+            let money = userData[name]
+            .addField("User -> Money", name + " " + money)
+        }
     }
 
 
