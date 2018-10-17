@@ -310,7 +310,8 @@ bot.on('message', async message => {
     if(msg.split(" ")[0] === prefix + "addmoney"){
         let args = msg.split(" ").slice(1)
         console.log(args)
-        let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
+        let rUser = message.mentions.users.first()
+        console.log(rUser)
         let money = Number(args[1]);
         console.log(money)
         if(money > 1){
