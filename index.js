@@ -337,7 +337,7 @@ bot.on('message', async message => {
                return message.reply("You must wait 10 minutes before working again.");
         } else {
             let money = Math.floor((Math.random() * 801) + 200);
-            let m = await message.reply("You worked so hard and received" + money,
+            let m = await message.reply("You worked so hard and received " + money,
             userData[sender.id].money = (userData[sender.id].money+money))
             let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
 
