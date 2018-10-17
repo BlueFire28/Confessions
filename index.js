@@ -313,7 +313,7 @@ bot.on('message', async message => {
         let rUser = message.mentions.users.first()
         console.log(rUser)
         let addedmoney = Number(args[1]);
-        console.log(money)
+        console.log(addedmoney)
         if(addedmoney > 1){
             let m = await message.reply("You added " + addedmoney + " to " + rUser,
             userData[rUser.id].money = (userData[rUser.id].money + addedmoney))
