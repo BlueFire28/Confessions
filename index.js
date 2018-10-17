@@ -325,7 +325,7 @@ bot.on('message', async message => {
     if(msg.split(" ")[0] === prefix + "addmoney"){
         let args = msg.split(" ").slice(1)
         console.log(args)
-        let rUser = args[0]
+        let rUser = message.guild.members.get(args[0])
         console.log(rUser)
         let userId = rUser.id
         console.log(userId)
