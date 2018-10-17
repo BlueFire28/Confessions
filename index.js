@@ -84,10 +84,11 @@ bot.on('message', async message => {
         let lb = new Discord.RichEmbed()
         .setDescription('**___Leaderboard___**')
         .setColor(0x15f153)
-        for(var name in userData){
-            console.log(name)
-            //var money = userData[name]
-            //.addField("User -> Money", name + " " + money)
+        for(var id in userData){
+            console.log(id)
+            var money = (userData[id])
+            let name = id
+            .addField("User -> Money", name + " " + money)
         }
     }
 
