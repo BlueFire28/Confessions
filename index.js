@@ -82,9 +82,15 @@ bot.on('message', async message => {
     // leaderboard
     if (msg === prefix + "lb" || msg === prefix + "leaderboard"){
         let lb = new Discord.RichEmbed()
+        let num = 1
         .setDescription('**___Leaderboard___**')
         .setColor(0x15f153)
-        .addField("User -> Money", "TBC") // incomplete
+        for(var name in userData){
+            var money = userData[name]
+            console.log(name)
+            lb.addField("User -> Money", num + ": " + name + " " + money) // incomplete
+            num++
+        }
         message.channel.send(lb)
     }
 
