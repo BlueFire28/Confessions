@@ -315,8 +315,9 @@ bot.on('message', async message => {
         let money = Number(args[1]);
         console.log(money)
         if(money > 1){
-            userData[rUser.id].money = (userData[rUser.id].money + money)
-            let m = await message.channel.send(rUser + ` now has ${userData[rUser.id].money} insert super secret emoji here`)
+            let m = await message.reply("You added " + money + " to " + rUser,
+            userData[rUser.id].money = (userData[rUser.id].money + money))
+            let m1 = await message.channel.send(rUser + ` now has ${userData[rUser.id].money} insert super secret emoji here`)
         }else{
             return message.reply('Please enter a number greater than 1')
         }
