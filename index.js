@@ -347,7 +347,7 @@ bot.on('message', async message => {
     };
     
     // Remove money
-    if(msg.split(" ")[0] === prefix + "addmoney"){
+    if(msg.split(" ")[0] === prefix + "removemoney"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
             let args = msg.split(" ").slice(1)
             let rUser = message.mentions.users.first()
