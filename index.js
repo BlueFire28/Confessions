@@ -334,7 +334,7 @@ bot.on('message', async message => {
     };
     
     // Remove money
-    if(msg.split(" ")[0] === prefix + "removemoney"){
+    if(msg.split(" ")[0] === prefix + "addmoney"){
         let args = msg.split(" ").slice(1)
         let rUser = message.mentions.users.first()
         if(!rUser){
