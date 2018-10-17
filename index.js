@@ -319,7 +319,7 @@ bot.on('message', async message => {
     if(msg.split(" ")[0] === prefix + "addmoney"){
         let args = msg.split(" ").slice(1)
         console.log(args)
-        let rUser = message.mentions.users.first()
+        let rUser = args[1]
         console.log(rUser)
         let userId = rUser.id
         console.log(userId)
