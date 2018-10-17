@@ -81,7 +81,7 @@ bot.on('message', async message => {
     
     // leaderboard
     if (msg === prefix + "lb" || msg === prefix + "leaderboard"){
-        var moneylist = userData.keyArray()
+        var moneylist = userData.first()
         console.log(moneylist)
         var num = 1
         let lb = new Discord.RichEmbed()
