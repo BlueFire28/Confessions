@@ -317,16 +317,12 @@ bot.on('message', async message => {
     // Add money
     if(msg.split(" ")[0] === prefix + "addmoney"){
         let args = msg.split(" ").slice(1)
-        console.log(args)
         let rUser = message.mentions.users.first()
         if(!rUser){
            return message.reply('Who is this person?')
         }
-        console.log(rUser)
         let userId = rUser.id
-        console.log(userId)
         let addedmoney = Number(args[1]);
-        console.log(addedmoney)
         if(addedmoney > 1){
             let m = await message.reply("You added " + addedmoney + " to " + rUser,
             userData[userId].money = (userData[userId].money + addedmoney))
@@ -339,16 +335,12 @@ bot.on('message', async message => {
     // Remove money
     if(msg.split(" ")[0] === prefix + "removemoney"){
         let args = msg.split(" ").slice(1)
-        console.log(args)
         let rUser = message.mentions.users.first()
         if(!rUser){
            return message.reply('Who is this person?')
         }
-        console.log(rUser)
         let userId = rUser.id
-        console.log(userId)
         let addedmoney = Number(args[1]);
-        console.log(addedmoney)
         if(addedmoney > 1){
             let m = await message.reply("You removed " + addedmoney + " from " + rUser,
             userData[userId].money = (userData[userId].money - addedmoney))
