@@ -311,7 +311,7 @@ bot.on('message', async message => {
         let args = msg.split(" ").slice(1)
         console.log(args)
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
-        let money = message.get(args[1])
+        let money = args[1]
         console.log(money)
         if(money > 1){
             userData[rUser.id].money = (userData[rUser.id].money+money)
