@@ -87,9 +87,10 @@ bot.on('message', async message => {
         for(var id in userData){
             console.log(id)
             var money = (userData[id])
-            let name = id
+            var name = id
             .addField("User -> Money", name + " " + money)
         }
+        message.channel.send(lb)
     }
 
 
