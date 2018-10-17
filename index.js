@@ -90,8 +90,10 @@ bot.on('message', async message => {
     // Delete msgs
     if (msg.split(" ")[0] === prefix + "mdelete"){
         let args = msg.split(" ").slice()
+        console.log(args)
         let num = Number(args[0]);
         console.log(num)
+        console.log(args[0])
         if (num > 100 || num < 2){
             return message.reply('Please enter a number between 2 and 100')
         }
