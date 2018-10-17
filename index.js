@@ -272,13 +272,13 @@ bot.on('message', async message => {
 
         if (msg === prefix + 'guess d' || msg === prefix + 'g d'  ) {
           if (coin <= 1) {
-            let m = async message.reply('The coin landed on Diamonds, You won!',// {files: ["Storage/images/diamond.png"]}) //128x128 images are ideal
+            let m = await message.reply('The coin landed on Diamonds, You won!',// {files: ["Storage/images/diamond.png"]}) //128x128 images are ideal
             userData[sender.id].money = (userData[sender.id].money+300))
-            let m1 = async message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m1 = await m.reply(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
           } else if (coin >= 2) {
-            let m = async message.reply("The coin landed on Nuggets, you lost.",// { files: ["Storage/images/nugget.png"]})
+            let m = await message.reply("The coin landed on Nuggets, you lost.",// { files: ["Storage/images/nugget.png"]})
             userData[sender.id].money = (userData[sender.id].money-150))
-            let m1 = async message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m1 = await m.reply(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
           }
         };
         
@@ -286,13 +286,13 @@ bot.on('message', async message => {
 
         if (msg === prefix + 'guess n' || msg === prefix + 'g n' ) {
           if (coin <= 1) {
-            let m = async message.reply('The coin landed on Nuggets, You won!',// {files: ["Storage/images/nugget.png"]})
+            let m = await message.reply('The coin landed on Nuggets, You won!',// {files: ["Storage/images/nugget.png"]})
             userData[sender.id].money = (userData[sender.id].money+300))
-            let m1 = async message.channel.send(` You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m1 = await m.reply(` You now have: ${userData[sender.id].money} insert super secret emoji here`)
           } else if (coin >= 2) {
-            let m = async message.reply("The coin landed on Diamonds, you lost. ",// {files: ["Storage/images/diamond.png"]})
+            let m = await message.reply("The coin landed on Diamonds, you lost. ",// {files: ["Storage/images/diamond.png"]})
             userData[sender.id].money = (userData[sender.id].money-150))
-            let m1 = async message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m1 = await m.reply(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
           }
         };
     
@@ -302,13 +302,13 @@ bot.on('message', async message => {
         let args = msg.split(" ").slice(1)
         if(args >=1 && args <= 6){
             if(args == roll + 1 || args == roll - 1 || args == roll){
-                let m = async message.reply("You guessed in a range of 1 and were correct!",
+                let m = await message.reply("You guessed in a range of 1 and were correct!",
                 userData[sender.id].money = (userData[sender.id].money+150))
-                let m1 = async message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+                let m1 = await m.reply(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
             }else{
-                let m = async message.reply("You guessed in a range of 1 and were incorrect!",
+                let m = await message.reply("You guessed in a range of 1 and were incorrect!",
                 userData[sender.id].money = (userData[sender.id].money-50))
-                let m1 = async message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+                let m1 = await m.reply(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
             }
         }else{
             return message.reply('Please enter a number between 1 and 6')
@@ -325,9 +325,9 @@ bot.on('message', async message => {
         let userId = rUser.id
         let addedmoney = Number(args[1]);
         if(addedmoney > 1){
-            let m = async message.reply("You added " + addedmoney + " to " + rUser,
+            let m = await message.reply("You added " + addedmoney + " to " + rUser,
             userData[userId].money = (userData[userId].money + addedmoney))
-            let m1 = async message.channel.send(rUser + ` now has ${userData[userId].money} insert super secret emoji here`)
+            let m1 = await m.reply(rUser + ` now has ${userData[userId].money} insert super secret emoji here`)
         }else{
             return message.reply('Please enter a number greater than 1')
         }
