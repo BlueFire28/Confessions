@@ -88,7 +88,7 @@ bot.on('message', async message => {
         .setDescription('**___Leaderboard___**')
         .setColor(0x15f153)
         for(var name in userData){
-            var money = userData[name]
+            var money = userData.first()
             console.log(name)
             console.log(money)
             lb.addField("User -> Money", num + ": " + name + " " + money) // incomplete
