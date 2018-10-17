@@ -97,7 +97,7 @@ bot.on('message', async message => {
         message.channel.bulkDelete(num).then(() => {
         message.channel.send("Deleted " + num + " messages.").then(msg => msg.delete(3000));
         });
-    }
+    };
 
     //Single Poll
     if (msg.startsWith("poll:")) {
