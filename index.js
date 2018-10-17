@@ -5,6 +5,8 @@ const fs = require('fs');
 const moment = require('moment') // the moment package. to make this work u need to run "npm install moment --save 
 const ms = require("ms") // npm install ms -s
 
+// Some stuff dw about it
+const workCooldown = new Set();
 
 // json files
 var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
@@ -328,6 +330,24 @@ bot.on('message', async message => {
         }
        };
     
+    
+    // Work
+    if(msg === prefix + "work"){
+        if (workCooldown.has(sender.id)) {
+               return message.reply("You must wait 10 minutes before working again.");
+        } else {
+            let money = Math.floor((Math.random() * 801) + 200);
+            let m = await message.reply("You worked so hard and received" + money,
+            userData[sender.id].money = (userData[sender.id].money+money))
+            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+
+            workCooldown.add(sender.id);
+            setTimeout(() => {
+              workCooldown.delete(sender.id);
+            }, 600000);
+        }
+    };
+       
     // Add money
     if(msg.split(" ")[0] === prefix + "addmoney"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
