@@ -78,6 +78,10 @@ bot.on('message', async message => {
         m.edit(`Pong. Latency: ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(bot.ping)}ms`);
       } else {return}
     }
+    
+    if (msg === prefix + "lb" || msg === prefix + "leaderboard"){
+        let m = await message.channel.send(userData)
+    }
 
 
     //Single Poll
