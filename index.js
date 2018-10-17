@@ -81,8 +81,8 @@ bot.on('message', async message => {
     
     // leaderboard
     if (msg === prefix + "lb" || msg === prefix + "leaderboard"){
+        var num = 1
         let lb = new Discord.RichEmbed()
-        let num = 1
         .setDescription('**___Leaderboard___**')
         .setColor(0x15f153)
         for(var name in userData){
