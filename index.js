@@ -311,9 +311,9 @@ bot.on('message', async message => {
         let args = msg.split(" ").slice(1)
         console.log(args)
         let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
-        let args = msg.split(" ").slice(2)
-        console.log(args)
-        let money = message.guild.members.get(args[]))
+        let args1 = msg.split(" ").slice(2)
+        console.log(args1)
+        let money = message.guild.members.get(args1[0]))
         if(money > 1){
             userData[rUser.id].money = (userData[rUser.id].money+money))
             let m = await message.channel.send(rUser + ` now has ${userData[sender.id].money} insert super secret emoji here`)
