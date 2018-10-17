@@ -85,8 +85,20 @@ bot.on('message', async message => {
         .setDescription('**___Leaderboard___**')
         .setColor(0x15f153)
         message.channel.send(lb)
+    };
+    
+    // Delete msgs
+    if (msg.split(" ")[0] === prefix + "mdelete"){
+        let args = msg.split(" ").slice()
+        let num = Number(args[0]);
+        console.log(num)
+        if (num > 100 || num < 2){
+            return message.reply('Please enter a number between 2 and 100')
+        }
+        message.channel.bulkDelete(num).then(() => {
+        message.channel.send("Deleted " + num + " messages.").then(msg => msg.delete(3000));
+        });
     }
-
 
     //Single Poll
     if (msg.startsWith("poll:")) {
