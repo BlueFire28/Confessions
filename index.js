@@ -291,8 +291,6 @@ bot.on('message', async message => {
     const roll =  Math.floor((Math.random() * 6) + 1);
     if(msg.split(" ")[0] === prefix + "diceroll"){
         let args = msg.split(" ").slice(1)
-        console.log(args)
-        console.log(roll)
         if(args >=1 && args <= 6){
             if(args == roll + 1 || args == roll - 1 || args == roll){
                 let m = await message.reply("You guessed in a range of 1 and were correct!",
@@ -307,6 +305,22 @@ bot.on('message', async message => {
             return message.reply('Please enter a number between 1 and 6')
         }
        };
+    
+    // Add money
+    if(msg.split(" ")[0] === prefix + "addmoney"){
+        let args = msg.split(" ").slice(1)
+        console.log(args)
+        let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
+        let args = msg.split(" ").slice(2)
+        console.log(args)
+        let money = message.guild.members.get(args[]))
+        if(money > 1){
+            userData[rUser.id].money = (userData[rUser.id].money+money))
+            let m = await message.channel.send(rUser + ` now has ${userData[sender.id].money} insert super secret emoji here`)
+        }else{
+            return message.reply('Please enter a number greater than 1')
+        }
+    };
 
     
     //8ball
