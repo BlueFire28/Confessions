@@ -88,6 +88,16 @@ bot.on('message', async message => {
         let lb = new Discord.RichEmbed()
         .setDescription('**___Leaderboard___**')
         .setColor(0x15f153)
+<<<<<<< HEAD
+=======
+        for(var name in userData){
+            var money = userData[name]
+            console.log(name)
+            console.log(money)
+            lb.addField("User -> Money", num + ": " + name + " " + money) // incomplete
+            num++
+        }
+>>>>>>> parent of a7b2ee3... Update index.js
         message.channel.send(lb)
     };
     
