@@ -92,7 +92,7 @@ bot.on('message', async message => {
                 return message.reply('Please enter a number between 2 and 100')
             }
             message.channel.bulkDelete(num).then(() => {
-            message.channel.send("Deleted " + num + " messages.").then(msg => msg.delete(3000));
+            message.channel.send("Deleted " + num + " messages.").then(msg => msg.delete(5300));
             });
         }else {return}
     };
@@ -213,7 +213,7 @@ bot.on('message', async message => {
               .setColor(0x15f153)
               .addField("Name", rRole)
               .addField("ID", rRole.id)
-              .addField("Members with this role:", message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'));
+              .addField(`Members with this role (${message.guild.roles.get(rRole.id).members}):`, message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'));
               await message.channel.send(roleembed)
 
         }; 
@@ -265,7 +265,7 @@ bot.on('message', async message => {
     if (msg === prefix + 'bal') {
         let m = await message.channel.send({embed: {
             color: 0x05ff00,
-            title: "Your ~~life~~ balance",
+            title: "Your balance",
             description: `${userData[sender.id].money} insert super secret emoji here \n${userData[sender.id].SP} Event Points`,
             timestamp: new Date(),
             footer: {
