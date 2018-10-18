@@ -93,7 +93,6 @@ bot.on('message', async message => {
             console.log(name)
             console.log(money)
             lb.addField("User -> Money", num + ": " + name + " " + money) // incomplete
-            num++
         }
         message.channel.send(lb)
     };
