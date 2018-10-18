@@ -83,21 +83,6 @@ bot.on('message', async message => {
     }
     
 
-    // leaderboard
-    if (msg === prefix + "lb" || msg === prefix + "leaderboard"){
-        let lb = new Discord.RichEmbed()
-        .setDescription('**___Leaderboard___**')
-        .setColor(0x15f153)
-        for(var name in userData){
-            var money = userData[name]
-            console.log(name)
-            console.log(money)
-            lb.addField("User -> Money", num + ": " + name + " " + money) // incomplete
-        }
-        message.channel.send(lb)
-    };
-    
-
     // Delete msgs
     if (msg.split(" ")[0] === prefix + "mdelete"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
