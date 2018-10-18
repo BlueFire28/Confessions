@@ -225,7 +225,7 @@ bot.on('message', async message => {
       //ex `report @Rinkky racist
       let args = msg.split(" ").slice(1)
       let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
-      let rreason = args.join(" ").slice(22)
+      let rreason = args.join(" ").slice(1)
       let reportschannel = message.guild.channels.find(`name`, "staff")
 
         message.delete()
