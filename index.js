@@ -213,7 +213,8 @@ bot.on('message', async message => {
               .setColor(0x15f153)
               .addField("Name", rRole)
               .addField("ID", rRole.id)
-              .addField("Members with this role:", message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'));
+              .addField("Members with this role:", message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'))
+              .addField("Role power", rRole.calculatedPosition);
               await message.channel.send(roleembed)
 
         }; 
