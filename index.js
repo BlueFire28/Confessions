@@ -224,8 +224,11 @@ bot.on('message', async message => {
     if (msg.split(" ")[0] === prefix + "report") {
       //ex `report @Rinkky racist
       let args = msg.split(" ").slice(1)
+      console.log(args[0])
+      console.log(args[1])
+      console.log(args[2])
       let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
-      let rreason = args.join(" ").slice(1)
+      let rreason = args.join(" ").slice(22)
       let reportschannel = message.guild.channels.find(`name`, "staff")
 
         message.delete()
