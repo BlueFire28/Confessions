@@ -90,7 +90,7 @@ bot.on('message', async message => {
             let m = await message.reply('I have notified the staff that you have applied, please ensure that you\'re answers are at least a paragraph long, if they are not, your application will be discarded.')
             
             let applyEmbed = new Discord.RichEmbed()
-            .setDesctiption("New application")
+            .setDescription("New application")
             .setColor(0x15f153)
             .addField('Name:', message.sender)
             
