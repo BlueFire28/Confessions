@@ -1,8 +1,7 @@
+
 // Calling the package
 const Discord = require('discord.js');
 const bot = new Discord.Client();
-const SQLite = require("better-sqlite3");
-const sql = new SQLite('./storage/scores.sqlite');
 const fs = require('fs');
 const moment = require('moment') // the moment package. to make this work u need to run "npm install moment --save 
 const ms = require("ms") // npm install ms -s
@@ -23,16 +22,6 @@ bot.on('ready', () => {
     
     
     bot.user.setActivity("prefix ` | Blocks Awakens")
-    // SQLITE stuff
-    /*const table = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'scores';").get();
-    if (!table['count(*)']) {
-        // If the table isn't there, create it and setup the database correctly.
-        sql.prepare("CREATE TABLE scores (id TEXT PRIMARY KEY, user TEXT, guild TEXT, money INTEGER, sp INTEGER);").run();
-        // Ensure that the "id" row is always unique and indexed.
-        sql.prepare("CREATE UNIQUE INDEX idx_scores_id ON scores (id);").run();
-        sql.pragma("synchronous = 1");
-        sql.pragma("journal_mode = wal");
-    }*/
 
 });
 
@@ -79,22 +68,10 @@ bot.on('message', async message => {
     if (!userData[sender.id].SP) userData[sender.id].SP = 0;
     if (!userData[sender.id].username) userData[sender.id].username = sender.username;
 
-    
     fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
         if (err) console.error(err)
     });
 
-    // SQLITE
-    if (!score) {
-      score = {
-        id: `${message.guild.id}-${message.author.id}`,
-        user: message.author.id,
-        guild: message.guild.id,
-        money: 0,
-        sp: 0
-      }
-    }
-    
     // commands
 
     // Ping / Pong command
@@ -104,6 +81,14 @@ bot.on('message', async message => {
         m.edit(`Pong. Latency: ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(bot.ping)}ms`);
       } else {return}
     }
+    
+    // leaderboard
+    if (msg === prefix + "lb" || msg === prefix + "leaderboard"){
+        let lb = new Discord.RichEmbed()
+        .setDescription('**___Leaderboard___**')
+        .setColor(0x15f153)
+        message.channel.send(lb)
+    };
     
     // Delete msgs
     if (msg.split(" ")[0] === prefix + "mdelete"){
@@ -363,7 +348,7 @@ bot.on('message', async message => {
         }
     };
     // Add money
-    /*if(msg.split(" ")[0] === prefix + "addmoney"){
+    if(msg.split(" ")[0] === prefix + "addmoney"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
             let args = msg.split(" ").slice(1)
             let rUser = message.mentions.users.first()
@@ -380,7 +365,7 @@ bot.on('message', async message => {
                 return message.reply('Please enter a number greater than 1')
             }
         }else {return}
-    };*/
+    };
     
     // Remove money
     if(msg.split(" ")[0] === prefix + "removemoney"){
@@ -402,47 +387,6 @@ bot.on('message', async message => {
         }else {return}
     };
 
-    // Add money
-    if(msg.split(" ")[0] === prefix + "addmoney") {
-      let args = msg.split(" ").slice(1)
-      // Limited to guild owner - adjust to your own preference!
-      if(!sender.id === message.guild.owner || sender.id === "186487324517859328") return message.reply("You're not the boss of me, you can't do that!");
-
-      const user = message.mentions.users.first() || bot.users.get(args[0]);
-      if(!user) return message.reply("You must mention someone or give their ID!");
-
-      const moneyToAdd = Number(args[1]);
-      if(!moneyToAdd) return message.reply("You didn't tell me how much to give...")
-
-      // Get their current points.
-      let userscore = bot.getScore.get(user.id, message.guild.id);
-      // It's possible to give points to a user we haven't seen, so we need to initiate defaults here too!
-      if (!userscore) {
-        userscore = { id: `${message.guild.id}-${user.id}`, user: user.id, guild: message.guild.id, money: 0, sp: 0 }
-      }
-      userscore.money += moneyToAdd;
-
-      // And we save it!
-      bot.setScore.run(userscore);
-
-      return message.channel.send(`${user.tag} has received ${moneyToAdd} money and now stands at ${userscore.money} money.`);
-    }
- 
-if(command === "leaderboard") {
-  const top10 = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY points DESC LIMIT 10;").all(message.guild.id);
- 
-    // Now shake it and show it! (as a nice embed, too!)
-  const embed = new Discord.RichEmbed()
-    .setTitle("Leaderboard")
-    .setAuthor(bot.user.username, bot.user.avatarURL)
-    .setDescription("Our top 10 points leaders!")
-    .setColor(0x00AE86);
- 
-  for(const data of top10) {
-    embed.addField(bot.users.get(data.user).tag, `${data.points} points (level ${data.level})`);
-  }
-  return message.channel.send({embed});
-}
     
     //8ball
 
