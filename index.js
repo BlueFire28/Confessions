@@ -1,4 +1,5 @@
-﻿// Calling the package
+﻿
+// Calling the package
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fs = require('fs');
@@ -358,7 +359,7 @@ bot.on('message', async message => {
         }
     };
 
-
+    
     // Add money
     if(msg.split(" ")[0] === prefix + "addmoney"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
