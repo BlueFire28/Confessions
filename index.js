@@ -5,7 +5,7 @@ const fs = require('fs');
 const moment = require('moment') // the moment package. to make this work u need to run "npm install moment --save 
 const ms = require("ms") // npm install ms -s
 
-// Some stuff dw about it
+// Okay, i wont worry about it ;)
 const workCooldown = new Set();
 
 // json files
@@ -81,6 +81,7 @@ bot.on('message', async message => {
       } else {return}
     }
     
+
     // leaderboard
     if (msg === prefix + "lb" || msg === prefix + "leaderboard"){
         let lb = new Discord.RichEmbed()
@@ -89,6 +90,7 @@ bot.on('message', async message => {
         message.channel.send(lb)
     };
     
+
     // Delete msgs
     if (msg.split(" ")[0] === prefix + "mdelete"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
@@ -103,6 +105,7 @@ bot.on('message', async message => {
         }else {return}
     };
 
+
     //Single Poll
     if (msg.startsWith("poll:")) {
       if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) { 
@@ -111,6 +114,7 @@ bot.on('message', async message => {
             let m3 = await message.react("🤷")
         } else {return};
       };
+
 
     //4poll
     if (msg.startsWith("4poll:")) {
@@ -122,17 +126,20 @@ bot.on('message', async message => {
         } else {return};
       };
 
+
     //get ping role
     if (msg === prefix + "pingrole"){
         message.member.addRole('501888773710282755');
         await message.reply('I have given you the ping role!')
     };
     
+
     //remove ping role
     if (msg === prefix + "rpingrole"){
         message.member.removeRole('501888773710282755');
         await message.reply('I have removed the ping role from you!')
     };
+
 
     //timed message
     //const generalchat = bot.channels.get("469490700845580298")
@@ -176,6 +183,7 @@ bot.on('message', async message => {
 
     };
 
+
     //member info
     if (msg.split(" ")[0] === prefix + "member") {
       //ex `member @Rinkky
@@ -197,6 +205,7 @@ bot.on('message', async message => {
           await message.channel.send(memberembed)
 
     };
+
 
     //role info
     if (msg.split(" ")[0] === prefix + "roleinfo") {
@@ -311,6 +320,7 @@ bot.on('message', async message => {
           }
         };
     
+
     // Dice roll guess
     const roll =  Math.floor((Math.random() * 6) + 1);
     if(msg.split(" ")[0] === prefix + "diceroll"){
@@ -330,14 +340,14 @@ bot.on('message', async message => {
         }
        };
     
-    
+
     // Work
     if(msg === prefix + "work"){
         if (workCooldown.has(sender.id)) {
                return message.reply("You must wait 10 minutes before working again.");
         } else {
             let money = Math.floor((Math.random() * 801) + 200);
-            let m = await message.reply("You worked so hard and received" + money,
+            let m = await message.reply("You worked so hard and received " + money,
             userData[sender.id].money = (userData[sender.id].money+money))
             let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
 
@@ -347,7 +357,8 @@ bot.on('message', async message => {
             }, 600000);
         }
     };
-       
+
+
     // Add money
     if(msg.split(" ")[0] === prefix + "addmoney"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
@@ -368,6 +379,7 @@ bot.on('message', async message => {
         }else {return}
     };
     
+
     // Remove money
     if(msg.split(" ")[0] === prefix + "removemoney"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
