@@ -16,6 +16,7 @@ var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
 // Listener Event: Bot Launched
 bot.on('ready', () => {
     console.log('Power Level Stabilised.') // Runs when the bot is launched
+    console.log(sql)
 
     //const botchat = bot.channels.get("469992574791319552")
     //const generalchat = bot.channels.get("469490700845580298")
