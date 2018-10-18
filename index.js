@@ -24,7 +24,7 @@ bot.on('ready', () => {
     
     bot.user.setActivity("prefix ` | Blocks Awakens")
     // SQLITE stuff
-    const table = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'scores';").get();
+    /*const table = sql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'scores';").get();
     if (!table['count(*)']) {
         // If the table isn't there, create it and setup the database correctly.
         sql.prepare("CREATE TABLE scores (id TEXT PRIMARY KEY, user TEXT, guild TEXT, money INTEGER, sp INTEGER);").run();
@@ -32,7 +32,7 @@ bot.on('ready', () => {
         sql.prepare("CREATE UNIQUE INDEX idx_scores_id ON scores (id);").run();
         sql.pragma("synchronous = 1");
         sql.pragma("journal_mode = wal");
-    }
+    }*/
 
 });
 
