@@ -65,10 +65,10 @@ bot.on('message', async message => {
     let Owner = message.guild.roles.find('name', "Owner")    
 
     //json stuff
-    if (!userData[sender.id + message.guild.id]) userData[sender.id + message.guild.id] = {}
-    if (!userData[sender.id + message.guild.id].money) userData[sender.id + message.guild.id].money = 0;
-    if (!userData[sender.id + message.guild.id].SP) userData[sender.id + message.guild.id].SP = 0;
-    if (!userData[sender.id + message.guild.id].username) userData[sender.id + message.guild.id].username = sender.username;
+    if (!userData[sender.id]) userData[sender.id] = {}
+    if (!userData[sender.id].money) userData[sender.id + message.guild.id].money = 0;
+    if (!userData[sender.id]) userData[sender.id].SP = 0;
+    if (!userData[sender.id].username) userData[sender.id].username = sender.username;
 
     fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
         if (err) console.error(err)
