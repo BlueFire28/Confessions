@@ -105,14 +105,6 @@ bot.on('message', async message => {
       } else {return}
     }
     
-    // leaderboard
-    if (msg === prefix + "lb" || msg === prefix + "leaderboard"){
-        let lb = new Discord.RichEmbed()
-        .setDescription('**___Leaderboard___**')
-        .setColor(0x15f153)
-        message.channel.send(lb)
-    };
-    
     // Delete msgs
     if (msg.split(" ")[0] === prefix + "mdelete"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
@@ -410,7 +402,7 @@ bot.on('message', async message => {
         }else {return}
     };
 
-    
+    // Add money
     if(msg.split(" ")[0] === prefix + "addmoney") {
       let args = msg.split(" ").slice(1)
       // Limited to guild owner - adjust to your own preference!
@@ -433,7 +425,7 @@ bot.on('message', async message => {
       // And we save it!
       bot.setScore.run(userscore);
 
-      return message.channel.send(`${user.tag} has received ${pointsToAdd} points and now stands at ${userscore.points} points.`);
+      return message.channel.send(`${user.tag} has received ${moneyToAdd} money and now stands at ${userscore.money} money.`);
     }
  
 if(command === "leaderboard") {
