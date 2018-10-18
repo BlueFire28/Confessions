@@ -4,6 +4,8 @@ const bot = new Discord.Client();
 const fs = require('fs');
 const moment = require('moment') // the moment package. to make this work u need to run "npm install moment --save 
 const ms = require("ms") // npm install ms -s
+const SQLite = require("better-sqlite3");
+const sql = new SQLite('./storage/scores.sqlite');
 
 // Some stuff dw about it
 const workCooldown = new Set();
