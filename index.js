@@ -80,8 +80,23 @@ bot.on('message', async message => {
         let m = await message.channel.send("Ping?");
         m.edit(`Pong. Latency: ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(bot.ping)}ms`);
       } else {return}
-    }
+    };
     
+    // Applications and stuff
+    if (msg === prefix + 'applied'){
+        let appchannel = message.guild.channels.find(`name`, "staff")
+        let pending = message.guild.roles.find('name', "In-Progress")    
+        if (message.member.roles.has(pending.id)){
+            let m = await message.reply('I have notified the staff that you have applied, please ensure that you\'re answers are at least a paragraph long, if they are not, your application will be discarded.')
+            
+            let applyEmbed = new Discord.RichEmbed()
+            .setDesctiption("New application")
+            .setColor(0x15f153)
+            .addField('Name:', message.sender)
+            
+            appchannel.send(applyEmbed)
+        }
+    };
 
     // Delete msgs
     if (msg.split(" ")[0] === prefix + "mdelete"){
