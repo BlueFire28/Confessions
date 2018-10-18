@@ -254,7 +254,7 @@ bot.on('message', async message => {
                  timestamp: new Date(),
                   footer: {
                   icon_url: "186487324517859328".avatarURL,
-                  text: "Any intentionally misleading reports will not be tolorated"
+                  text: `Any intentionally misleading reports \nwill not be tolorated`
                   }
                 }})
               })
