@@ -1,11 +1,9 @@
-﻿// Calling the package
+// Calling the package
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fs = require('fs');
 const moment = require('moment') // the moment package. to make this work u need to run "npm install moment --save 
 const ms = require("ms") // npm install ms -s
-//const SQLite = require("better-sqlite3");
-//const sql = new SQLite('./storage/scores.sqlite');
 
 // Some stuff dw about it
 const workCooldown = new Set();
@@ -16,7 +14,6 @@ var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
 // Listener Event: Bot Launched
 bot.on('ready', () => {
     console.log('Power Level Stabilised.') // Runs when the bot is launched
-    //console.log(sql)
 
     //const botchat = bot.channels.get("469992574791319552")
     //const generalchat = bot.channels.get("469490700845580298")
@@ -66,8 +63,8 @@ bot.on('message', async message => {
 
     //json stuff
     if (!userData[sender.id]) userData[sender.id] = {}
-    if (!userData[sender.id].money) userData[sender.id + message.guild.id].money = 0;
-    if (!userData[sender.id]) userData[sender.id].SP = 0;
+    if (!userData[sender.id].money) userData[sender.id].money = 0;
+    if (!userData[sender.id].SP) userData[sender.id].SP = 0;
     if (!userData[sender.id].username) userData[sender.id].username = sender.username;
 
     fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
@@ -333,7 +330,6 @@ bot.on('message', async message => {
         }
        };
     
-    
     // Work
     if(msg === prefix + "work"){
         if (workCooldown.has(sender.id)) {
@@ -350,7 +346,6 @@ bot.on('message', async message => {
             }, 600000);
         }
     };
-       
     // Add money
     if(msg.split(" ")[0] === prefix + "addmoney"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
