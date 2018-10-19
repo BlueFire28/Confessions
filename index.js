@@ -97,13 +97,15 @@ bot.on('message', async message => {
             
             appchannel.send(applyEmbed)
     };
-    
+ 
+    // Deny
     if (msg.split(" ")[0] === prefix + "deny"){
+      message.delete
       let args = msg.split(" ").slice(1)
       let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
       let rreason = args.join(" ").slice(22)
       if (!message.member.roles.has(Owner.id) && !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
-      
+      if (!rUser) return message.channel.send('This user doesn\'t exist')
       let denyEmbed = new Discord.RichEmbed()
       .setDescription("**___User Denied___**")
       .setColor(0xFF0000)
@@ -111,6 +113,16 @@ bot.on('message', async message => {
       .addField('Reason', rreason)
       .addField('Retry', "You are good to retry as long as you haven't been denied multiple times. Just apply again!")
       message.guild.channels.find(`name`, "pending").send(denyEmbed)
+    };
+    
+    // Accept
+    if (msg.split(" ")[0] === prefix + "accept"){
+      message.delete
+      let args = msg.split(" ").slice(1)
+      let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
+      if (!message.member.roles.has(Owner.id) && !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
+      if (!rUser) return message.channel.send('This user doesn\'t exist')
+      message.guild.channels.find(`name`, "general").send(`Welcome our newest member! ${rUser}`)
     };
 
     // Delete msgs
