@@ -1,5 +1,4 @@
-﻿
-// Calling the package
+﻿// Calling the package
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fs = require('fs');
@@ -61,7 +60,9 @@ bot.on('message', async message => {
     if (bot.user.id === sender.id) { return }
     let nick = sender.username
     let Owner = message.guild.roles.find('name', "Owner")    
-
+    let Staff = message.guild.roles.find('name', "Staff")
+    let PlayerRole = message.guild.roles.find('name', "Player")
+    
     //json stuff
     if (!userData[sender.id]) userData[sender.id] = {}
     if (!userData[sender.id].money) userData[sender.id].money = 0;
@@ -80,8 +81,53 @@ bot.on('message', async message => {
         let m = await message.channel.send("Ping?");
         m.edit(`Pong. Latency: ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(bot.ping)}ms`);
       } else {return}
-    }
+    };
     
+    // Applications and stuff
+    if (msg === prefix + 'applied'){
+        let appchannel = message.guild.channels.find(`name`, "staff")
+        let pending = message.guild.roles.find('name', "In-Progress")    
+        if (!message.member.roles.has(pending.id)) return message.channel.send(sender + ", you are not in progress!")
+        let m = await message.reply('I have notified the staff that you have applied, please ensure that you\'re answers are at least a paragraph long, if they are not, your application will be discarded.')
+        
+        let m1 = await appchannel.send(`<@&${Staff.id}>`)
+        let applyEmbed = new Discord.RichEmbed()
+        .setDescription("**___New application___**")
+        .setColor(0x15f153)
+        .addField('Name:', sender)
+
+        appchannel.send(applyEmbed)
+    };
+ 
+    // Deny
+    if (msg.split(" ")[0] === prefix + "deny"){
+      let args = msg.split(" ").slice(1)
+      let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
+      let rreason = args.join(" ").slice(22)
+      message.delete()
+      if (!message.member.roles.has(Owner.id) && !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
+      if (!rUser) return message.channel.send('This user doesn\'t exist')
+      let denyEmbed = new Discord.RichEmbed()
+      .setDescription("**___User Denied___**")
+      .setColor(0xFF0000)
+      .addField('Name of user denied:', rUser)
+      .addField('Reason', rreason)
+      .addField('Retry', "You are good to retry as long as you haven't been denied multiple times. Just apply again!")
+      message.guild.channels.find(`name`, "pending").send(denyEmbed)
+    };
+    
+    // Accept
+    if (msg.split(" ")[0] === prefix + "accept"){
+      let pending = message.guild.roles.find('name', "In-Progress")    
+      let args = msg.split(" ").slice(1)
+      let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
+      message.delete()
+      if (!message.member.roles.has(Owner.id) && !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
+      if (!rUser) return message.channel.send('This user doesn\'t exist')
+      rUser.addRole(PlayerRole.id);
+      rUser.removeRole(pending.id);
+      message.guild.channels.find(`name`, "general").send(`Welcome our newest member, ${rUser}!`)
+    };
 
     // Delete msgs
     if (msg.split(" ")[0] === prefix + "mdelete"){
@@ -253,13 +299,13 @@ bot.on('message', async message => {
                  timestamp: new Date(),
                   footer: {
                   icon_url: "186487324517859328".avatarURL,
-                  text: "Any intentionally misleading reports will not be tolorated"
+                  text: `Any intentionally misleading reports \nwill not be tolorated`
                   }
                 }})
               })
     };
 
-    //GAMBLING SHIT
+    //GAMBLING STUFF
 
     // bal access
     if (msg === prefix + 'bal') {
@@ -431,7 +477,7 @@ bot.on('message', async message => {
       };
 
 
-    //EVAL! DO NOT FUCKING TOUCH THAT SHIT IF YOU ARE NOT RINKKY!
+    // I no touch dw
 
     if (msg.startsWith(prefix + "eval")) {
       if(sender.id !== "186487324517859328") return;
