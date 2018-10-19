@@ -1,5 +1,4 @@
-﻿
-// Calling the package
+﻿// Calling the package
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fs = require('fs');
