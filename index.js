@@ -256,9 +256,8 @@ bot.on('message', async message => {
           var numMembers = rmembers.length
           console.log(rmembers)
           console.log(numMembers)
-          if(!rmembers){
+          if(numMembers === 0){
               rmembers = "None"
-              numMembers = 0
           }
           let roleembed = new Discord.RichEmbed()
           .setDescription("__**Role Information**__")
