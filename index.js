@@ -263,7 +263,7 @@ bot.on('message', async message => {
           .setColor(0x15f153)
           .addField("Name", rRole)
           .addField("ID", rRole.id)
-          .addField(`Members with this role (${numMembers}):`, message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'));
+          .addField(`Members with this role (${numMembers}):`, rmembers.join('\n'));
           await message.channel.send(roleembed) 
 
         }; 
