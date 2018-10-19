@@ -102,7 +102,7 @@ bot.on('message', async message => {
       let args = msg.split(" ").slice(1)
       let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
       let rreason = args.join(" ").slice(22)
-      if (!message.member.roles.has(Owner.id) || !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
+      if (!message.member.roles.has(Owner.id) && !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
       
       let denyEmbed = new Discord.RichEmbed()
       .setDescription("**___User Denied___**")
