@@ -86,9 +86,14 @@ bot.on('message', async message => {
     
     // Leaderboard
     if (msg === prefix + "leaderboard"){
+        let users = []
+        let num = 1
         for (user in userData) {
             console.log(user)
+            users.push(`${num} + user.username`)
         }
+        console.log(users)
+        
     };
     
     // Applications and stuff
