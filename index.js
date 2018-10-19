@@ -251,11 +251,11 @@ bot.on('message', async message => {
           //let args = msg.split(" ").slice(1)
           let rRole = message.mentions.roles.first()
           let args = msg.split(" ").slice(1)
+          if(!rRole) return message.reply("Who dat role? I cant find it.")
           var rmembers = message.guild.roles.get(rRole.id).members.map(m=>m.user.tag)
           var numMembers = rmembers.length
           console.log(rmembers)
           console.log(numMembers)
-          if(!rRole) return message.reply("Who dat role? I cant find it.")
           if(!rmembers){
               rmembers = "None"
               numMembers = 0
