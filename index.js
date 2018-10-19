@@ -255,11 +255,11 @@ bot.on('message', async message => {
           var numMembers = rmembers.length
           console.log(rmembers)
           console.log(numMembers)
+          if(!rRole) return message.reply("Who dat role? I cant find it.")
           if(!rmembers){
               rmembers = "None"
               numMembers = 0
           }
-          if(!rRole) return message.reply("Who dat role? I cant find it.")
           let roleembed = new Discord.RichEmbed()
           .setDescription("__**Role Information**__")
           .setColor(0x15f153)
