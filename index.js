@@ -87,16 +87,39 @@ bot.on('message', async message => {
     if (msg === prefix + 'applied'){
         let appchannel = message.guild.channels.find(`name`, "staff")
         let pending = message.guild.roles.find('name', "In-Progress")    
-        if (!message.member.roles.has(pending.id)) return message.channel.send(sender + ", you are not in progress!")
-        let m = await message.reply('I have notified the staff that you have applied, please ensure that you\'re answers are at least a paragraph long, if they are not, your application will be discarded.')
+        if (!message.member.roles.has(pending.id)) return message.channel.send(sender + ", you are not in-progress!")
+         if (!appsNumber[sender.id]) appsNumber[sender.id] = {apps: 0};
+                    let AppsData = appsNumber[sender.id];
+                     fs.writeFile("./storage/userData.json", JSON.stringify(appsNumber), (err) => {
+                      if (err) console.error(err)
+                    });
+         if(AppsData.apps === 5) return message.channel.send(sender + ', you have exceeded your maximum number of applications, if this is a mistake, please contact <@186487324517859328> or <@353782817777385472>')
+        AppsData.apps++
+        let m = await message.reply('I have notified the staff that you have applied, please ensure that your answer\'s are at least a paragraph long, if they are not, your application will be discarded.')
         
         let m1 = await appchannel.send(`<@&${Staff.id}>`)
         let applyEmbed = new Discord.RichEmbed()
         .setDescription("**___New application___**")
         .setColor(0x15f153)
         .addField('Name:', sender)
+        .addField("ID", sender.id)
+        .addField("applied At", message.createdAt)
 
         appchannel.send(applyEmbed)
+        .then(message.guild.members.get("186487324517859328")
+        .createDM()
+        .then(dm => {
+          dm.send({embed: {
+            color: 0xff0000,
+            title: "application DM" ,
+           description: `BlockCraft Has a new application you need to review, please do immidiately.` ,
+           timestamp: new Date(),
+            footer: {
+            icon_url: "353782817777385472".avatarURL,
+            text: "New Application"
+            }
+          }}).catch(error)
+        }))
     };
  
     // Deny
@@ -112,7 +135,7 @@ bot.on('message', async message => {
       .setColor(0xFF0000)
       .addField('Name of user denied:', rUser)
       .addField('Reason', rreason)
-      .addField('Retry', "You are good to retry as long as you haven't been denied multiple times. Just apply again!")
+      .addField('Retry', "Dont worry, you can just apply again!")
       message.guild.channels.find(`name`, "pending").send(denyEmbed)
     };
     
@@ -126,7 +149,7 @@ bot.on('message', async message => {
       if (!rUser) return message.channel.send('This user doesn\'t exist')
       rUser.addRole(PlayerRole.id);
       rUser.removeRole(pending.id);
-      message.guild.channels.find(`name`, "general").send(`Welcome our newest member, ${rUser}!`)
+      message.guild.channels.find(`name`, "general").send(`Welcome our newest member, ${rUser}! \n\n You will be whitelisted soon! Make sure to check the #info, #faq and #announcements channels, for any updates! Claim your land in #claimed-land channel, throw your ideas on #ideas and have a good one!`)
     };
 
     // Delete msgs
@@ -251,27 +274,17 @@ bot.on('message', async message => {
           //let args = msg.split(" ").slice(1)
           let rRole = message.mentions.roles.first()
           let args = msg.split(" ").slice(1)
-          if(!rRole) return message.reply("Who dat role? I cant find it.")
-          var rmembers = message.guild.roles.get(rRole.id).members.map(m=>m.user.tag)
-          var numMembers = rmembers.length
-          console.log(rmembers)
-          console.log(numMembers)
-          if(numMembers == 0) {
-           let roleembed = new Discord.RichEmbed()
-          .setDescription("__**Role Information**__")
-          .setColor(0x15f153)
-          .addField("Name", rRole)
-          .addField("ID", rRole.id)
-          .addField(`Members with this role (${numMembers}):`, "None");
-          await message.channel.send(roleembed) 
-          }
-          let roleembed = new Discord.RichEmbed()
-          .setDescription("__**Role Information**__")
-          .setColor(0x15f153)
-          .addField("Name", rRole)
-          .addField("ID", rRole.id)
-          .addField(`Members with this role (${numMembers}):`, rmembers.join('\n'));
-          await message.channel.send(roleembed) 
+          let rmembers = message.guild.roles.get(rRole.id).members.map.length - 1                          
+            if(!rRole)
+              return message.reply("Who dat role? I cant find it.")
+
+              let roleembed = new Discord.RichEmbed()
+              .setDescription("__**Role Information**__")
+              .setColor(0x15f153)
+              .addField("Name", rRole)
+              .addField("ID", rRole.id)
+              .addField(`Members with this role (${rmembers}):`, message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'));
+              await message.channel.send(roleembed) 
 
         }; 
 
