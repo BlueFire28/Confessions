@@ -85,7 +85,11 @@ bot.on('message', async message => {
     };
     
     // Leaderboard
-    
+    if (msg === prefix + "leaderboard"){
+        let lb = userData.forEach(function(guildMember) {
+            console.log('1')
+        })
+    };
     
     // Applications and stuff
     if (msg === prefix + 'applied'){
