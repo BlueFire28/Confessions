@@ -100,7 +100,7 @@ bot.on('message', async message => {
  
     // Deny
     if (msg.split(" ")[0] === prefix + "deny"){
-      message.delete
+      message.delete()
       let args = msg.split(" ").slice(1)
       let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
       let rreason = args.join(" ").slice(22)
@@ -117,12 +117,12 @@ bot.on('message', async message => {
     
     // Accept
     if (msg.split(" ")[0] === prefix + "accept"){
-      message.delete
+      message.delete()
       let args = msg.split(" ").slice(1)
       let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
       if (!message.member.roles.has(Owner.id) && !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
       if (!rUser) return message.channel.send('This user doesn\'t exist')
-      message.guild.channels.find(`name`, "general").send(`Welcome our newest member! ${rUser}`)
+      message.guild.channels.find(`name`, "general").send(`Welcome our newest member, ${rUser}!`)
     };
 
     // Delete msgs
