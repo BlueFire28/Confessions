@@ -87,7 +87,7 @@ bot.on('message', async message => {
     // Leaderboard
     if (msg === prefix + "leaderboard"){
         for (user in userData) {
-            console.log('Hi')
+            console.log(user)
         }
     };
     
