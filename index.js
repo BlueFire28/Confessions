@@ -253,10 +253,7 @@ bot.on('message', async message => {
           let args = msg.split(" ").slice(1)
           let rmembers = message.guild.roles.get(rRole.id).members.map.length
           console.log(rmembers)
-          rmembers = rmembers/2
-          console.log(rmembers)
           if(!rRole) return message.reply("Who dat role? I cant find it.")
-
           let roleembed = new Discord.RichEmbed()
           .setDescription("__**Role Information**__")
           .setColor(0x15f153)
