@@ -252,8 +252,8 @@ bot.on('message', async message => {
           let rRole = message.mentions.roles.first()
           let args = msg.split(" ").slice(1)
           let rmembers = message.guild.roles.get(rRole.id).members.map.size
-          if(!rmembers) rmembers = 0
           console.log(rmembers)
+          if(!rmembers) rmembers = 0
           if(!rRole) return message.reply("Who dat role? I cant find it.")
           let roleembed = new Discord.RichEmbed()
           .setDescription("__**Role Information**__")
