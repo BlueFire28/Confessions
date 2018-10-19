@@ -86,21 +86,22 @@ bot.on('message', async message => {
     
     // Leaderboard
     if (msg === prefix + "leaderboard"){
-        let users = []
-        let money = []
-        let num = 1
+        let usersmoney = []
+        let num = 0
         for (user in userData) {
             console.log(user)
             let username = `<@${user}>`
-            users.push(`${num}: ${username}`)
-            money.push(userData[user].money)
+            let users = `${num + 1}: ${username}`
+            let money = `$(userData[user].money)`
+            usersmoney[num] = users + " -> " + money
+            console.log(users)
+            console.log(money)
+            console.log(usersmoney[num])
             num++
         }
-        console.log(users)
-        console.log(money)
         let lbembed = new Discord.RichEmbed()
         .setDescription("**___Leaderboard___**")
-        .addField("Leaderboard:", `${users} -> ${money}`)
+        .addField("Leaderboard:", usersmoney)
         message.channel.send(lbembed)
     };
     
