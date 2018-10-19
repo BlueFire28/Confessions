@@ -252,7 +252,7 @@ bot.on('message', async message => {
           let rRole = message.mentions.roles.first()
           let args = msg.split(" ").slice(1)
           var rmembers = message.guild.roles.get(rRole.id).members.map(m=>m.user.tag)
-          var numMembers = rmembers.size
+          var numMembers = rmembers.length
           console.log(rmembers)
           console.log(numMembers)
           if(!rmembers){
