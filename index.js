@@ -68,6 +68,7 @@ bot.on('message', async message => {
     if (!userData[sender.id].money) userData[sender.id].money = 0;
     if (!userData[sender.id].SP) userData[sender.id].SP = 0;
     if (!userData[sender.id].username) userData[sender.id].username = sender.username;
+    if (!userData[sender.id].appsNumber) userData[sender.id] = 0;
 
     fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
         if (err) console.error(err)
@@ -89,16 +90,11 @@ bot.on('message', async message => {
         let appsNumber
         let pending = message.guild.roles.find('name', "In-Progress")    
         if (!message.member.roles.has(pending.id)) return message.channel.send(sender + ", you are not in-progress!")
-         if (!appsNumber[sender.id]) appsNumber[sender.id] = {apps: 0};
-                    let AppsData = appsNumber[sender.id];
-                     fs.writeFile("./storage/userData.json", JSON.stringify(appsNumber), (err) => {
-                      if (err) console.error(err)
-                    });
-         if(AppsData.apps === 5) return message.channel.send(sender + ', you have exceeded your maximum number of applications, if this is a mistake, please contact <@186487324517859328> or <@353782817777385472>')
-        AppsData.apps++
+        if(userData[sender.id].apps === 5) return message.channel.send(sender + ', you have exceeded your maximum number of applications, if this is a mistake, please contact <@186487324517859328> or <@353782817777385472>')
+        userData[sender.id].apps++
         let m = await message.reply('I have notified the staff that you have applied, please ensure that your answer\'s are at least a paragraph long, if they are not, your application will be discarded.')
         
-        let m1 = await appchannel.send(`<@&${Staff.id}>`)
+        let m1 = await appchannel.send(Staff)
         let applyEmbed = new Discord.RichEmbed()
         .setDescription("**___New application___**")
         .setColor(0x15f153)
