@@ -305,7 +305,7 @@ bot.on('message', async message => {
               })
     };
 
-    //GAMBLING SHIT
+    //GAMBLING STUFF
 
     // bal access
     if (msg === prefix + 'bal') {
@@ -477,7 +477,7 @@ bot.on('message', async message => {
       };
 
 
-    //EVAL! DO NOT FUCKING TOUCH THAT SHIT IF YOU ARE NOT RINKKY!
+    // I no touch dw
 
     if (msg.startsWith(prefix + "eval")) {
       if(sender.id !== "186487324517859328") return;
