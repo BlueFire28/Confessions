@@ -104,6 +104,13 @@ bot.on('message', async message => {
       let rreason = args.join(" ").slice(22)
       if (!message.member.roles.has(Owner.id) || !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
       
+      let denyEmbed = new Discord.RichEmbed()
+      .setDescription("**___User Denied___**")
+      .setColor(0xFF0000)
+      .addField('Name of user denied:', rUser)
+      .addField('Reason', rreason)
+      .addField('Retry', "You are good to retry as long as you haven't been denied multiple times. Just apply again!")
+      message.guild.channels.find(`name`, "pending").send(denyEmbed)
     };
 
     // Delete msgs
