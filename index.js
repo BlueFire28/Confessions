@@ -92,7 +92,7 @@ bot.on('message', async message => {
         if (!message.member.roles.has(pending.id)) return message.channel.send(sender + ", you are not in-progress!")
         if(userData[sender.id].apps === 5) return message.channel.send(sender + ', you have exceeded your maximum number of applications, if this is a mistake, please contact <@186487324517859328> or <@353782817777385472>')
         userData[sender.id].apps++
-        console.log(userdata[sender.id].apps)
+        console.log(userData[sender.id].apps)
         let m = await message.reply('I have notified the staff that you have applied, please ensure that your answer\'s are at least a paragraph long, if they are not, your application will be discarded.')
         
         let m1 = await appchannel.send(`<@&${Staff.id}>`)
