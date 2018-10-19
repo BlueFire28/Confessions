@@ -89,15 +89,17 @@ bot.on('message', async message => {
         let usersmoney = []
         let num = 0
         for (user in userData) {
-            console.log(user)
-            let username = `<@${user}>`
-            let users = `${num + 1}: ${username}`
-            let money = (userData[user].money)
-            usersmoney[num] = users + " -> " + money
-            console.log(users)
-            console.log(money)
-            console.log(usersmoney[num])
-            num++
+            if(num < 9){
+                console.log(user)
+                let username = `<@${user}>`
+                let users = `${num + 1}: ${username}`
+                let money = (userData[user].money)
+                usersmoney[num] = users + " -> " + money
+                console.log(users)
+                console.log(money)
+                console.log(usersmoney[num])
+                num++
+            }
         }
         let lbembed = new Discord.RichEmbed()
         .setDescription("**___Leaderboard___**")
