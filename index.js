@@ -61,7 +61,8 @@ bot.on('message', async message => {
     if (bot.user.id === sender.id) { return }
     let nick = sender.username
     let Owner = message.guild.roles.find('name', "Owner")    
-
+    let Staff = message.guild.roles.find('name', "Staff")
+    
     //json stuff
     if (!userData[sender.id]) userData[sender.id] = {}
     if (!userData[sender.id].money) userData[sender.id].money = 0;
@@ -86,16 +87,23 @@ bot.on('message', async message => {
     if (msg === prefix + 'applied'){
         let appchannel = message.guild.channels.find(`name`, "staff")
         let pending = message.guild.roles.find('name', "In-Progress")    
-        if (message.member.roles.has(pending.id)){
+        if (!message.member.roles.has(pending.id)) return message.channel.send(sender + ", you are not in progress!")
             let m = await message.reply('I have notified the staff that you have applied, please ensure that you\'re answers are at least a paragraph long, if they are not, your application will be discarded.')
             
             let applyEmbed = new Discord.RichEmbed()
-            .setDescription("New application")
+            .setDescription("**___New application___**")
             .setColor(0x15f153)
             .addField('Name:', sender)
             
             appchannel.send(applyEmbed)
-        }
+    };
+    
+    if (msg.split(" ")[0] === prefix + "deny"){
+      let args = msg.split(" ").slice(1)
+      let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
+      let rreason = args.join(" ").slice(22)
+      if (!message.member.roles.has(Owner.id) || !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
+      
     };
 
     // Delete msgs
