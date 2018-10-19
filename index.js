@@ -86,9 +86,9 @@ bot.on('message', async message => {
     
     // Leaderboard
     if (msg === prefix + "leaderboard"){
-        let lb = userData.forEach(function(guildMember) {
-            console.log('1')
-        })
+        for (user in userData) {
+            console.log('Hi')
+        }
     };
     
     // Applications and stuff
