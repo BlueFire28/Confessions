@@ -67,8 +67,8 @@ bot.on('message', async message => {
     if (!userData[sender.id]) userData[sender.id] = {}
     if (!userData[sender.id].money) userData[sender.id].money = 0;
     if (!userData[sender.id].SP) userData[sender.id].SP = 0;
+    if (!userData[sender.id].appsNumber) userData[sender.id].appsNumber = 0;
     if (!userData[sender.id].username) userData[sender.id].username = sender.username;
-    if (!userData[sender.id].appsNumber) userData[sender.id] = 0;
 
     fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
         if (err) console.error(err)
@@ -90,7 +90,7 @@ bot.on('message', async message => {
         let pending = message.guild.roles.find('name', "In-Progress")    
         if (!message.member.roles.has(pending.id)) return message.channel.send(sender + ", you are not in-progress!")
         if(userData[sender.id].appsNumber === 5) return message.channel.send(sender + ', you have exceeded your maximum number of applications, if this is a mistake, please contact <@186487324517859328> or <@353782817777385472>')
-        userData[sender.id].appsNumber++
+        userData[sender.id].appsNumber = (userData[sender.id].appsNumber+1)
         console.log(userData[sender.id].appsNumber)
         let m = await message.reply('I have notified the staff that you have applied, please ensure that your answer\'s are at least a paragraph long, if they are not, your application will be discarded.')
         
@@ -116,7 +116,7 @@ bot.on('message', async message => {
             icon_url: "353782817777385472".avatarURL,
             text: "New Application"
             }
-          }}).catch(error)
+          }})
         }))
     };
  
