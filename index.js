@@ -250,6 +250,8 @@ bot.on('message', async message => {
           //ex `roleinfo @owner
           //let args = msg.split(" ").slice(1)
           let rRole = message.mentions.roles.first()
+          let args = msg.split(" ").slice(1)
+          let rmembers = message.guild.members.filter(m => m.roles.get(rRole.id).size);
                                            
             if(!rRole)
               return message.reply("Who dat role? I cant find it.")
@@ -259,8 +261,8 @@ bot.on('message', async message => {
               .setColor(0x15f153)
               .addField("Name", rRole)
               .addField("ID", rRole.id)
-              .addField(`Members with this role (${message.guild.roles.get(rRole.id).memberCount}):`, message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'));
-              await message.channel.send(roleembed)
+              .addField(`Members with this role (${rmembers}):`, message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'));
+              await message.channel.send(roleembed) 
 
         }; 
 
