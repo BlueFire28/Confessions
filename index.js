@@ -101,6 +101,7 @@ bot.on('message', async message => {
         }
         let lbembed = new Discord.RichEmbed()
         .setDescription("**___Leaderboard___**")
+        .setColor(0x15f153)
         .addField("Leaderboard:", usersmoney)
         message.channel.send(lbembed)
     };
