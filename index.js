@@ -251,7 +251,7 @@ bot.on('message', async message => {
           //let args = msg.split(" ").slice(1)
           let rRole = message.mentions.roles.first()
           let args = msg.split(" ").slice(1)
-          let rmembers = message.guild.roles.get(rRole.id).members.length
+          let rmembers = message.guild.roles.get(rRole.id).members.map.length
           console.log(rmembers)                            
             if(!rRole)
               return message.reply("Who dat role? I cant find it.")
