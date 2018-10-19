@@ -92,7 +92,7 @@ bot.on('message', async message => {
             let applyEmbed = new Discord.RichEmbed()
             .setDescription("New application")
             .setColor(0x15f153)
-            .addField('Name:', message.sender)
+            .addField('Name:', sender)
             
             appchannel.send(applyEmbed)
         }
