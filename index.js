@@ -292,7 +292,7 @@ bot.on('message', async message => {
           .addField("ID", rRole.id)
           .addField(`Members with this role (${numMembers}):`, rmembers.join('\n'));
           await message.channel.send(roleembed) 
-
+    };
 
     //reports
     if (msg.split(" ")[0] === prefix + "report") {
