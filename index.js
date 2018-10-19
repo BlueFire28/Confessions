@@ -86,6 +86,7 @@ bot.on('message', async message => {
     // Applications and stuff
     if (msg === prefix + 'applied'){
         let appchannel = message.guild.channels.find(`name`, "staff")
+        let appsNumber
         let pending = message.guild.roles.find('name', "In-Progress")    
         if (!message.member.roles.has(pending.id)) return message.channel.send(sender + ", you are not in-progress!")
          if (!appsNumber[sender.id]) appsNumber[sender.id] = {apps: 0};
@@ -111,7 +112,7 @@ bot.on('message', async message => {
         .then(dm => {
           dm.send({embed: {
             color: 0xff0000,
-            title: "application DM" ,
+            title: "Application DM" ,
            description: `BlockCraft Has a new application you need to review, please do immidiately.` ,
            timestamp: new Date(),
             footer: {
