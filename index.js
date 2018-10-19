@@ -256,7 +256,7 @@ bot.on('message', async message => {
           console.log(rmembers)
           console.log(numMembers)
           if(!rmembers){
-              numMembers = 0
+              numMembers = "0"
           }
           if(!rRole) return message.reply("Who dat role? I cant find it.")
           let roleembed = new Discord.RichEmbed()
