@@ -91,7 +91,8 @@ bot.on('message', async message => {
         for (user in userData) {
             console.log(user)
             let username = `<@${user}>`
-            users.push(`${num}: `)
+            users.push(`${num}: ${username}`)
+            num++
         }
         console.log(users)
         
