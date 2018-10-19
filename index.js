@@ -361,9 +361,6 @@ bot.on('message', async message => {
             let m = await message.reply('The coin landed on Diamonds, You won!',// {files: ["Storage/images/diamond.png"]}) //128x128 images are ideal
             userData[sender.id].money = (userData[sender.id].money+300))
             let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
-            fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
-                if (err) console.error(err)
-            });
           } else if (coin >= 2) {
             let m = await message.reply("The coin landed on Nuggets, you lost.",// { files: ["Storage/images/nugget.png"]})
             userData[sender.id].money = (userData[sender.id].money-150))
@@ -378,9 +375,6 @@ bot.on('message', async message => {
             let m = await message.reply('The coin landed on Nuggets, You won!',// {files: ["Storage/images/nugget.png"]})
             userData[sender.id].money = (userData[sender.id].money+300))
             let m1 = await message.channel.send(` You now have: ${userData[sender.id].money} insert super secret emoji here`)
-            fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
-                if (err) console.error(err)
-            });
             } else if (coin >= 2) {
             let m = await message.reply("The coin landed on Diamonds, you lost. ",// {files: ["Storage/images/diamond.png"]})
             userData[sender.id].money = (userData[sender.id].money-150))
@@ -398,9 +392,6 @@ bot.on('message', async message => {
                 let m = await message.reply("You guessed in a range of 1 and were correct!",
                 userData[sender.id].money = (userData[sender.id].money+150))
                 let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
-                fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
-                    if (err) console.error(err)
-                });
             }else{
                 let m = await message.reply("You guessed in a range of 1 and were incorrect!",
                 userData[sender.id].money = (userData[sender.id].money-50))
@@ -421,9 +412,6 @@ bot.on('message', async message => {
             let m = await message.reply("You worked so hard and received " + money,
             userData[sender.id].money = (userData[sender.id].money+money))
             let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
-            fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
-                if (err) console.error(err)
-            });
             workCooldown.add(sender.id);
             setTimeout(() => {
               workCooldown.delete(sender.id);
@@ -446,9 +434,6 @@ bot.on('message', async message => {
                 let m = await message.reply("You added " + addedmoney + " to " + rUser,
                 userData[userId].money = (userData[userId].money + addedmoney))
                 let m1 = await message.channel.send(rUser + ` now has ${userData[userId].money} insert super secret emoji here`)
-                fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
-                    if (err) console.error(err)
-                });
             }else{
                 return message.reply('Please enter a number greater than 1')
             }
@@ -470,9 +455,6 @@ bot.on('message', async message => {
                 let m = await message.reply("You removed " + addedmoney + " from " + rUser,
                 userData[userId].money = (userData[userId].money - addedmoney))
                 let m1 = await message.channel.send(rUser + ` now has ${userData[userId].money} insert super secret emoji here`)
-                fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
-                    if (err) console.error(err)
-                });
             }else{
                 return message.reply('Please enter a number greater than 1')
             }
