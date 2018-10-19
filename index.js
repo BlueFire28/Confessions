@@ -62,6 +62,7 @@ bot.on('message', async message => {
     let nick = sender.username
     let Owner = message.guild.roles.find('name', "Owner")    
     let Staff = message.guild.roles.find('name', "Staff")
+    let PlayerRole = message.guild.roles.find('name', "Player")
     
     //json stuff
     if (!userData[sender.id]) userData[sender.id] = {}
@@ -122,6 +123,7 @@ bot.on('message', async message => {
       let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
       if (!message.member.roles.has(Owner.id) && !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
       if (!rUser) return message.channel.send('This user doesn\'t exist')
+      rUser.addRole(PlayerRole.id);
       message.guild.channels.find(`name`, "general").send(`Welcome our newest member, ${rUser}!`)
     };
 
