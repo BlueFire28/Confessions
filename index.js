@@ -251,16 +251,19 @@ bot.on('message', async message => {
           //let args = msg.split(" ").slice(1)
           let rRole = message.mentions.roles.first()
           let args = msg.split(" ").slice(1)
-          var rmembers = message.guild.roles.get(rRole.id).members.map.size
-          console.log(rmembers)
-          if(rmembers == undefined) rmembers = 0
+          var rmembers = message.guild.roles.get(rRole.id).members.map(m=>m.user.tag)
+          var numMembers = rmembers.size
+          console.log(numMembers)
+          if(!rmembers){
+              numMembers = 0
+          }
           if(!rRole) return message.reply("Who dat role? I cant find it.")
           let roleembed = new Discord.RichEmbed()
           .setDescription("__**Role Information**__")
           .setColor(0x15f153)
           .addField("Name", rRole)
           .addField("ID", rRole.id)
-          .addField(`Members with this role (${rmembers}):`, message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'));
+          .addField(`Members with this role (${numMembers}):`, message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'));
           await message.channel.send(roleembed) 
 
         }; 
