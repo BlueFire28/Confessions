@@ -94,15 +94,16 @@ bot.on('message', async message => {
         userData[sender.id].apps++
         let m = await message.reply('I have notified the staff that you have applied, please ensure that your answer\'s are at least a paragraph long, if they are not, your application will be discarded.')
         
-        let m1 = await appchannel.send(Staff)
+        let m1 = await appchannel.send(`@&${Staff.id}`)
         let applyEmbed = new Discord.RichEmbed()
         .setDescription("**___New application___**")
         .setColor(0x15f153)
         .addField('Name:', sender)
         .addField("ID", sender.id)
-        .addField("applied At", message.createdAt)
+        .addField("Applied at", message.createdAt)
 
         appchannel.send(applyEmbed)
+        
         .then(message.guild.members.get("186487324517859328")
         .createDM()
         .then(dm => {
