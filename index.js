@@ -67,6 +67,7 @@ bot.on('message', async message => {
     if (!userData[sender.id]) userData[sender.id] = {}
     if (!userData[sender.id].money) userData[sender.id].money = 0;
     if (!userData[sender.id].SP) userData[sender.id].SP = 0;
+    if (!userData[sender.id].appsNumber) userData[sender.id].appsNumber = 0;
     if (!userData[sender.id].username) userData[sender.id].username = sender.username;
 
     fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
@@ -83,18 +84,39 @@ bot.on('message', async message => {
       } else {return}
     };
     
+    // Leaderboard
+    if (msg === prefix + "leaderboard"){
+        let usersmoney = []
+        let num = 0
+        for (user in userData) {
+            if(num < 9){
+                console.log(user)
+                let username = userData[user].username
+                let users = `${username}`
+                let money = (userData[user].money)
+                usersmoney[num] = money + " -> " + users
+                console.log(users)
+                console.log(money)
+                console.log(usersmoney[num])
+                usersmoney.sort(function(a, b){return a - b});
+                num++
+            }
+        }
+        usersmoney.sort(function(a, b){return a - b});
+        let lbembed = new Discord.RichEmbed()
+        .setDescription("**___Leaderboard___**")
+        .setColor(0x15f153)
+        .addField("Leaderboard:", usersmoney)
+        message.channel.send(lbembed)
+    };
+    
     // Applications and stuff
     if (msg === prefix + 'applied'){
         let appchannel = message.guild.channels.find(`name`, "staff")
         let pending = message.guild.roles.find('name', "In-Progress")    
         if (!message.member.roles.has(pending.id)) return message.channel.send(sender + ", you are not in-progress!")
-         if (!appsNumber[sender.id]) appsNumber[sender.id] = {apps: 0};
-                    let AppsData = appsNumber[sender.id];
-                     fs.writeFile("./storage/userData.json", JSON.stringify(appsNumber), (err) => {
-                      if (err) console.error(err)
-                    });
-         if(AppsData.apps === 5) return message.channel.send(sender + ', you have exceeded your maximum number of applications, if this is a mistake, please contact <@186487324517859328> or <@353782817777385472>')
-        AppsData.apps++
+        if(userData[sender.id].appsNumber === 5) return message.channel.send(sender + ', you have exceeded your maximum number of applications, if this is a mistake, please contact <@186487324517859328> or <@353782817777385472>')
+        userData[sender.id].appsNumber = (userData[sender.id].appsNumber+1)
         let m = await message.reply('I have notified the staff that you have applied, please ensure that your answer\'s are at least a paragraph long, if they are not, your application will be discarded.')
         
         let m1 = await appchannel.send(`<@&${Staff.id}>`)
@@ -103,22 +125,23 @@ bot.on('message', async message => {
         .setColor(0x15f153)
         .addField('Name:', sender)
         .addField("ID", sender.id)
-        .addField("applied At", message.createdAt)
+        .addField("Applied at", message.createdAt)
 
         appchannel.send(applyEmbed)
+        
         .then(message.guild.members.get("186487324517859328")
         .createDM()
         .then(dm => {
           dm.send({embed: {
             color: 0xff0000,
-            title: "application DM" ,
+            title: "Application DM" ,
            description: `BlockCraft Has a new application you need to review, please do immidiately.` ,
            timestamp: new Date(),
             footer: {
             icon_url: "353782817777385472".avatarURL,
             text: "New Application"
             }
-          }}).catch(error)
+          }})
         }))
     };
  
@@ -273,21 +296,26 @@ bot.on('message', async message => {
           //ex `roleinfo @owner
           //let args = msg.split(" ").slice(1)
           let rRole = message.mentions.roles.first()
-          let args = msg.split(" ").slice(1)
-          let rmembers = message.guild.roles.get(rRole.id).members.map.length - 1                          
-            if(!rRole)
-              return message.reply("Who dat role? I cant find it.")
-
-              let roleembed = new Discord.RichEmbed()
-              .setDescription("__**Role Information**__")
-              .setColor(0x15f153)
-              .addField("Name", rRole)
-              .addField("ID", rRole.id)
-              .addField(`Members with this role (${rmembers}):`, message.guild.roles.get(rRole.id).members.map(m=>m.user.tag).join('\n'));
-              await message.channel.send(roleembed) 
-
-        }; 
-
+          if(!rRole) return message.reply("Who dat role? I cant find it.")
+          var rmembers = message.guild.roles.get(rRole.id).members.map(m=>m.user.tag)
+          var numMembers = rmembers.length
+          if(numMembers == 0) {
+           let roleembed = new Discord.RichEmbed()
+          .setDescription("__**Role Information**__")
+          .setColor(0x15f153)
+          .addField("Name", rRole)
+          .addField("ID", rRole.id)
+          .addField(`Members with this role (${numMembers}):`, "None");
+          await message.channel.send(roleembed) 
+          }
+          let roleembed = new Discord.RichEmbed()
+          .setDescription("__**Role Information**__")
+          .setColor(0x15f153)
+          .addField("Name", rRole)
+          .addField("ID", rRole.id)
+          .addField(`Members with this role (${numMembers}):`, rmembers.join('\n'));
+          await message.channel.send(roleembed) 
+    };
 
     //reports
     if (msg.split(" ")[0] === prefix + "report") {
@@ -375,7 +403,7 @@ bot.on('message', async message => {
             let m = await message.reply('The coin landed on Nuggets, You won!',// {files: ["Storage/images/nugget.png"]})
             userData[sender.id].money = (userData[sender.id].money+300))
             let m1 = await message.channel.send(` You now have: ${userData[sender.id].money} insert super secret emoji here`)
-          } else if (coin >= 2) {
+            } else if (coin >= 2) {
             let m = await message.reply("The coin landed on Diamonds, you lost. ",// {files: ["Storage/images/diamond.png"]})
             userData[sender.id].money = (userData[sender.id].money-150))
             let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
@@ -412,7 +440,6 @@ bot.on('message', async message => {
             let m = await message.reply("You worked so hard and received " + money,
             userData[sender.id].money = (userData[sender.id].money+money))
             let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
-
             workCooldown.add(sender.id);
             setTimeout(() => {
               workCooldown.delete(sender.id);
@@ -426,6 +453,11 @@ bot.on('message', async message => {
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
             let args = msg.split(" ").slice(1)
             let rUser = message.mentions.users.first()
+            if (!userData[rUser.id]) userData[sender.id] = {}
+            if (!userData[rUser.id].money) userData[sender.id].money = 0;
+            if (!userData[rUser.id].SP) userData[sender.id].SP = 0;
+            if (!userData[rUser.id].appsNumber) userData[sender.id].appsNumber = 0;
+            if (!userData[rUser.id].username) userData[sender.id].username = sender.username;
             if(!rUser){
                return message.reply('Who is this person?')
             }
