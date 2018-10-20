@@ -94,13 +94,14 @@ bot.on('message', async message => {
                 let username = `<@${user}>`
                 let users = `${num + 1}: ${username}`
                 let money = (userData[user].money)
-                usersmoney[num] = users + " -> " + money
+                usersmoney[num] = money + " -> " + users
                 console.log(users)
                 console.log(money)
                 console.log(usersmoney[num])
                 num++
             }
         }
+        usersmoney.sort(function(a, b){return a-b})
         let lbembed = new Discord.RichEmbed()
         .setDescription("**___Leaderboard___**")
         .setColor(0x15f153)
