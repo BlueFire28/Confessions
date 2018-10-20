@@ -55,7 +55,6 @@ bot.on('guildMemberAdd', member => {
 
 // Event listener: Message Received ( This will run every time a message is received)
 bot.on('message', async message => {
-    console.log(bot.user)
     // Variables
     let sender = message.author; // The person who sent the message
     let msg = message.content.toLowerCase();
@@ -525,7 +524,6 @@ bot.on('message', async message => {
     const serverQueue = queue.get(message.guild.id);
     if(message.content.split(" ")[0] === prefix + "play"){
         let args = message.content.split(" ").slice(1)
-        console.log(args[0])
         const voiceChannel = message.member.voiceChannel;
         if(!voiceChannel) return message.channel.send('You need to be in a voice channel to execute this command!')
         const permissions = voiceChannel.permissionsFor(bot.user)
@@ -537,7 +535,6 @@ bot.on('message', async message => {
             title: songInfo.title,
             url: songInfo.video_url
         }
-        console.log(song)
         
         if(!serverQueue) {
             const queueConstruct = {
