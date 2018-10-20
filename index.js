@@ -546,7 +546,7 @@ bot.on('message', async message => {
                 volume: 5,
                 playing: true
             };
-            queue.set(message.guild.id), queueConstruct);
+            queue.set(message.guild.id, queueConstruct);
             queueConstruct.songs.push(song);
             message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
             try {
@@ -555,7 +555,7 @@ bot.on('message', async message => {
                 play(msg.guild, queueConstruct.songs[0]);
             } catch (error) {
                 console.error(error)
-                queue.delete(message.guild.id))
+                queue.delete(message.guild.id)
                 return message.channel.send('Sorry bro, there was an error')
             }
         } else {
@@ -566,7 +566,7 @@ bot.on('message', async message => {
     } else if(message === prefix + "mstop"){
         if(!msg.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         msg.member.voiceChannel.leave();
-        queue.delete(message.guild.id))
+        queue.delete(message.guild.id)
         return
     }
 
