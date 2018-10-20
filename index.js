@@ -524,10 +524,10 @@ bot.on('message', async message => {
     // Play
     const serverQueue = queue.get(message.guild.id);
     if(message.split("")[0] === prefix + "play"){
-        let args = msg.split(" ").slice(1)
-        const voiceChannel = msg.member.voiceChannel;
+        let args = message.split(" ").slice(1)
+        const voiceChannel = message.member.voiceChannel;
         if(!voiceChannel) return message.channel.send('You need to be in a voice channel to execute this command!')
-        const permissions = voiceChannel.permissionsFor(msg.bot.user)
+        const permissions = voiceChannel.permissionsFor(message.bot.user)
         if(!permissions.has('CONNECT')) return message.channel.send('I can\'t connect here, how do you expect me to play music?')
         if(!permissions.has('SPEAK')) return message.channel.send('I can\'t speak here, how do you expect me to play music?')
         
@@ -539,7 +539,7 @@ bot.on('message', async message => {
         
         if(!serverQueue) {
             const queueConstruct = {
-                textChannel: msg.channel,
+                textChannel: message.channel,
                 voiceChannel: voiceChannel,
                 connection: null,
                 songs: [],
@@ -552,7 +552,7 @@ bot.on('message', async message => {
             try {
                 var connection = await voiceChannel.join();
                 queueConstruct.connection = connection;
-                play(msg.guild, queueConstruct.songs[0]);
+                play(message.guild, queueConstruct.songs[0]);
             } catch (error) {
                 console.error(error)
                 queue.delete(message.guild.id)
@@ -564,8 +564,8 @@ bot.on('message', async message => {
         }
         return undefined;
     } else if(message === prefix + "mstop"){
-        if(!msg.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
-        msg.member.voiceChannel.leave();
+        if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
+        message.member.voiceChannel.leave();
         queue.delete(message.guild.id)
         return
     }
