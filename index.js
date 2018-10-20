@@ -104,7 +104,7 @@ bot.on('message', async message => {
                 console.log(users)
                 console.log(money)
                 console.log(usersmoney[num])
-                usersmoney.sort(function(a, b){return a - b})
+                usersmoney.sort()
                 num++
             }
         }
