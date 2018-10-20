@@ -452,6 +452,11 @@ bot.on('message', async message => {
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
             let args = msg.split(" ").slice(1)
             let rUser = message.mentions.users.first()
+            if (!userData[rUser.id]) userData[sender.id] = {}
+            if (!userData[rUser.id].money) userData[sender.id].money = 0;
+            if (!userData[rUser.id].SP) userData[sender.id].SP = 0;
+            if (!userData[rUser.id].appsNumber) userData[sender.id].appsNumber = 0;
+            if (!userData[rUser.id].username) userData[sender.id].username = sender.username;
             if(!rUser){
                return message.reply('Who is this person?')
             }
