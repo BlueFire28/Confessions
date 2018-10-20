@@ -15,6 +15,7 @@
     "ms": "^2.1.1",
     "opusscript": "0.0.6",
     "pm2": "^3.0.0",
+    "simple-youtube-api": "^5.0.2",
     "ytdl-core": "^0.26.3"
   }
 }
