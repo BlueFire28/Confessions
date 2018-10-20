@@ -643,12 +643,12 @@ function play(guild, song){
         queue.delete(guild.id);
         return
     }
-    const dispatcher = serverQueue.connection.playStream(ytdl(song.url));
+    const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
         .on('end', () =>{
-            console.log('Song ended');
-            serverQueue.songs.shift();
-            play(guild, serverQueue.songs[0]);
-        })
+                console.log('Song ended');
+                serverQueue.songs.shift();
+                play(guild, serverQueue.songs[0]);
+            })
         .on('error', error => console.error(error));
     dispatcher.setVolumeLogarithmic(5 / 5);
 }
