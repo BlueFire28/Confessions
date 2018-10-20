@@ -564,27 +564,33 @@ bot.on('message', async message => {
         return undefined;
     } else if(message === prefix + "mstop"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
+        if(!serverQueue) return message.channel.send("Nothing is playing!")
         message.member.voiceChannel.leave();
         queue.delete(message.guild.id)
-        return
-    }
-    
-    if(msg === prefix + "skip"){
-        serverQueue.songs.shift()
-        play(message.guild, serverQueue.songs[0]);
-    }
-    
-    if(msg === prefix + "queue"){
-        let queuesongs = [];
-        let num = 0
-        for(songs in serverQueue.songs){
-            queuesongs[num] = songs;
-            num++
-        }
-        let queueembed = new Discord.RichEmbed()
-        .setDescription("**Queue**")
-        .addField("Songs:", queuesongs)
-        message.channel.send(queueembed)
+        return undefined;
+    }else if(msg === prefix + "skip"){
+        if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
+        if(!serverQueue) return message.channel.send("Nothing is playing!")
+        serverQueue.connection.dispatcher.end();
+        return undefined;
+    }else if(msg === prefix + "np"){
+        if(!serverQueue) return message.channel.send("Nothing is playing!")
+        
+        return message.channel.send(`Now playing: **${serverQueue.songs[0].title}**`)
+    }else if(msg.split(" ")[0] === prefix + "volume"){
+        let args = msg.split(" ").slice(1)
+        if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
+        if(!serverQueue) return message.channel.send("Nothing is playing!");
+        if(!args[0]) return message.channel.send(`The current volume is **${serverQueue.volume}**`);
+        serverQueue.connection.dispatcher.setVolumeLogarithmic(args[0] / 5)
+        serverQueue.volume = args[0];
+        return message.channel.send(`I set the volume to: **${args[0]}**`);
+    }else if(msg === prefix + "queue"){
+        if(!serverQueue) return message.channel.send("Nothing is playing!");
+        let queueEmbed = new Discord.RichEmbed()
+        .setDescription("Queue")
+        .setColor(0x15f153)
+        .addField("Songs:", serverQueue.songs.map(song => `**-** ${song.title}.join('\n')`))
     }
 
       //DM forwarding - draft
@@ -667,7 +673,8 @@ function play(guild, song){
                 play(guild, serverQueue.songs[0]);
             })
         .on('error', error => console.error(error));
-    dispatcher.setVolumeLogarithmic(5 / 5);
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+    serverQueue.textChannel.send(`Now playing: **${song.title}**`)
 }
 
 //  Login
