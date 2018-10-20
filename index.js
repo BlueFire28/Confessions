@@ -2,11 +2,14 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fs = require('fs');
-const moment = require('moment') // the moment package. to make this work u need to run "npm install moment --save 
-const ms = require("ms") // npm install ms -s
+const moment = require('moment'); // the moment package. to make this work u need to run "npm install moment --save 
+const ms = require("ms"); // npm install ms -s
+const ytdl = require("ytdl-core");
+const opus = require("opusscript");
 
 // Okay, i wont worry about it ;)
 const workCooldown = new Set();
+const queue = new Map();
 
 // json files
 var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
@@ -74,6 +77,7 @@ bot.on('message', async message => {
         if (err) console.error(err)
     });
 
+    
     // commands
 
     // Ping / Pong command
@@ -513,7 +517,58 @@ bot.on('message', async message => {
           message.send("No leaks for future events? Open your eyes, chinese man. Rinkky Teases thinks all day and night. He cant keep his mounth shut.")
         }
       };
-
+    
+    
+    // MUSIC STUFF
+    
+    // Play
+    const serverQueue = queue.get(msg.guild.id);
+    if(msg.split("")[0] === prefix + "play"){
+        let args = msg.split(" ").slice(1)
+        const voiceChannel = msg.member.voiceChannel;
+        if(!voiceChannel) return message.channel.send('You need to be in a voice channel to execute this command!')
+        const permissions = voiceChannel.permissionsFor(msg.bot.user)
+        if(!permissions.has('CONNECT')) return message.channel.send('I can\'t connect here, how do you expect me to play music?')
+        if(!permissions.has('SPEAK')) return message.channel.send('I can\'t speak here, how do you expect me to play music?')
+        
+        const songInfo = await ytdl.getInfo(args[0])
+        const song = {
+            title: songInfo.title,
+            url: songInfo.video_url
+        }
+        
+        if(!serverQueue) {
+            const queueConstruct = {
+                textChannel: msg.channel,
+                voiceChannel: voiceChannel,
+                connection: null,
+                songs: [],
+                volume: 5,
+                playing: true
+            };
+            queue.set(msg.guild.id, queueConstruct);
+            queueConstruct.songs.push(song);
+            message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
+            try {
+                var connection = await voiceChannel.join();
+                queueConstruct.connection = connection;
+                play(msg.guild, queueConstruct.songs[0]);
+            } catch (error) {
+                console.error(error)
+                queue.delete(msg.guild.id)
+                return message.channel.send('Sorry bro, there was an error')
+            }
+        } else {
+            serverQueue.songs.push(song);
+            return message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
+        }
+        return undefined;
+    } else if(msg === prefix + "stop"){
+        if(!msg.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
+        msg.member.voiceChannel.leave();
+        queue.delete(msg.guild.id)
+        return
+    }
 
       //DM forwarding - draft
       if (message.channel.type == 'dm'){ //checks for DM
@@ -578,6 +633,24 @@ function clean(text) {
     return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
   else
       return text;
+}
+
+function play(guild, song){
+    const serverQueue = queue.get(guild.id)
+    
+    if(!song){
+        serverQueue.voiceChannel.leave();
+        queue.delete(guild.id);
+        return
+    }
+    const dispatcher = serverQueue.connection.playStream(ytdl(song.url));
+        .on('end', () =>{
+            console.log('Song ended');
+            serverQueue.songs.shift();
+            play(guild, serverQueue.songs[0]);
+        })
+        .on('error', error => console.error(error));
+    dispatcher.setVolumeLogarithmic(5 / 5);
 }
 
 //  Login
