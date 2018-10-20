@@ -568,6 +568,24 @@ bot.on('message', async message => {
         queue.delete(message.guild.id)
         return
     }
+    
+    if(msg === prefix + "skip"){
+        serverQueue.songs.shift()
+        play(message.guild, queueConstruct.songs[0]);
+    }
+    
+    if(msg === prefix + "queue"){
+        let queuesongs = [];
+        let num = 0
+        for(songs in queueConstruct.songs){
+            queuesongs[num] = songs;
+            num++
+        }
+        let queueembed = new Discord.RichEmbed()
+        .setDescription("**Queue**")
+        .addField("Songs:", queuesongs)
+        message.channel.send(queueembed)
+    }
 
       //DM forwarding - draft
       if (message.channel.type == 'dm'){ //checks for DM
