@@ -101,7 +101,7 @@ bot.on('message', async message => {
                 num++
             }
         }
-        usersmoney.sort(function(a, b){return a-b})
+        usersmoney.sort()
         let lbembed = new Discord.RichEmbed()
         .setDescription("**___Leaderboard___**")
         .setColor(0x15f153)
