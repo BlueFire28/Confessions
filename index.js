@@ -92,7 +92,7 @@ bot.on('message', async message => {
             if(num < 9){
                 console.log(user)
                 let username = `<@${user}>`
-                let users = `${num + 1}: ${username}`
+                let users = `${username}`
                 let money = (userData[user].money)
                 usersmoney[num] = money + " -> " + users
                 console.log(users)
