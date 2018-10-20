@@ -6,10 +6,12 @@ const moment = require('moment'); // the moment package. to make this work u nee
 const ms = require("ms"); // npm install ms -s
 const ytdl = require("ytdl-core");
 const opus = require("opusscript");
+const YouTube = require("simple-youtube-api")
 
 // Okay, i wont worry about it ;)
 const workCooldown = new Set();
 const queue = new Map();
+const youtube = new YouTube(process.env.ytapi)
 
 // json files
 var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
@@ -524,16 +526,30 @@ bot.on('message', async message => {
     const serverQueue = queue.get(message.guild.id);
     if(message.content.split(" ")[0] === prefix + "play"){
         let args = message.content.split(" ").slice(1)
+        const searchString = args[0].join(' ')
+        console.log(searchString)
         const voiceChannel = message.member.voiceChannel;
         if(!voiceChannel) return message.channel.send('You need to be in a voice channel to execute this command!')
         const permissions = voiceChannel.permissionsFor(bot.user)
         if(!permissions.has('CONNECT')) return message.channel.send('I can\'t connect here, how do you expect me to play music?')
         if(!permissions.has('SPEAK')) return message.channel.send('I can\'t speak here, how do you expect me to play music?')
         
-        const songInfo = await ytdl.getInfo(args[0])
+        
+        try{
+            var video = await youtube.getVideo(args[0])
+        }catch(error){
+            try{
+                var videos = await youtube.searchVideos(searchString, 1);
+                var video = await youtube.getVideoByID(videos[0].id);
+            }catch(err){
+                return message.channel.send("Sorry bro, cant find any results!");
+            }
+        }
+        
         const song = {
-            title: songInfo.title,
-            url: songInfo.video_url
+            id: video.id,
+            title: video.video.title,
+            url: `https://www.youtube.com/watch?v=${video.id}`
         }
         
         if(!serverQueue) {
