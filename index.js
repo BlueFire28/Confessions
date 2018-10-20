@@ -526,7 +526,9 @@ bot.on('message', async message => {
     const serverQueue = queue.get(message.guild.id);
     if(message.content.split(" ")[0] === prefix + "play"){
         let args = message.content.split(" ").slice(1)
-        const searchString = args[0].join(' ')
+        console.log(args[0])
+        console.log(args)
+        const searchString = args.join(' ')
         console.log(searchString)
         const voiceChannel = message.member.voiceChannel;
         if(!voiceChannel) return message.channel.send('You need to be in a voice channel to execute this command!')
