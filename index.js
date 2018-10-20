@@ -565,9 +565,9 @@ bot.on('message', async message => {
     } else if(msg === prefix + "mstop"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         if(!serverQueue) return message.channel.send("Nothing is playing!")
-        message.member.voiceChannel.leave();
         queue.delete(message.guild.id)
-        return undefined;
+        message.member.voiceChannel.leave();
+        return message.channel.send("Good bye!");
     }else if(msg === prefix + "skip"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         if(!serverQueue) return message.channel.send("Nothing is playing!")
@@ -590,7 +590,7 @@ bot.on('message', async message => {
         let queueEmbed = new Discord.RichEmbed()
         .setDescription("Queue")
         .setColor(0x15f153)
-        .addField("Songs:", serverQueue.songs.map(song => `**-** ${song.title}.join('\n')`))
+        .addField("Songs:", serverQueue.songs.map(song => `**-** ${song.title}`))
         return message.channel.send(queueEmbed)
     }
 
