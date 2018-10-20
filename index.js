@@ -97,7 +97,7 @@ bot.on('message', async message => {
         for (user in userData) {
             if(num < 9){
                 console.log(user)
-                let username = userData[num].username
+                let username = userData[user].username
                 let users = `${username}`
                 let money = (userData[user].money)
                 usersmoney.push = money + " -> " + users
