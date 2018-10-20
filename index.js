@@ -98,11 +98,11 @@ bot.on('message', async message => {
                 console.log(users)
                 console.log(money)
                 console.log(usersmoney[num])
-                usersmoney.sort()
+                usersmoney.sort(function(a, b){return a - b});
                 num++
             }
         }
-        usersmoney.sort()
+        usersmoney.sort(function(a, b){return a - b});
         let lbembed = new Discord.RichEmbed()
         .setDescription("**___Leaderboard___**")
         .setColor(0x15f153)
