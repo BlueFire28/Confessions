@@ -34,7 +34,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
   let ivc = newMember.guild.roles.find("name", "In Voice Call");
   
   if(oldUserChannel === undefined && newUserChannel !== undefined) { // User Joins a voice channel
-        newMember.addRole(ivc).catch(console.error);
+    newMember.addRole(ivc).catch(console.error);
   } else if(newUserChannel === undefined) { // User leaves a voice channel
     newMember.removeRole(ivc).catch(console.error);
   }
@@ -571,13 +571,13 @@ bot.on('message', async message => {
     
     if(msg === prefix + "skip"){
         serverQueue.songs.shift()
-        play(message.guild, queueConstruct.songs[0]);
+        play(message.guild, serverQueue.songs[0]);
     }
     
     if(msg === prefix + "queue"){
         let queuesongs = [];
         let num = 0
-        for(songs in queueConstruct.songs){
+        for(songs in serverQueue.songs){
             queuesongs[num] = songs;
             num++
         }
