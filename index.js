@@ -522,8 +522,8 @@ bot.on('message', async message => {
     // MUSIC STUFF
     
     // Play
-    const serverQueue = queue.get(msg.guild.id);
-    if(msg.split("")[0] === prefix + "play"){
+    const serverQueue = queue.get(message.guild.id);
+    if(message.split("")[0] === prefix + "play"){
         let args = msg.split(" ").slice(1)
         const voiceChannel = msg.member.voiceChannel;
         if(!voiceChannel) return message.channel.send('You need to be in a voice channel to execute this command!')
@@ -546,7 +546,7 @@ bot.on('message', async message => {
                 volume: 5,
                 playing: true
             };
-            queue.set(msg.guild.id, queueConstruct);
+            queue.set(message.guild.id), queueConstruct);
             queueConstruct.songs.push(song);
             message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
             try {
@@ -555,7 +555,7 @@ bot.on('message', async message => {
                 play(msg.guild, queueConstruct.songs[0]);
             } catch (error) {
                 console.error(error)
-                queue.delete(msg.guild.id)
+                queue.delete(message.guild.id))
                 return message.channel.send('Sorry bro, there was an error')
             }
         } else {
@@ -563,10 +563,10 @@ bot.on('message', async message => {
             return message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
         }
         return undefined;
-    } else if(msg === prefix + "stop"){
+    } else if(message === prefix + "mstop"){
         if(!msg.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         msg.member.voiceChannel.leave();
-        queue.delete(msg.guild.id)
+        queue.delete(message.guild.id))
         return
     }
 
