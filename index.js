@@ -87,8 +87,8 @@ bot.on('message', async message => {
     // Leaderboard
     if (msg === prefix + "leaderboard"){
         let test = []
-        test.push(3)
-        test.push(1)
+        test.push('3')
+        test.push('1')
         console.log(test)
         test.sort()
         console.log(test)
