@@ -562,7 +562,7 @@ bot.on('message', async message => {
             return message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
         }
         return undefined;
-    } else if(message === prefix + "mstop"){
+    } else if(msg === prefix + "mstop"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         if(!serverQueue) return message.channel.send("Nothing is playing!")
         message.member.voiceChannel.leave();
@@ -591,6 +591,7 @@ bot.on('message', async message => {
         .setDescription("Queue")
         .setColor(0x15f153)
         .addField("Songs:", serverQueue.songs.map(song => `**-** ${song.title}.join('\n')`))
+        return message.channel.send(queueEmbed)
     }
 
       //DM forwarding - draft
