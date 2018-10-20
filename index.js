@@ -86,6 +86,12 @@ bot.on('message', async message => {
     
     // Leaderboard
     if (msg === prefix + "leaderboard"){
+        let test = []
+        test.push(3)
+        test.push(1)
+        console.log(test)
+        test.sort()
+        console.log(test)
         let usersmoney = []
         let num = 0
         for (user in userData) {
@@ -98,10 +104,10 @@ bot.on('message', async message => {
                 console.log(users)
                 console.log(money)
                 console.log(usersmoney[num])
+                usersmoney.sort(function(a, b){return a - b})
                 num++
             }
         }
-        usersmoney.sort(function(a, b){return a - b})
         let lbembed = new Discord.RichEmbed()
         .setDescription("**___Leaderboard___**")
         .setColor(0x15f153)
