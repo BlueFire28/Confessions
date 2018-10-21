@@ -672,7 +672,7 @@ async function handleVideo(video, message, voiceChannel, playlist = false){
         queue.set(message.guild.id, queueConstruct);
         queueConstruct.songs.push(song);
         if(playlist) return undefined;
-        message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
+        else message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
         try {
             var connection = await voiceChannel.join();
             queueConstruct.connection = connection;
