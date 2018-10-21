@@ -521,8 +521,7 @@ bot.on('message', async message => {
     
     
     // MUSIC STUFF
-    
-    // Play
+
     const serverQueue = queue.get(message.guild.id);
     if(message.content.split(" ")[0] === prefix + "play"){
         let args = message.content.split(" ").slice(1)
@@ -575,8 +574,8 @@ bot.on('message', async message => {
     } else if(msg === prefix + "mstop"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         if(!serverQueue) return message.channel.send("Nothing is playing!")
-	serverQueue.voiceChannel.leave();
-        queue.delete(message.guild.id)   
+	queue.delete(message.guild.id)
+	message.member.voiceChannel.leave();   
         return message.channel.send("Good bye!");
     }else if(msg === prefix + "skip"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
