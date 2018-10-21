@@ -707,6 +707,7 @@ async function handleVideo(video, message, voiceChannel, playlist = false){
 }
 
 function play(guild, song){
+    console.log(song)
     const serverQueue = queue.get(guild.id)
     
     if(!song){
