@@ -526,65 +526,39 @@ bot.on('message', async message => {
     const serverQueue = queue.get(message.guild.id);
     if(message.content.split(" ")[0] === prefix + "play"){
         let args = message.content.split(" ").slice(1)
-        console.log(args[0])
-        console.log(args)
         const searchString = args.join(' ')
-        console.log(searchString)
         const voiceChannel = message.member.voiceChannel;
         if(!voiceChannel) return message.channel.send('You need to be in a voice channel to execute this command!')
         const permissions = voiceChannel.permissionsFor(bot.user)
         if(!permissions.has('CONNECT')) return message.channel.send('I can\'t connect here, how do you expect me to play music?')
         if(!permissions.has('SPEAK')) return message.channel.send('I can\'t speak here, how do you expect me to play music?')
         
-        
-        try{
-            var video = await youtube.getVideo(args[0])
-        }catch(error){
+        if(args[0].match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
+            const playlist = await youtube.getPlaylist(args[0]);
+            const videos = await playlist.getVideos();
+            for(const videos of Object.values(videos)){
+                const video2 = youtube.getVideoByID(video.id)
+                await handleVideo(video2, message, voiceChannel, true)
+            }
+            return message.channel.send(`Playlist: **${playlist.title} has been added to the queue!`);
+        }else{
             try{
-                var videos = await youtube.searchVideos(searchString, 1);
-                var video = await youtube.getVideoByID(videos[0].id);
-            }catch(err){
-                return message.channel.send("Sorry bro, cant find any results!");
+                var video = await youtube.getVideo(args[0])
+            }catch(error){
+                try{
+                    var videos = await youtube.searchVideos(searchString, 1);
+                    var video = await youtube.getVideoByID(videos[0].id);
+                }catch(err){
+                    return message.channel.send("Sorry bro, cant find any results!");
+                }
             }
+            return handleVideo(video, message, voiceChannel);
         }
-        
-        const song = {
-            id: video.id,
-            title: video.title,
-            url: `https://www.youtube.com/watch?v=${video.id}`
-        }
-        
-        if(!serverQueue) {
-            const queueConstruct = {
-                textChannel: message.channel,
-                voiceChannel: voiceChannel,
-                connection: null,
-                songs: [],
-                volume: 5,
-                playing: true
-            };
-            queue.set(message.guild.id, queueConstruct);
-            queueConstruct.songs.push(song);
-            message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
-            try {
-                var connection = await voiceChannel.join();
-                queueConstruct.connection = connection;
-                play(message.guild, queueConstruct.songs[0]);
-            } catch (error) {
-                console.error(error)
-                queue.delete(message.guild.id)
-                return message.channel.send('Sorry bro, there was an error')
-            }
-        } else {
-            serverQueue.songs.push(song);
-            return message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
-        }
-        return undefined;
     } else if(msg === prefix + "mstop"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         if(!serverQueue) return message.channel.send("Nothing is playing!")
         queue.delete(message.guild.id)
-        message.member.voiceChannel.leave();
+        serverQueue.voiceChannel.leave();
         return message.channel.send("Good bye!");
     }else if(msg === prefix + "skip"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
@@ -608,6 +582,7 @@ bot.on('message', async message => {
         let queueEmbed = new Discord.RichEmbed()
         .setDescription("Queue")
         .setColor(0x15f153)
+        .addField("Now playing:", `**${serverQueue.songs[0].title}**`)
         .addField("Songs:", serverQueue.songs.map(song => `**-** ${song.title}`))
         return message.channel.send(queueEmbed)
     }
@@ -675,6 +650,42 @@ function clean(text) {
     return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
   else
       return text;
+}
+
+async function handleVideo(video, message, voiceChannel, playlist = false){
+    const serverQueue = queue.get(guild.id)
+    const song = {
+                id: video.id,
+                title: video.title,
+                url: `https://www.youtube.com/watch?v=${video.id}`
+            }
+        
+    if(!serverQueue) {
+        const queueConstruct = {
+            textChannel: message.channel,
+            voiceChannel: voiceChannel,
+            connection: null,
+            songs: [],
+            volume: 5,
+            playing: true
+        };
+        queue.set(message.guild.id, queueConstruct);
+        queueConstruct.songs.push(song);
+        message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
+        try {
+            var connection = await voiceChannel.join();
+            queueConstruct.connection = connection;
+            play(message.guild, queueConstruct.songs[0]);
+        } catch (error) {
+            console.error(error)
+            queue.delete(message.guild.id)
+            return message.channel.send('Sorry bro, there was an error')
+        }
+    } else {
+        serverQueue.songs.push(song);
+        return message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
+    }
+    return undefined;
 }
 
 function play(guild, song){
