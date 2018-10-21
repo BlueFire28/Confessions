@@ -574,7 +574,8 @@ bot.on('message', async message => {
     } else if(msg === prefix + "mstop"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         if(!serverQueue) return message.channel.send("Nothing is playing!")
-	serverQueue.songs = [];
+	serverQueue.voiceChannel.leave();
+        queue.delete(message.guild.id)   
         return message.channel.send("Good bye!");
     }else if(msg === prefix + "skip"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
@@ -723,6 +724,7 @@ function play(guild, song){
     	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
 	if(song){
     	    serverQueue.textChannel.send(`Now playing: **${song.title}**`)
+	    console.log('Playing')
 	}
 }
 
