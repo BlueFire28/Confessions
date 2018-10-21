@@ -719,7 +719,6 @@ function play(guild, song){
     const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
         .on('end', () =>{
                 console.log('Song ended');
-                serverQueue.songs.shift();
 		if(!serverQueue.songs){
 		        serverQueue.voiceChannel.leave();
         		queue.delete(guild.id);
@@ -729,6 +728,8 @@ function play(guild, song){
             })
         .on('error', error => console.error(error));
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+    serverQueue.songs.shift();
+    console.log(serverQueue.songs[0])
     if(song){
 	console.log('Playing')
     	serverQueue.textChannel.send(`Now playing: **${song.title}**`)
