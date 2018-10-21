@@ -534,7 +534,6 @@ bot.on('message', async message => {
         if(!permissions.has('SPEAK')) return message.channel.send('I can\'t speak here, how do you expect me to play music?')
 	    
 	if(stopping) stopping = false;
-	console.log(stopping)
         
         if(args[0].match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
             const playlist = await youtube.getPlaylist(args[0]);
@@ -579,7 +578,6 @@ bot.on('message', async message => {
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         if(!serverQueue) return message.channel.send("Nothing is playing!")
 	stopping = true;
-	console.log(stopping)
 	serverQueue.voiceChannel.leave();
         return undefined;
     }else if(msg === prefix + "skip"){
@@ -717,7 +715,6 @@ function play(guild, song){
        queue.delete(guild.id);
        return serverQueue.textChannel.send(`I am now leaving, goodbye!`);
     }
-    console.log(song)
     
     if(!song){
 	console.log('No song')
@@ -738,9 +735,7 @@ function play(guild, song){
             })
         .on('error', error => console.error(error));
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-    console.log(serverQueue.songs[0])
     if(song){
-	console.log('Playing')
     	serverQueue.textChannel.send(`Now playing: **${song.title}**`)
     }
 }
