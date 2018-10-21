@@ -12,6 +12,7 @@ const YouTube = require("simple-youtube-api")
 const workCooldown = new Set();
 const queue = new Map();
 const youtube = new YouTube(process.env.ytapi)
+var stopping = false;
 
 // json files
 var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
@@ -531,6 +532,9 @@ bot.on('message', async message => {
         const permissions = voiceChannel.permissionsFor(bot.user)
         if(!permissions.has('CONNECT')) return message.channel.send('I can\'t connect here, how do you expect me to play music?')
         if(!permissions.has('SPEAK')) return message.channel.send('I can\'t speak here, how do you expect me to play music?')
+	    
+	if(stopping) stopping = false;
+	console.log(stopping)
         
         if(args[0].match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
             const playlist = await youtube.getPlaylist(args[0]);
@@ -574,8 +578,9 @@ bot.on('message', async message => {
     } else if(msg === prefix + "mstop"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         if(!serverQueue) return message.channel.send("Nothing is playing!")
+	stopping = true;
+	console.log(stopping)
 	serverQueue.voiceChannel.leave();
-	serverQueue.songs = [1];
         return undefined;
     }else if(msg === prefix + "skip"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
@@ -707,8 +712,12 @@ async function handleVideo(video, message, voiceChannel, playlist = false){
 }
 
 function play(guild, song){
-    console.log(song)
     const serverQueue = queue.get(guild.id)
+    if(stopping){
+       queue.delete(guild.id);
+       return serverQueue.textChannel.send(`I am now leaving, goodbye!`);
+    }
+    console.log(song)
     
     if(!song){
 	console.log('No song')
