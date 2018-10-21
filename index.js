@@ -4,20 +4,18 @@ const bot = new Discord.Client();
 const fs = require('fs');
 const moment = require('moment'); // the moment package. to make this work u need to run "npm install moment --save 
 const ms = require("ms"); // npm install ms -s
-//const ytdl = require("ytdl-core");  // Uncomment if music
-//const opus = require("opusscript");
-//const YouTube = require("simple-youtube-api")
+const ytdl = require("ytdl-core");
+const opus = require("opusscript");
+const YouTube = require("simple-youtube-api")
 
 // Okay, i wont worry about it ;)
-//const workCooldown = new Set(); // Uncomment if Eco
-/* Music stuff, advanced
+const workCooldown = new Set(); // Uncomment if Eco
 const queue = new Map();
 const youtube = new YouTube(process.env.ytapi)
 var stopping = false;
-*/
 
 // json files
-// var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8")) Only for eco bots
+var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8")) Only for eco bots
 
 // Listener Event: Bot Launched
 bot.on('ready', () => {
@@ -32,8 +30,6 @@ bot.on('ready', () => {
 
 });
 
-// Advanced only
-/*
 //event listener: join/leave a voice channel
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
   let newUserChannel = newMember.voiceChannel
@@ -46,7 +42,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
     newMember.removeRole(ivc).catch(console.error);
   }
 });
-*/
+
 
 // event listener: new guild members
 bot.on('guildMemberAdd', member => {
@@ -72,7 +68,7 @@ bot.on('message', async message => {
     let Staff = message.guild.roles.find('name', "Staff")
     let PlayerRole = message.guild.roles.find('name', "Player")
     
-    /* Eco only
+    
     //json stuff
     if (!userData[sender.id]) userData[sender.id] = {}
     if (!userData[sender.id].money) userData[sender.id].money = 0;
@@ -83,7 +79,7 @@ bot.on('message', async message => {
     fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
         if (err) console.error(err)
     });
-*/
+
     
     // commands
 
@@ -241,8 +237,7 @@ bot.on('message', async message => {
                 }})
               })
     };
-
-	/* Advanced only
+	
     //GAMBLING STUFF
 
     // bal access
@@ -425,9 +420,7 @@ bot.on('message', async message => {
           message.send("No leaks for future events? Open your eyes, chinese man. Rinkky Teases thinks all day and night. He cant keep his mounth shut.")
         }
       };
-    */
 	
-    /* Advanced only
     // MUSIC STUFF
 
     const serverQueue = queue.get(message.guild.id);
@@ -513,7 +506,7 @@ bot.on('message', async message => {
         .addField("Songs:", serverQueue.songs.map(song => `**-** ${song.title}`))
         return message.channel.send(queueEmbed)
     }
-*/
+
       //DM forwarding - draft
       if (message.channel.type == 'dm'){ //checks for DM
         let dmName = `${nick}DM`
@@ -560,7 +553,7 @@ function clean(text) {
       return text;
 }
 
-/*
+
 async function handleVideo(video, message, voiceChannel, playlist = false){
     const serverQueue = queue.get(message.guild.id)
     const song = {
@@ -628,7 +621,7 @@ function play(guild, song){
     	serverQueue.textChannel.send(`Now playing: **${song.title}**`)
     }
 }
-*/
+
 //  Login
 
 // the bot.token('token')
