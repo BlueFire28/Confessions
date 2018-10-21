@@ -719,7 +719,7 @@ function play(guild, song){
         .on('end', () =>{
                 console.log('Song ended');
                 serverQueue.songs.shift();
-		if(!song){
+		if(!serverQueue.songs){
 		        serverQueue.voiceChannel.leave();
         		queue.delete(guild.id);
         		return undefined;
