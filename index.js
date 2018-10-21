@@ -535,8 +535,8 @@ bot.on('message', async message => {
         
         if(args[0].match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
             const playlist = await youtube.getPlaylist(args[0]);
-            const videos = await playlist.getVideos();
-            for(videos of Object.values(videos)){
+            var videos = await playlist.getVideos();
+            for(const video of Object.values(videos)){
                 const video2 = youtube.getVideoByID(video.id)
                 await handleVideo(video2, message, voiceChannel, true)
             }
