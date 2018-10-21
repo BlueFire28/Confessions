@@ -534,14 +534,17 @@ bot.on('message', async message => {
         if(!permissions.has('SPEAK')) return message.channel.send('I can\'t speak here, how do you expect me to play music?')
         
         if(args[0].match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
+            console.log('Playlist')
             const playlist = await youtube.getPlaylist(args[0]);
             var videos = await playlist.getVideos();
             for(const video of Object.values(videos)){
-                const video2 = youtube.getVideoByID(video.id)
+                console.log(video.id)
+                var video2 = await youtube.getVideoByID(video.id);
                 await handleVideo(video2, message, voiceChannel, true)
             }
             return message.channel.send(`Playlist: **${playlist.title} has been added to the queue!`);
         }else{
+            console.log('Not a playlist')
             try{
                 var video = await youtube.getVideo(args[0])
             }catch(error){
