@@ -4,18 +4,20 @@ const bot = new Discord.Client();
 const fs = require('fs');
 const moment = require('moment'); // the moment package. to make this work u need to run "npm install moment --save 
 const ms = require("ms"); // npm install ms -s
-const ytdl = require("ytdl-core");
-const opus = require("opusscript");
-const YouTube = require("simple-youtube-api")
+//const ytdl = require("ytdl-core");  // Uncomment if music
+//const opus = require("opusscript");
+//const YouTube = require("simple-youtube-api")
 
 // Okay, i wont worry about it ;)
-const workCooldown = new Set();
+//const workCooldown = new Set(); // Uncomment if Eco
+/* Music stuff, advanced
 const queue = new Map();
 const youtube = new YouTube(process.env.ytapi)
 var stopping = false;
+*/
 
 // json files
-var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
+// var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8")) Only for eco bots
 
 // Listener Event: Bot Launched
 bot.on('ready', () => {
@@ -26,10 +28,12 @@ bot.on('ready', () => {
     //generalchat.send(`Topic of the week: `)
     
     
-    bot.user.setActivity("prefix ` | Blocks Awakens")
+    bot.user.setActivity("prefix ` | Blocks Awakens") // Diff per bot
 
 });
 
+// Advanced only
+/*
 //event listener: join/leave a voice channel
 bot.on('voiceStateUpdate', (oldMember, newMember) => {
   let newUserChannel = newMember.voiceChannel
@@ -42,7 +46,7 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
     newMember.removeRole(ivc).catch(console.error);
   }
 });
-
+*/
 
 // event listener: new guild members
 bot.on('guildMemberAdd', member => {
@@ -68,6 +72,7 @@ bot.on('message', async message => {
     let Staff = message.guild.roles.find('name', "Staff")
     let PlayerRole = message.guild.roles.find('name', "Player")
     
+    /* Eco only
     //json stuff
     if (!userData[sender.id]) userData[sender.id] = {}
     if (!userData[sender.id].money) userData[sender.id].money = 0;
@@ -78,7 +83,7 @@ bot.on('message', async message => {
     fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
         if (err) console.error(err)
     });
-
+*/
     
     // commands
 
@@ -89,100 +94,9 @@ bot.on('message', async message => {
         m.edit(`Pong. Latency: ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(bot.ping)}ms`);
       } else {return}
     };
-    
-    // Leaderboard
-    if (msg === prefix + "leaderboard"){
-        let usersmoney = []
-        let num = 0
-        for (user in userData) {
-            if(num < 9){
-                console.log(user)
-                let username = userData[user].username
-                let users = `${username}`
-                let money = (userData[user].money)
-                usersmoney[num] = money + " -> " + users
-                console.log(users)
-                console.log(money)
-                console.log(usersmoney[num])
-                usersmoney.sort(function(a, b){return a - b});
-                num++
-            }
-        }
-        usersmoney.sort(function(a, b){return a - b});
-        let lbembed = new Discord.RichEmbed()
-        .setDescription("**___Leaderboard___**")
-        .setColor(0x15f153)
-        .addField("Leaderboard:", usersmoney)
-        message.channel.send(lbembed)
-    };
-    
-    // Applications and stuff
-    if (msg === prefix + 'applied'){
-        let appchannel = message.guild.channels.find(`name`, "staff")
-        let pending = message.guild.roles.find('name', "In-Progress")    
-        if (!message.member.roles.has(pending.id)) return message.channel.send(sender + ", you are not in-progress!")
-        if(userData[sender.id].appsNumber === 5) return message.channel.send(sender + ', you have exceeded your maximum number of applications, if this is a mistake, please contact <@186487324517859328> or <@353782817777385472>')
-        userData[sender.id].appsNumber = (userData[sender.id].appsNumber+1)
-        let m = await message.reply('I have notified the staff that you have applied, please ensure that your answer\'s are at least a paragraph long, if they are not, your application will be discarded.')
-        
-        let m1 = await appchannel.send(`<@&${Staff.id}>`)
-        let applyEmbed = new Discord.RichEmbed()
-        .setDescription("**___New application___**")
-        .setColor(0x15f153)
-        .addField('Name:', sender)
-        .addField("ID", sender.id)
-        .addField("Applied at", message.createdAt)
-
-        appchannel.send(applyEmbed)
-        
-        .then(message.guild.members.get("186487324517859328")
-        .createDM()
-        .then(dm => {
-          dm.send({embed: {
-            color: 0xff0000,
-            title: "Application DM" ,
-           description: `BlockCraft Has a new application you need to review, please do immidiately.` ,
-           timestamp: new Date(),
-            footer: {
-            icon_url: "353782817777385472".avatarURL,
-            text: "New Application"
-            }
-          }})
-        }))
-    };
- 
-    // Deny
-    if (msg.split(" ")[0] === prefix + "deny"){
-      let args = msg.split(" ").slice(1)
-      let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
-      let rreason = args.join(" ").slice(22)
-      message.delete()
-      if (!message.member.roles.has(Owner.id) && !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
-      if (!rUser) return message.channel.send('This user doesn\'t exist')
-      let denyEmbed = new Discord.RichEmbed()
-      .setDescription("**___User Denied___**")
-      .setColor(0xFF0000)
-      .addField('Name of user denied:', rUser)
-      .addField('Reason', rreason)
-      .addField('Retry', "Dont worry, you can just apply again!")
-      message.guild.channels.find(`name`, "pending").send(denyEmbed)
-    };
-    
-    // Accept
-    if (msg.split(" ")[0] === prefix + "accept"){
-      let pending = message.guild.roles.find('name', "In-Progress")    
-      let args = msg.split(" ").slice(1)
-      let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]))
-      message.delete()
-      if (!message.member.roles.has(Owner.id) && !message.member.roles.has(Staff.id)) return message.channel.send("You do not have access to this command")
-      if (!rUser) return message.channel.send('This user doesn\'t exist')
-      rUser.addRole(PlayerRole.id);
-      rUser.removeRole(pending.id);
-      message.guild.channels.find(`name`, "general").send(`Welcome our newest member, ${rUser}! \n\n You will be whitelisted soon! Make sure to check the #info, #faq and #announcements channels, for any updates! Claim your land in #claimed-land channel, throw your ideas on #ideas and have a good one!`)
-    };
 
     // Delete msgs
-    if (msg.split(" ")[0] === prefix + "mdelete"){
+    if (msg.split(" ")[0] === prefix + "purge"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
             let args = msg.split(" ").slice(1)
             let num = Number(args[0]);
@@ -193,41 +107,6 @@ bot.on('message', async message => {
             message.channel.send("Deleted " + num + " messages.").then(msg => msg.delete(5300));
             });
         }else {return}
-    };
-
-
-    //Single Poll
-    if (msg.startsWith("poll:")) {
-      if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) { 
-            let m = await message.react("👍")
-            let m2 = await message.react("👎")
-            let m3 = await message.react("🤷")
-        } else {return};
-      };
-
-
-    //4poll
-    if (msg.startsWith("4poll:")) {
-      if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) { 
-            let m = await message.react("🤔")
-            let m2 = await message.react("👉")
-            let m3 = await message.react("👌")
-            let m4 = await message.react("🖕")
-        } else {return};
-      };
-
-
-    //get ping role
-    if (msg === prefix + "pingrole"){
-        message.member.addRole('501888773710282755');
-        await message.reply('I have given you the ping role!')
-    };
-    
-
-    //remove ping role
-    if (msg === prefix + "rpingrole"){
-        message.member.removeRole('501888773710282755');
-        await message.reply('I have removed the ping role from you!')
     };
 
 
@@ -363,6 +242,7 @@ bot.on('message', async message => {
               })
     };
 
+	/* Advanced only
     //GAMBLING STUFF
 
     // bal access
@@ -499,6 +379,32 @@ bot.on('message', async message => {
             }
         }else {return}
     };
+	
+    // Leaderboard
+    if (msg === prefix + "leaderboard"){
+        let usersmoney = []
+        let num = 0
+        for (user in userData) {
+            if(num < 9){
+                console.log(user)
+                let username = userData[user].username
+                let users = `${username}`
+                let money = (userData[user].money)
+                usersmoney[num] = money + " -> " + users
+                console.log(users)
+                console.log(money)
+                console.log(usersmoney[num])
+                usersmoney.sort(function(a, b){return a - b});
+                num++
+            }
+        }
+        usersmoney.sort(function(a, b){return a - b});
+        let lbembed = new Discord.RichEmbed()
+        .setDescription("**___Leaderboard___**")
+        .setColor(0x15f153)
+        .addField("Leaderboard:", usersmoney)
+        message.channel.send(lbembed)
+    };
 
     
     //8ball
@@ -519,8 +425,9 @@ bot.on('message', async message => {
           message.send("No leaks for future events? Open your eyes, chinese man. Rinkky Teases thinks all day and night. He cant keep his mounth shut.")
         }
       };
-    
-    
+    */
+	
+    /* Advanced only
     // MUSIC STUFF
 
     const serverQueue = queue.get(message.guild.id);
@@ -606,7 +513,7 @@ bot.on('message', async message => {
         .addField("Songs:", serverQueue.songs.map(song => `**-** ${song.title}`))
         return message.channel.send(queueEmbed)
     }
-
+*/
       //DM forwarding - draft
       if (message.channel.type == 'dm'){ //checks for DM
         let dmName = `${nick}DM`
@@ -623,25 +530,6 @@ bot.on('message', async message => {
           }
         }})
       };
-
-
-    // I no touch dw
-
-    if (msg.startsWith(prefix + "eval")) {
-      if(sender.id !== "186487324517859328") return;
-      const args = message.content.split(" ").slice(1);
-      try {
-        const code = args.join(" ");
-        let evaled = eval(code);
-  
-        if (typeof evaled !== "string")
-          evaled = require("util").inspect(evaled);
-  
-        message.channel.send(clean(evaled), {code:"xl"});
-      } catch (err) {
-        message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
-      }
-    }
 
 
     //stopping the bot
@@ -672,6 +560,7 @@ function clean(text) {
       return text;
 }
 
+/*
 async function handleVideo(video, message, voiceChannel, playlist = false){
     const serverQueue = queue.get(message.guild.id)
     const song = {
@@ -739,7 +628,7 @@ function play(guild, song){
     	serverQueue.textChannel.send(`Now playing: **${song.title}**`)
     }
 }
-
+*/
 //  Login
 
 // the bot.token('token')
