@@ -575,8 +575,6 @@ bot.on('message', async message => {
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
         if(!serverQueue) return message.channel.send("Nothing is playing!")
 	serverQueue.songs = [];
-	serverQueue.voiceChannel.leave();  
-	serverQueue.connection.dispatcher.end();
         return message.channel.send("Good bye!");
     }else if(msg === prefix + "skip"){
         if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
