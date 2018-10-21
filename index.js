@@ -671,8 +671,7 @@ async function handleVideo(video, message, voiceChannel, playlist = false){
         };
         queue.set(message.guild.id, queueConstruct);
         queueConstruct.songs.push(song);
-        if(playlist) return undefined;
-        else message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
+        message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
         try {
             var connection = await voiceChannel.join();
             queueConstruct.connection = connection;
@@ -684,6 +683,7 @@ async function handleVideo(video, message, voiceChannel, playlist = false){
         }
     } else {
         serverQueue.songs.push(song);
+        if(playlist) return undefined
         return message.channel.send(`Yo bro, you wont believe it ${song.title} has been added to the queue`)
     }
     return undefined;
