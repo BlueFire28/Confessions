@@ -547,7 +547,6 @@ bot.on('message', async message => {
             }catch(error){
                 try{
                     var videos = await youtube.searchVideos(searchString, 10);
-                    console.log(videos)
                     let index = 0;
                     let videosEmbed = new Discord.RichEmbed()
                     .setDescription("Song selection")
@@ -558,15 +557,18 @@ bot.on('message', async message => {
                     try{
                         var response = await message.channel.awaitMessages(message2 => message2.content > 0 && message2.content < 11, {
                             maxMatches: 1,
-                            time: 10000,
-                            errors: ['time']
-                        });
-                    }catch(error2){
+							time: 10000,
+							errors: ['time']
+						});
+                    }catch(err){
                         return message.channel.send('No value given, or value was invalid, video selection canceled.')
                     }
+                    console.log(response)
                     const videoIndex = parseInt(response.first().content);
+                    console.log(videoIndex)
                     var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
                 }catch(err){
+                    console.log(err)
                     return message.channel.send("Sorry bro, cant find any results!");
                 }
             }
