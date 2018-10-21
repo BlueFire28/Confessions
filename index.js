@@ -653,7 +653,7 @@ function clean(text) {
 }
 
 async function handleVideo(video, message, voiceChannel, playlist = false){
-    const serverQueue = queue.get(guild.id)
+    const serverQueue = queue.get(message.guild.id)
     const song = {
                 id: video.id,
                 title: video.title,
