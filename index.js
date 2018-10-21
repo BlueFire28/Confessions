@@ -724,11 +724,11 @@ function play(guild, song){
         		queue.delete(guild.id);
         		return undefined;
 		}
+		serverQueue.songs.shift();
                 play(guild, serverQueue.songs[0]);
             })
         .on('error', error => console.error(error));
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-    serverQueue.songs.shift();
     console.log(serverQueue.songs[0])
     if(song){
 	console.log('Playing')
