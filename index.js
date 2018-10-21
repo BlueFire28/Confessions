@@ -542,13 +542,29 @@ bot.on('message', async message => {
             }
             return message.channel.send(`Playlist: **${playlist.title}** has been added to the queue!`);
         }else{
-            console.log('Not a playlist')
             try{
                 var video = await youtube.getVideo(args[0])
             }catch(error){
                 try{
-                    var videos = await youtube.searchVideos(searchString, 1);
-                    var video = await youtube.getVideoByID(videos[0].id);
+                    var videos = await youtube.searchVideos(searchString, 10);
+                    let index = 0;
+                    let videosEmbed = new Discord.RichEmbed()
+                    .setDescription("Song selection")
+                    .setColor(0x15f153)
+                    .addField("Songs:", videos.songs.map(video2 => `**${++index} -** ${video2.title}`))
+                    message.channel.send(videosEmbed)
+                    message.channel.send("Please provide a value from 1 to 10 to select a video! You have 10 seconds")
+                    try{
+                        var response = await message.channel.awaitMessages(message2 => message2.content > 0 && message2.content < 11, {
+                            maxMatches: 1,
+                            time: 10000,
+                            errors: ['time']
+                        });
+                    }catch(error2){
+                        return message.channel.send('No value given, or value was invalid, video selection canceled.')
+                    }
+                    const videoIndex = parseInt(response.first().content);
+                    var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
                 }catch(err){
                     return message.channel.send("Sorry bro, cant find any results!");
                 }
