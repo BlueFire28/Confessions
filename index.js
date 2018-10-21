@@ -547,6 +547,7 @@ bot.on('message', async message => {
             }catch(error){
                 try{
                     var videos = await youtube.searchVideos(searchString, 10);
+                    console.log(videos)
                     let index = 0;
                     let videosEmbed = new Discord.RichEmbed()
                     .setDescription("Song selection")
