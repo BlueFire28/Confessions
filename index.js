@@ -563,7 +563,8 @@ bot.on('message', async message => {
                     }catch(err){
                         return message.channel.send('No value given, or value was invalid, video selection canceled.')
                     }
-                    var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
+		    	const videoIndex = parseInt(response.first().content);
+                    	var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
                 }catch(err){
                     console.log(err)
                     return message.channel.send("Sorry bro, cant find any results!");
