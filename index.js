@@ -710,9 +710,10 @@ function play(guild, song){
     const serverQueue = queue.get(guild.id)
     
     if(!song){
+	console.log('No song')
         serverQueue.voiceChannel.leave();
         queue.delete(guild.id);
-        return
+        return undefined;
     }
     const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
         .on('end', () =>{
