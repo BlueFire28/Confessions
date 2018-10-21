@@ -551,15 +551,15 @@ bot.on('message', async message => {
                     let videosEmbed = new Discord.RichEmbed()
                     .setDescription("Song selection")
                     .setColor(0x15f153)
-                    .addField("Songs:", videos.songs.map(video2 => `**${++index} -** ${video2.title}`))
+                    .addField("Songs:", videos.map(video2 => `**${++index} -** ${video2.title}`))
                     message.channel.send(videosEmbed)
                     message.channel.send("Please provide a value from 1 to 10 to select a video! You have 10 seconds")
                     try{
                         var response = await message.channel.awaitMessages(message2 => message2.content > 0 && message2.content < 11, {
-                            maxMatches: 1,
-							time: 10000,
-							errors: ['time']
-						});
+                      		      maxMatches: 1,
+					time: 10000,
+					errors: ['time']
+				});
                     }catch(err){
                         return message.channel.send('No value given, or value was invalid, video selection canceled.')
                     }
