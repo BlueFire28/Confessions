@@ -719,6 +719,11 @@ function play(guild, song){
         .on('end', () =>{
                 console.log('Song ended');
                 serverQueue.songs.shift();
+		if(!song){
+		        serverQueue.voiceChannel.leave();
+        		queue.delete(guild.id);
+        		return undefined;
+		}
                 play(guild, serverQueue.songs[0]);
             })
         .on('error', error => console.error(error));
