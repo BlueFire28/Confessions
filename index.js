@@ -15,7 +15,7 @@ const youtube = new YouTube(process.env.ytapi)
 var stopping = false;
 
 // json files
-var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8")) Only for eco bots
+var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
 
 // Listener Event: Bot Launched
 bot.on('ready', () => {
