@@ -1,4 +1,4 @@
-﻿// Calling the package
+// Calling the package
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const fs = require('fs');
@@ -9,24 +9,30 @@ const opus = require("opusscript");
 const YouTube = require("simple-youtube-api")
 
 // Okay, i wont worry about it ;)
-const workCooldown = new Set(); // Uncomment if Eco
+var coinflip = false;
+const workCooldown = new Set();
+const mutedSet = new Set();
 const queue = new Map();
 const youtube = new YouTube(process.env.ytapi)
 var stopping = false;
+var voteSkipPass = 0;
+var voted = 0;
+var playerVoted = [];
+const profanities = ["test", "test2"];
 
 // json files
 var userData = JSON.parse(fs.readFileSync("./storage/userData.json", "utf8"))
 
 // Listener Event: Bot Launched
 bot.on('ready', () => {
-    console.log('Power Level Stabilised.') // Runs when the bot is launched
+    console.log('Power Level Stabilised') // Runs when the bot is launched
 
     //const botchat = bot.channels.get("469992574791319552")
     //const generalchat = bot.channels.get("469490700845580298")
     //generalchat.send(`Topic of the week: `)
     
     
-    bot.user.setActivity("prefix ` | Blocks Awakens") // Diff per bot
+    bot.user.setActivity("prefix ` | Blocks Awakens")
 
 });
 
@@ -67,7 +73,7 @@ bot.on('message', async message => {
     let Owner = message.guild.roles.find('name', "Owner")    
     let Staff = message.guild.roles.find('name', "Staff")
     let PlayerRole = message.guild.roles.find('name', "Player")
-    
+    let muted = message.guild.roles.find('name', "Muted")
     
     //json stuff
     if (!userData[sender.id]) userData[sender.id] = {}
@@ -75,11 +81,184 @@ bot.on('message', async message => {
     if (!userData[sender.id].SP) userData[sender.id].SP = 0;
     if (!userData[sender.id].appsNumber) userData[sender.id].appsNumber = 0;
     if (!userData[sender.id].username) userData[sender.id].username = sender.username;
+    if (!userData[sender.id].warns) userData[sender.id].warns = 0;
 
     fs.writeFile('./storage/userData.json', JSON.stringify(userData), (err) => {
         if (err) console.error(err)
     });
+	/*
+    //message filtering
+    const viollogs = bot.channels.get("428270869144403968")
 
+    for (x=0; x<profanities.length; x++) {
+      if (msg.includes(profanities[x])) {
+          if (bot.user.id === sender.id || "186487324517859328" === sender.id) { return }
+         
+          if (!violationsNumber[sender.id]) violationsNumber[sender.id] = {viol: 0};
+                    let userData = violationsNumber[sender.id];
+                    userData.viol++;
+
+                    fs.writeFile("./storage/violations.json", JSON.stringify(violationsNumber), (err) => {
+                      if (err) console.error(err)
+                    });
+                      let violationEmbed = {embed: {
+                        color: 0xff0000,
+                        title: "<:yikers:408342164922433556> **Nigga** Detected <:yikers:408342164922433556>",
+                        description: '**Message sent by **' + sender + '** deleted in **<#' + message.channel.id + "> \n" + `"${msg}"` + "\n \n" + `current violations: **${userData.viol}**`,
+                        timestamp: new Date(),
+                        footer: {
+                          icon_url: sender.avatarURL,
+                          text: `Username: ${nick} | ID: ${sender.id}`
+                        }
+                      }}
+
+              await message.delete()
+              .then(viollogs.send(violationEmbed))
+              .catch(console.error);
+
+              let tomute =  message.guild.members.get(sender.id)
+              let muterole = message.guild.roles.find(`name`, "muted" || `name`, "Muted");
+              
+              //start of create role
+              if(!muterole){
+                try{
+                  muterole = await message.guild.createRole({
+                    name: "muted",
+                    color: "#505050",
+                    permissions:[]
+                  })
+                  message.guild.channels.forEach(async (channel, id) => {
+                    await channel.overwritePermissions(muterole, {
+                      SEND_MESSAGES: false,
+                      ADD_REACTIONS: false
+                    })
+                  })
+                }catch(e){
+                  console.log(e.stack);
+                }
+              }
+              //end of create role
+              
+              await(tomute.addRole(muterole.id));
+              setTimeout(function(){
+               tomute.removeRole(muterole.id);
+              },(userData.viol * 60000))
+
+              await(message.reply("**You violated one of our rules and got one automatic violation strike.**")
+              .then(msg => {
+                msg.delete(25000)
+              }))
+              
+
+              if(userData.viol === 1) {
+                message.guild.members.get(sender.id)
+              .createDM()
+              .then(dm => {
+                dm.send({embed: {
+                  color: 0xff0000,
+                  title: "Informative DM" ,
+                 description: `You have violated our rules.\n  **Last Violation:** "${msg}" 
+                 \nThe more you violate our rules, the bigger the punishment will be.` ,
+                 timestamp: new Date(),
+                  footer: {
+                  icon_url: "186487324517859328".avatarURL,
+                  text: "Warning!"
+                  }
+                }}).catch(error)
+              })};
+
+            if(userData.viol === 10) {
+              message.guild.members.get(sender.id)
+              .createDM()
+              .then(dm => {
+                dm.send({embed: {
+                  color: 0xff0000,
+                  title: "<:stop:429234690893938698> Inappropriate Behaviour <:stop:429234690893938698>" ,
+                 description: `You have violated our rules many times as of now. **violations: 10** \nIf you continue to act like that you will be kicked, and then permabanned. \n\nLast Violation: ${msg}`,
+                 timestamp: new Date(),
+                  footer: {
+                  icon_url: "186487324517859328".avatarURL,
+                  text: "Warning!"
+                  }
+                }})
+              })
+              let reason = "The Account Has 10 Violations";
+              viollogs.send({embed: {
+                color: 0xff0000,
+                title: "**Automatic Warn Report**",
+                description: `**${reason}**`,
+                timestamp: new Date(),
+                footer: {
+                  icon_url: sender.avatarURL,
+                  text: `Username: ${nick} | ID: ${sender.id}`
+                }
+              }})
+            }
+          
+          if(userData.viol === 15) {
+            let reason = "The Account Has 15 Violations";
+            message.guild.members.get(sender.id)
+            .createDM()
+              .then(dm => {
+                dm.send({embed: {
+                  color: 0xff0000,
+                  title: "Kicked" ,
+                 description: `You have violated our rules many times as of now. **violations: 15** \nYou got kicked. Next punshment will be a permaban \n\nLast Violation: ${msg}`,
+                 timestamp: new Date(),
+                  footer: {
+                  icon_url: "186487324517859328".avatarURL,
+                  text: "Warning!"
+                  }
+                }})
+              })
+            message.guild.members.get(sender.id)
+            .kick(reason)
+              .catch(error => message.reply(`Sorry ${message.author} I couldn't kick because of : ${error}`));
+            viollogs.send({embed: {
+              color: 0xff0000,
+              title: "**Automatic Kick Report**",
+              description: `**${reason}**`,
+              timestamp: new Date(),
+              footer: {
+                icon_url: sender.avatarURL,
+                text: `Username: ${nick} | ID: ${sender.id}`
+              }
+            }})
+          }
+          
+          if(userData.viol === 20) {
+            let reason = "The Account Has 20 Violations";
+            message.guild.members.get(sender.id)
+            .createDM()
+              .then(dm => {
+                dm.send({embed: {
+                  color: 0xff0000,
+                  title: "Permanently Banned" ,
+                 description: `You have violated our rules many times as of now. **violations: 20** \nYou are permabanned. \n\nLast Violation: ${msg}`,
+                 timestamp: new Date(),
+                  footer: {
+                  icon_url: "186487324517859328".avatarURL,
+                  text: "Banned"
+                  }
+                }})
+              })
+            message.guild.members.get(sender.id)
+            .ban(reason)
+              .catch(error => viollogs.send(`I couldn't ban ${sender} because of : ${error}`));
+            viollogs.send({embed: {
+              color: 0xff0000,
+              title: "**Automatic Ban Report**",
+              description: `**${reason}**`,
+              timestamp: new Date(),
+              footer: {
+                icon_url: sender.avatarURL,
+                text: `Username: ${nick} | ID: ${sender.id}`
+              }
+            }})}
+            
+          return;
+      }};*/
+	
     
     // commands
 
@@ -90,9 +269,35 @@ bot.on('message', async message => {
         m.edit(`Pong. Latency: ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(bot.ping)}ms`);
       } else {return}
     };
+    
+    // Leaderboard
+    if (msg === prefix + "leaderboard"){
+        let usersmoney = []
+        let num = 0
+        for (user in userData) {
+            if(num < 9){
+                console.log(user)
+                let username = userData[user].username
+                let users = `${username}`
+                let money = (userData[user].money)
+                usersmoney[num] = money + " -> " + users
+                console.log(users)
+                console.log(money)
+                console.log(usersmoney[num])
+                usersmoney.sort(function(a, b){return a - b});
+                num++
+            }
+        }
+        usersmoney.sort(function(a, b){return a - b});
+        let lbembed = new Discord.RichEmbed()
+        .setDescription("**___Leaderboard___**")
+        .setColor(0x15f153)
+        .addField("Leaderboard:", usersmoney)
+        message.channel.send(lbembed)
+    };
 
     // Delete msgs
-    if (msg.split(" ")[0] === prefix + "purge"){
+    if (msg.split(" ")[0] === prefix + "mdelete"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
             let args = msg.split(" ").slice(1)
             let num = Number(args[0]);
@@ -103,6 +308,41 @@ bot.on('message', async message => {
             message.channel.send("Deleted " + num + " messages.").then(msg => msg.delete(5300));
             });
         }else {return}
+    };
+
+
+    //Single Poll
+    if (msg.startsWith("poll:")) {
+      if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) { 
+            let m = await message.react("👍")
+            let m2 = await message.react("👎")
+            let m3 = await message.react("🤷")
+        } else {return};
+      };
+
+
+    //4poll
+    if (msg.startsWith("4poll:")) {
+      if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) { 
+            let m = await message.react("🤔")
+            let m2 = await message.react("👉")
+            let m3 = await message.react("👌")
+            let m4 = await message.react("🖕")
+        } else {return};
+      };
+
+
+    //get ping role
+    if (msg === prefix + "pingrole"){
+        message.member.addRole('501888773710282755');
+        await message.reply('I have given you the ping role!')
+    };
+    
+
+    //remove ping role
+    if (msg === prefix + "rpingrole"){
+        message.member.removeRole('501888773710282755');
+        await message.reply('I have removed the ping role from you!')
     };
 
 
@@ -237,7 +477,7 @@ bot.on('message', async message => {
                 }})
               })
     };
-	
+
     //GAMBLING STUFF
 
     // bal access
@@ -245,7 +485,7 @@ bot.on('message', async message => {
         let m = await message.channel.send({embed: {
             color: 0x05ff00,
             title: "Your balance",
-            description: `${userData[sender.id].money} insert super secret emoji here \n${userData[sender.id].SP} Event Points`,
+            description: `${userData[sender.id].money}<:BlockCoins:503678855068778496> \n${userData[sender.id].SP} Event Points`,
             timestamp: new Date(),
             footer: {
               icon_url: sender.avatarURL
@@ -260,35 +500,40 @@ bot.on('message', async message => {
     const coin =  Math.floor((Math.random() * 2) + 1);
 
     if (msg === prefix + 'coinflip') {
-        let m = await message.channel.send("**Flips a coin:** \n Commands: __\`guess D__ - __\`guess N__")
+        let m = await message.channel.send("**Flips a coin:** \nCommands: ___guess D___ - ___guess N___")
+	coinflip = true;
     };
 
           //Diamonds
 
         if (msg === prefix + 'guess d' || msg === prefix + 'g d'  ) {
+	  if (!coinflip) return message.reply('You never flipped a coin! Do `coinflip')
           if (coin <= 1) {
-            let m = await message.reply('The coin landed on Diamonds, You won!',// {files: ["Storage/images/diamond.png"]}) //128x128 images are ideal
-            userData[sender.id].money = (userData[sender.id].money+300))
-            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m = await message.reply('The coin landed on Diamonds, You won!', {files: ["./storage/images/diamonds.png"]}) //128x128 images are ideal
+            userData[sender.id].money = (userData[sender.id].money+300)
+            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money}<:BlockCoins:503678855068778496>`)
           } else if (coin >= 2) {
-            let m = await message.reply("The coin landed on Nuggets, you lost.",// { files: ["Storage/images/nugget.png"]})
-            userData[sender.id].money = (userData[sender.id].money-150))
-            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m = await message.reply("The coin landed on Nuggets, you lost.", { files: ["./storage/images/nuggets.png"]})
+            userData[sender.id].money = (userData[sender.id].money-150)
+            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money}<:BlockCoins:503678855068778496>`)
           }
+	  coinflip = false;
         };
         
           //Nuggets
 
         if (msg === prefix + 'guess n' || msg === prefix + 'g n' ) {
+	  if (!coinflip) return message.reply('You never flipped a coin! Do `coinflip')
           if (coin <= 1) {
-            let m = await message.reply('The coin landed on Nuggets, You won!',// {files: ["Storage/images/nugget.png"]})
-            userData[sender.id].money = (userData[sender.id].money+300))
-            let m1 = await message.channel.send(` You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m = await message.reply('The coin landed on Nuggets, You won!', {files: ["./storage/images/nuggets.png"]})
+            userData[sender.id].money = (userData[sender.id].money+300)
+            let m1 = await message.channel.send(` You now have: ${userData[sender.id].money}<:BlockCoins:503678855068778496>`)
             } else if (coin >= 2) {
-            let m = await message.reply("The coin landed on Diamonds, you lost. ",// {files: ["Storage/images/diamond.png"]})
-            userData[sender.id].money = (userData[sender.id].money-150))
-            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m = await message.reply("The coin landed on Diamonds, you lost. ", {files: ["./storage/images/diamonds.png"]})
+            userData[sender.id].money = (userData[sender.id].money-150)
+            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money}<:BlockCoins:503678855068778496>`)
           }
+	  coinflip = false;
         };
     
 
@@ -300,11 +545,11 @@ bot.on('message', async message => {
             if(args == roll + 1 || args == roll - 1 || args == roll){
                 let m = await message.reply("You guessed in a range of 1 and were correct!",
                 userData[sender.id].money = (userData[sender.id].money+150))
-                let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+                let m1 = await message.channel.send(`You now have: ${userData[sender.id].money}<:BlockCoins:503678855068778496>`)
             }else{
                 let m = await message.reply("You guessed in a range of 1 and were incorrect!",
                 userData[sender.id].money = (userData[sender.id].money-50))
-                let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+                let m1 = await message.channel.send(`You now have: ${userData[sender.id].money}<:BlockCoins:503678855068778496>`)
             }
         }else{
             return message.reply('Please enter a number between 1 and 6')
@@ -320,7 +565,7 @@ bot.on('message', async message => {
             let money = Math.floor((Math.random() * 801) + 200);
             let m = await message.reply("You worked so hard and received " + money,
             userData[sender.id].money = (userData[sender.id].money+money))
-            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money} insert super secret emoji here`)
+            let m1 = await message.channel.send(`You now have: ${userData[sender.id].money}<:BlockCoins:503678855068778496>`)
             workCooldown.add(sender.id);
             setTimeout(() => {
               workCooldown.delete(sender.id);
@@ -347,7 +592,7 @@ bot.on('message', async message => {
             if(addedmoney > 1){
                 let m = await message.reply("You added " + addedmoney + " to " + rUser,
                 userData[userId].money = (userData[userId].money + addedmoney))
-                let m1 = await message.channel.send(rUser + ` now has ${userData[userId].money} insert super secret emoji here`)
+                let m1 = await message.channel.send(rUser + ` now has ${userData[userId].money}<:BlockCoins:503678855068778496>`)
             }else{
                 return message.reply('Please enter a number greater than 1')
             }
@@ -368,37 +613,11 @@ bot.on('message', async message => {
             if(addedmoney > 1){
                 let m = await message.reply("You removed " + addedmoney + " from " + rUser,
                 userData[userId].money = (userData[userId].money - addedmoney))
-                let m1 = await message.channel.send(rUser + ` now has ${userData[userId].money} insert super secret emoji here`)
+                let m1 = await message.channel.send(rUser + ` now has ${userData[userId].money}<:BlockCoins:503678855068778496>`)
             }else{
                 return message.reply('Please enter a number greater than 1')
             }
         }else {return}
-    };
-	
-    // Leaderboard
-    if (msg === prefix + "leaderboard"){
-        let usersmoney = []
-        let num = 0
-        for (user in userData) {
-            if(num < 9){
-                console.log(user)
-                let username = userData[user].username
-                let users = `${username}`
-                let money = (userData[user].money)
-                usersmoney[num] = money + " -> " + users
-                console.log(users)
-                console.log(money)
-                console.log(usersmoney[num])
-                usersmoney.sort(function(a, b){return a - b});
-                num++
-            }
-        }
-        usersmoney.sort(function(a, b){return a - b});
-        let lbembed = new Discord.RichEmbed()
-        .setDescription("**___Leaderboard___**")
-        .setColor(0x15f153)
-        .addField("Leaderboard:", usersmoney)
-        message.channel.send(lbembed)
     };
 
     
@@ -420,7 +639,8 @@ bot.on('message', async message => {
           message.send("No leaks for future events? Open your eyes, chinese man. Rinkky Teases thinks all day and night. He cant keep his mounth shut.")
         }
       };
-	
+    
+    
     // MUSIC STUFF
 
     const serverQueue = queue.get(message.guild.id);
@@ -433,6 +653,7 @@ bot.on('message', async message => {
         if(!permissions.has('CONNECT')) return message.channel.send('I can\'t connect here, how do you expect me to play music?')
         if(!permissions.has('SPEAK')) return message.channel.send('I can\'t speak here, how do you expect me to play music?')
 	    
+	if(!args[0]) return message.reply('Please provide a search term, url or playlist link!')
 	if(stopping) stopping = false;
         
         if(args[0].match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)){
@@ -442,7 +663,7 @@ bot.on('message', async message => {
                 var video2 = await youtube.getVideoByID(video.id);
                 await handleVideo(video2, message, voiceChannel, true)
             }
-            return message.channel.send(`Playlist: **${playlist.title}** has been added to the queue!`);
+            return await message.channel.send(`Playlist: **${playlist.title}** has been added to the queue!`);
         }else{
             try{
                 var video = await youtube.getVideo(args[0])
@@ -458,7 +679,7 @@ bot.on('message', async message => {
                     message.channel.send("Please provide a value from 1 to 10 to select a video! You have 10 seconds")
                     try{
                         var response = await message.channel.awaitMessages(message2 => message2.content > 0 && message2.content < 11, {
-                      		      maxMatches: 1,
+                      		      	maxMatches: 1,
 					time: 10000,
 					errors: ['time']
 				});
@@ -469,42 +690,67 @@ bot.on('message', async message => {
                     	var video = await youtube.getVideoByID(videos[videoIndex - 1].id);
                 }catch(err){
                     console.log(err)
-                    return message.channel.send("Sorry bro, cant find any results!");
+                    return await message.channel.send("Sorry bro, cant find any results!");
                 }
             }
             return handleVideo(video, message, voiceChannel);
         }
     } else if(msg === prefix + "mstop"){
-        if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
-        if(!serverQueue) return message.channel.send("Nothing is playing!")
+        if(!message.member.voiceChannel) return await message.channel.send("You aren't in a voice channel!")
+        if(!serverQueue) return await message.channel.send("Nothing is playing!")
 	stopping = true;
 	serverQueue.voiceChannel.leave();
         return undefined;
     }else if(msg === prefix + "skip"){
-        if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
-        if(!serverQueue) return message.channel.send("Nothing is playing!")
-        serverQueue.connection.dispatcher.end();
+            if(!message.member.voiceChannel) return await message.channel.send("You aren't in a voice channel!")
+            if(!serverQueue) return await message.channel.send("Nothing is playing!")
+	    const voiceChannel = message.member.voiceChannel;
+	    for (var x = 0; x < playerVoted.length; x++) {
+	    	if(sender === playerVoted[x]){
+			return message.channel.send(`${sender.username}, you think you run the place? You cant vote twice!`)
+		}
+	    }
+	    voted++;
+	    playerVoted.push(sender);
+	    if(voteSkipPass === 0){
+		    voiceChannel.members.forEach(function() {
+			 voteSkipPass++;
+		    })
+	    }
+	    var voteSkipPass1 = voteSkipPass - 1;
+	    var voteSkip = Math.floor(voteSkipPass1/2);
+	    if(voteSkip === 0) voteSkip = 1;
+	    if(voted >= voteSkip){
+		await message.channel.send('Vote skip has passed!')
+	    	serverQueue.connection.dispatcher.end();
+		voted = 0;
+		voteSkipPass = 0;
+		playerVoted = [];
+	    }else{
+	    	await message.channel.send(voted + '\/' + voteSkip + ' players voted to skip!')
+	    }
         return undefined;
     }else if(msg === prefix + "np"){
-        if(!serverQueue) return message.channel.send("Nothing is playing!")
+        if(!serverQueue) return await message.channel.send("Nothing is playing!")
         
-        return message.channel.send(`Now playing: **${serverQueue.songs[0].title}**`)
+        return await message.channel.send(`Now playing: **${serverQueue.songs[0].title}**`)
     }else if(msg.split(" ")[0] === prefix + "volume"){
         let args = msg.split(" ").slice(1)
-        if(!message.member.voiceChannel) return message.channel.send("You aren't in a voice channel!")
-        if(!serverQueue) return message.channel.send("Nothing is playing!");
-        if(!args[0]) return message.channel.send(`The current volume is **${serverQueue.volume}**`);
+        if(!message.member.voiceChannel) return await message.channel.send("You aren't in a voice channel!")
+        if(!serverQueue) return await message.channel.send("Nothing is playing!");
+        if(!args[0]) return await message.channel.send(`The current volume is **${serverQueue.volume}**`);
+	if(args[0] > 10 || args[0] < 0) return await message.channel.send('Please choose a number between 0 and 10!');
         serverQueue.connection.dispatcher.setVolumeLogarithmic(args[0] / 5)
         serverQueue.volume = args[0];
-        return message.channel.send(`I set the volume to: **${args[0]}**`);
+        return await message.channel.send(`I set the volume to: **${args[0]}**`);
     }else if(msg === prefix + "queue"){
-        if(!serverQueue) return message.channel.send("Nothing is playing!");
+        if(!serverQueue) return await message.channel.send("Nothing is playing!");
         let queueEmbed = new Discord.RichEmbed()
         .setDescription("Queue")
         .setColor(0x15f153)
         .addField("Now playing:", `**${serverQueue.songs[0].title}**`)
         .addField("Songs:", serverQueue.songs.map(song => `**-** ${song.title}`))
-        return message.channel.send(queueEmbed)
+        return await message.channel.send(queueEmbed)
     }
 
       //DM forwarding - draft
@@ -523,6 +769,7 @@ bot.on('message', async message => {
           }
         }})
       };
+
 
 
     //stopping the bot
@@ -552,7 +799,6 @@ function clean(text) {
   else
       return text;
 }
-
 
 async function handleVideo(video, message, voiceChannel, playlist = false){
     const serverQueue = queue.get(message.guild.id)
@@ -610,9 +856,15 @@ function play(guild, song){
 		if(!serverQueue.songs){
 		        serverQueue.voiceChannel.leave();
         		queue.delete(guild.id);
+        		voted = 0;
+			voteSkipPass = 0;
+			playerVoted = [];
         		return undefined;
 		}
 		serverQueue.songs.shift();
+		voted = 0;
+		voteSkipPass = 0;
+		playerVoted = [];
                 play(guild, serverQueue.songs[0]);
             })
         .on('error', error => console.error(error));
