@@ -103,7 +103,7 @@ bot.on('message', async message => {
                     });
                       let violationEmbed = {embed: {
                         color: 0xff0000,
-                        title: "<:yikers:408342164922433556> **Nigga** Detected <:yikers:408342164922433556>",
+                        title: "<:yikers:408342164922433556> **Profanity** Detected <:yikers:408342164922433556>",
                         description: '**Message sent by **' + sender + '** deleted in **<#' + message.channel.id + "> \n" + `"${msg}"` + "\n \n" + `current violations: **${userData.viol}**`,
                         timestamp: new Date(),
                         footer: {
