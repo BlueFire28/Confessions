@@ -74,7 +74,35 @@ var commands1 = {
 	report: {
 		usage: prefix + "report (@user) (reason)",
 		description: `Report a user.`
-	}
+	},
+	bal: {
+		usage: prefix + "bal",
+		description: `Check your balance.`
+	},
+	coinflip: {
+		usage: prefix + "coinflip",
+		description: `Flip a coin then guess what it landed on.`
+	},
+	diceroll: {
+		usage: prefix + "diceroll (num)",
+		description: `Roll a die and guess what it landed on, you have a range of 1`
+	},
+	"8ball": {
+		usage: prefix + "8ball (yes/no question)",
+		description: `Get that answer to the long awaited yes or no question.`
+	},
+	work: {
+		usage: prefix + "work",
+		description: `Work for some money`
+	},
+	addmoney: {
+		usage: prefix + "addmoney (@user) (num)",
+		description: `Add money to a user`
+	},
+	removemoney: {
+		usage: prefix + "removemoney (@user) (num)",
+		description: `Remove money from a user`
+	},
 };
 var playerVoted = [];
 const profanities = ["test", "test2"];
