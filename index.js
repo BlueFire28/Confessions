@@ -91,7 +91,7 @@ bot.on('ready', () => {
     //generalchat.send(`Topic of the week: `)
     
     
-    bot.user.setActivity("prefix ` | Blocks Awakens")
+    bot.user.setActivity("prefix " + prefix + " | Blocks Awakens")
 
 });
 
