@@ -102,7 +102,7 @@ var commands1 = {
 	removemoney: {
 		usage: prefix + "removemoney (@user) (num)",
 		description: `Remove money from a user`
-	},
+	}
 };
 var playerVoted = [];
 const profanities = ["test", "test2"];
