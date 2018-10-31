@@ -7,6 +7,7 @@ const ms = require("ms"); // npm install ms -s
 const ytdl = require("ytdl-core");
 const opus = require("opusscript");
 const YouTube = require("simple-youtube-api")
+const prefix = '`' // The text before commands
 
 // Okay, i wont worry about it ;)
 var coinflip = false;
@@ -17,6 +18,64 @@ const youtube = new YouTube(process.env.ytapi)
 var stopping = false;
 var voteSkipPass = 0;
 var voted = 0;
+var commands1 = {
+	purge: {
+		usage: prefix + "purge (num)",
+		description: `Delete some messages.`
+	},
+	leaderboard: {
+		usage: prefix + "leaderboard",
+		description: `Get the leaderboard of the top players`
+	},
+	"8ball": {
+		usage: prefix + "8ball (yes/no question)",
+		description: `Get that answer to the long awaited yes or no question.`
+	},
+	botinfo: {
+		usage: prefix + "botinfo",
+		description: `Get info about the bot.`
+	},
+	serverinfo: {
+		usage: prefix + "serverinfo",
+		description: `Get info about the server.`
+	},
+	roleinfo: {
+		usage: prefix + "roleinfo (@role)",
+		description: `Get info on a role.`
+	},
+	member: {
+		usage: prefix + "member (@member)",
+		description: `Get info on a member`
+	},
+	play: {
+		usage: prefix + "play (url/search term/playlist)",
+		description: `Play a song in a voice channel.`
+	},
+	queue: {
+		usage: prefix + "queue",
+		description: `Get the queue of the server.`
+	},
+	skip: {
+		usage: prefix + "skip",
+		description: `Skip the current song, this is a vote.`
+	},
+	mstop: {
+		usage: prefix + "mstop",
+		description: `Stop the music playing.`
+	},
+	np: {
+		usage: prefix + "np",
+		description: `See what song is currently playing.`
+	},
+	volume: {
+		usage: prefix + "volume",
+		description: `See what the volume of the bot is currently set to, add a number to set it.`
+	},
+	report: {
+		usage: prefix + "report (@user) (reason)",
+		description: `Report a user.`
+	}
+};
 var playerVoted = [];
 const profanities = ["test", "test2"];
 
@@ -58,7 +117,7 @@ bot.on('guildMemberAdd', member => {
     // Do nothing if the channel wasn't found on this server
     if (!channel) return;
     // Send the message, mentioning the member
-    channel.send(`Welcome ${member}! You can apply to get whitelisted, by clicking the link provided here: ${channelinfo}. Your answers must be a paragraph long. Good luck! `);
+    channel.send(``);
     
   });
 
@@ -67,7 +126,6 @@ bot.on('message', async message => {
     // Variables
     let sender = message.author; // The person who sent the message
     let msg = message.content.toLowerCase();
-    let prefix = '`' // The text before commands
     if (bot.user.id === sender.id) { return }
     let nick = sender.username
     let Owner = message.guild.roles.find('name', "Owner")    
@@ -261,7 +319,39 @@ bot.on('message', async message => {
 	
     
     // commands
-
+	
+	
+    // Help
+	if(msg.split(' ')[0] === prefix + 'help'){
+		console.log('HELP INITIATED!')
+      	let args = msg.split(" ").slice(1);
+		console.log(args[0])
+	
+		if(!args[0]){
+			let embed = new Discord.RichEmbed()
+			.setDescription("All available commands")
+			.setColor(0x00fff3)
+			for(var name in commands1){
+				embed.addField("Command:", name)
+			}
+			await message.channel.send(embed)
+			return await message.channel.send("For info on a specific command, do " + prefix + "help (command)")
+		}
+		for(var name in commands1){
+			if(args[0] === name){
+				var commandname = name;
+				let embed = new Discord.RichEmbed()
+				.setDescription(name)
+				.setColor(0x00fff3)
+				.addField("Usage:", commands1[commandname].usage)
+				.addField("Description:", commands1[commandname].description)
+				return await message.channel.send(embed)
+			}
+    	}
+		if(args[0]) return message.channel.send("Hm, check your spelling and try again!");
+    };
+	
+	
     // Ping / Pong command
     if (msg === prefix + 'ping') {
       if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
@@ -271,33 +361,19 @@ bot.on('message', async message => {
     };
     
     // Leaderboard
-    if (msg === prefix + "leaderboard"){
-        let usersmoney = []
-        let num = 0
-        for (user in userData) {
-            if(num < 9){
-                console.log(user)
-                let username = userData[user].username
-                let users = `${username}`
-                let money = (userData[user].money)
-                usersmoney[num] = money + " -> " + users
-                console.log(users)
-                console.log(money)
-                console.log(usersmoney[num])
-                usersmoney.sort(function(a, b){return a - b});
-                num++
-            }
-        }
-        usersmoney.sort(function(a, b){return a - b});
-        let lbembed = new Discord.RichEmbed()
-        .setDescription("**___Leaderboard___**")
-        .setColor(0x15f153)
-        .addField("Leaderboard:", usersmoney)
-        message.channel.send(lbembed)
-    };
+	if(msg === prefix + "leaderboard"){
+		var arr = sortObject(userData)
+		console.log(arr.map(user => `**-** ${user.value}`))
+		let leaderboard = new Discord.RichEmbed()
+		.setDescription("**___Leaderboard___**")
+		.setColor(0x15f153)
+		.addField("Leaderboard", arr.map(user => `${message.guild.member(user.key)} **-** $${user.value}`))
+
+		return await message.channel.send(leaderboard)
+	};
 
     // Delete msgs
-    if (msg.split(" ")[0] === prefix + "mdelete"){
+    if (msg.split(" ")[0] === prefix + "purge"){
         if(sender.id === "186487324517859328" || message.member.roles.has(Owner.id)) {
             let args = msg.split(" ").slice(1)
             let num = Number(args[0]);
@@ -329,31 +405,7 @@ bot.on('message', async message => {
             let m3 = await message.react("👌")
             let m4 = await message.react("🖕")
         } else {return};
-      };
-
-
-    //get ping role
-    if (msg === prefix + "pingrole"){
-        message.member.addRole('501888773710282755');
-        await message.reply('I have given you the ping role!')
     };
-    
-
-    //remove ping role
-    if (msg === prefix + "rpingrole"){
-        message.member.removeRole('501888773710282755');
-        await message.reply('I have removed the ping role from you!')
-    };
-
-
-    //timed message
-    //const generalchat = bot.channels.get("469490700845580298")
-    //let timer = bot.setInterval(timedMessage, /*172800000*/10800000);
-    //let timer2 = bot.setInterval(timedMessage2, 300000);
-    
-    //function timedMessage() {
-      //generalchat.send(`Topic of the week: `)
-      //.catch(console.error)};
 
 
     //bot info command
@@ -872,6 +924,20 @@ function play(guild, song){
     if(song){
     	serverQueue.textChannel.send(`Now playing: **${song.title}**`)
     }
+}
+
+function sortObject() {
+	var arr = [];
+	for (var prop in userData) {
+		if (userData.hasOwnProperty(prop)) {
+		    arr.push({
+			'key': prop,
+			'value': userData[prop].money
+		    });
+		}
+	}
+	arr.sort(function(a, b) { return b.value - a.value; });
+	return arr;
 }
 
 //  Login
