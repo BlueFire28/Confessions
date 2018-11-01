@@ -58,10 +58,10 @@ bot.on('message', async message => {
 	    }
 	    if(command === "cha cha real smooth" || command === "cha cha"){
 		    await message.channel.send("Slide to the right.")
-		    const right = bot.emojis.find(emoji => emoji.name === "arrow_right");
-		    const left = bot.emojis.find(emoji => emoji.name === "arrow_left");
-		    const cris = bot.emojis.find(emoji => emoji.name === "twisted_rightwards_arrows");
-		    const smooth = bot.emojis.find(emoji => emoji.name === "male_dancer");
+		    const right = ":arrow_right:";
+		    const left = ":arrow_left:";
+		    const cris = ":twisted_rightwards_arrows:");
+		    const smooth = ":male_dancer:";
 	    	 try{
 			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === right, {
 				maxMatches: 1,
