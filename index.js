@@ -37,7 +37,7 @@ bot.on('message', async message => {
     let nick = sender.username
     
     if(msg === "hey alexa"){
-    	await message.channel.send("Boop.", {files: ["./images/51TFnR7AtGL._SY300_QL70_.jpg"]})
+    	await message.channel.send("Boop. \n:alexa:")
 	    try{
 		var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id, {
 				maxMatches: 1,
