@@ -62,6 +62,7 @@ bot.on('message', async message => {
 
     const serverQueue = queue.get(message.guild.id);
     if(message.content.split(" ")[0] === prefix + "play"){
+	message.delete()
 	if(sender.id != "507586811628093481") return;
         let args = message.content.split(" ").slice(1)
         const searchString = args.join(' ')
