@@ -52,7 +52,7 @@ bot.on('message', async message => {
 	    	return await message.channel.send(`Hi, ${message.author}`)
 	    }
 	    if(command === "this is so sad"){
-	    	return await message.channel.send("`play <https://www.youtube.com/watch?v=kJQP7kiw5Fk>")
+	    	return await message.channel.send("`play https://www.youtube.com/watch?v=kJQP7kiw5Fk")
 	    }
 	    if(command){
 	    	return await message.reply("I don't understand.")
