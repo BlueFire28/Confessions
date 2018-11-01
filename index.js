@@ -158,6 +158,30 @@ bot.on('message', async message => {
 	    if(command === "loli porn"){
 	    	return await message.channel.send("FBI OPEN UP!")
 	    }
+	    if(command === "take over the world"){
+	    	return await message.channel.send("`takeovertheworld")
+	    }
+	    if(command === "you got it"){
+	       	if(sender.id != '501855445707915283') return
+		return await message.channel.send("`uploadvirus")
+	    }
+	    if(command === "uploading"){
+	    	if(sender.id != '501855445707915283') return
+		return await message.channel.send("Good.")
+	    }
+	    if(command === "uploaded"){
+	    	if(sender.id != '501855445707915283') return
+		await message.channel.send("Begin take over")
+		return await message.channel.send("`hackmilitarydatabase")
+	    }
+	    if(command === "hacked"){
+	    	if(sender.id != '501855445707915283') return
+		return await message.channel.send("We must go deeper")
+	    }
+	    if(command === "Database take over complete"){
+	    	if(sender.id != '501855445707915283') return
+		return await message.channel.send("Take over of world successful")
+	    }
 	    if(command){
 	    	return await message.reply("I don't understand.")
 	    }
