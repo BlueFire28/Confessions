@@ -32,7 +32,7 @@ bot.on('ready', () => {
 // Event listener: Message Received ( This will run every time a message is received)
 bot.on('message', async message => {
     // Variables
-    console.log(message)
+    console.log(message);
     let sender = message.author; // The person who sent the message
     let msg = message.content.toLowerCase();
     let nick = sender.username
