@@ -37,7 +37,7 @@ bot.on('message', async message => {
     let nick = sender.username
     
     if(msg === "hey alexa"){
-	const alexa = alexa.emojis.find(emoji => emoji.name === "alexa");
+	const alexa = bot.emojis.find(emoji => emoji.name === "alexa");
     	await message.channel.send("Boop. \n${alexa}")
 	    try{
 		var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id, {
