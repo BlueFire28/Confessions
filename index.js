@@ -67,8 +67,8 @@ bot.on('message', async message => {
 			     "A man goes into the doctor with a penguin on his head. The doctor says \"What can I do for you?\" and the penguin says \"Well doc, it started as this growth on my foot...\"",
 			     "Before you criticize someone, walk a mile in their shoes.  Then when you do criticize them, you'll be a mile away and have their shoes."
 			    ]
-		let response = Math.floor(Math.random() * (jokes.length + 1))
-		message.channel.send(jokes[response])
+		let results = Math.floor(Math.random() * (jokes.length + 1))
+		return message.channel.send(jokes[results])
             }
 	    if(command){
 	    	return await message.reply("I don't understand.")
