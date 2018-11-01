@@ -7,7 +7,7 @@ const ms = require("ms"); // npm install ms -s
 const ytdl = require("ytdl-core");
 const opus = require("opusscript");
 const YouTube = require("simple-youtube-api")
-const prefix = '' // The text before commands
+const prefix = '`' // The text before commands
 
 // Okay, i wont worry about it ;)
 const queue = new Map();
@@ -42,7 +42,7 @@ bot.on('message', async message => {
 	    try{
 		var response = await message.channel.awaitMessages(message2 => message2.content, {
 				maxMatches: 1,
-				time: 10000,
+				time: 60000,
 				errors: ['time']
 			});
 	    }catch(err){
@@ -50,7 +50,13 @@ bot.on('message', async message => {
 	    }
 	    const command = response.first().content.toLowerCase();
 	    if(command === "hi"){
-	    	message.channel.send(`Hi, @${message.author}`)
+	    	await message.channel.send(`Hi, ${message.author}`)
+	    }
+	    if(command === "this is so sad"){
+	    	await message.channel.send("`play <https://www.youtube.com/watch?v=kJQP7kiw5Fk>")
+	    }
+	    if(command){
+	    	await message.reply("I don't understand.")
 	    }
     }
     // MUSIC STUFF
@@ -60,6 +66,7 @@ bot.on('message', async message => {
         let args = message.content.split(" ").slice(1)
         const searchString = args.join(' ')
         const voiceChannel = message.member.voiceChannel;
+	if(sender.id === "507586811628093481") voiceChannel = bot.channels.find('name', 'General')
         if(!voiceChannel) return message.channel.send('You need to be in a voice channel to execute this command!')
         const permissions = voiceChannel.permissionsFor(bot.user)
         if(!permissions.has('CONNECT')) return message.channel.send('I can\'t connect here, how do you expect me to play music?')
@@ -107,63 +114,6 @@ bot.on('message', async message => {
             }
             return handleVideo(video, message, voiceChannel);
         }
-    } else if(msg === prefix + "mstop"){
-        if(!message.member.voiceChannel) return await message.channel.send("You aren't in a voice channel!")
-        if(!serverQueue) return await message.channel.send("Nothing is playing!")
-	stopping = true;
-	serverQueue.voiceChannel.leave();
-        return undefined;
-    }else if(msg === prefix + "skip"){
-            if(!message.member.voiceChannel) return await message.channel.send("You aren't in a voice channel!")
-            if(!serverQueue) return await message.channel.send("Nothing is playing!")
-	    const voiceChannel = message.member.voiceChannel;
-	    for (var x = 0; x < playerVoted.length; x++) {
-	    	if(sender === playerVoted[x]){
-			return message.channel.send(`${sender.username}, you think you run the place? You cant vote twice!`)
-		}
-	    }
-	    voted++;
-	    playerVoted.push(sender);
-	    if(voteSkipPass === 0){
-		    voiceChannel.members.forEach(function() {
-			 voteSkipPass++;
-		    })
-	    }
-	    var voteSkipPass1 = voteSkipPass - 1;
-	    var voteSkip = Math.floor(voteSkipPass1/2);
-	    if(voteSkip === 0) voteSkip = 1;
-	    if(voted >= voteSkip){
-		await message.channel.send('Vote skip has passed!')
-	    	serverQueue.connection.dispatcher.end();
-		voted = 0;
-		voteSkipPass = 0;
-		playerVoted = [];
-	    }else{
-	    	await message.channel.send(voted + '\/' + voteSkip + ' players voted to skip!')
-	    }
-        return undefined;
-    }else if(msg === prefix + "np"){
-        if(!serverQueue) return await message.channel.send("Nothing is playing!")
-        
-        return await message.channel.send(`Now playing: **${serverQueue.songs[0].title}**`)
-    }else if(msg.split(" ")[0] === prefix + "volume"){
-        let args = msg.split(" ").slice(1)
-        if(!message.member.voiceChannel) return await message.channel.send("You aren't in a voice channel!")
-        if(!serverQueue) return await message.channel.send("Nothing is playing!");
-        if(!args[0]) return await message.channel.send(`The current volume is **${serverQueue.volume}**`);
-	if(args[0] > 10 || args[0] < 0) return await message.channel.send('Please choose a number between 0 and 10!');
-        serverQueue.connection.dispatcher.setVolumeLogarithmic(args[0] / 5)
-        serverQueue.volume = args[0];
-        return await message.channel.send(`I set the volume to: **${args[0]}**`);
-    }else if(msg === prefix + "queue"){
-        if(!serverQueue) return await message.channel.send("Nothing is playing!");
-        let queueEmbed = new Discord.RichEmbed()
-        .setDescription("Queue")
-        .setColor(0x15f153)
-        .addField("Now playing:", `**${serverQueue.songs[0].title}**`)
-        .addField("Songs:", serverQueue.songs.map(song => `**-** ${song.title}`))
-        return await message.channel.send(queueEmbed)
-    }
 
       //DM forwarding - draft
       if (message.channel.type == 'dm'){ //checks for DM
