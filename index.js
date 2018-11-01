@@ -128,8 +128,8 @@ bot.on('message', async message => {
             }
 	    if(command.split(" ")[0] === "roll"){
 	    	let args = command.split(" ").slice(2)
-		let input = args.join("").slice(1)
-		console.log(input)
+		let input = parseInt(args.join("").slice(1));
+		Math.floor((Math.random() * input) + 1);
 	    }
 	    if(command){
 	    	return await message.reply("I don't understand.")
