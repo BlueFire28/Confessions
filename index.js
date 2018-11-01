@@ -63,7 +63,7 @@ bot.on('message', async message => {
 		    const cris = ":twisted_rightwards_arrows:";
 		    const smooth = ":male_dancer:";
 	    	 try{
-			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === right, {
+			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === ":arrow_right:", {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
