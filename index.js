@@ -137,7 +137,7 @@ bot.on('message', async message => {
 	    return await message.channel.send("Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little “clever” comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn’t, you didn’t, and now you’re paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You’re fucking dead, kid.")
 	    }
 	    if(command === "send noods"){
-	       return message.channel.send({files["./images/download.jpeg"]})
+	       return message.channel.send({files: ["./images/download.jpeg"]})
 	    }
 	    if(command){
 	    	return await message.reply("I don't understand.")
