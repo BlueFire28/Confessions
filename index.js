@@ -37,7 +37,20 @@ bot.on('message', async message => {
     if (bot.user.id === sender.id) { return }
     let nick = sender.username
     
-    
+    if(msg === "hey alexa"){
+    	message.channel.send("Boop")
+    try{
+		var response = await message.channel.awaitMessages(message2 => message2.content, {
+				maxMatches: 1,
+				time: 10000,
+				errors: ['time']
+			});
+	    }catch(err){
+		return message.channel.send('Beep.')
+	    }
+	    const command = response.first().content;
+	    console.log(command)
+    }
     // MUSIC STUFF
 
     const serverQueue = queue.get(message.guild.id);
