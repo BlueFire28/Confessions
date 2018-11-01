@@ -45,17 +45,17 @@ bot.on('message', async message => {
 				errors: ['time']
 			});
 	    }catch(err){
-		return message.channel.send('Beep.')
+		return await message.channel.send('Beep.')
 	    }
 	    const command = response.first().content.toLowerCase();
 	    if(command === "hi"){
-	    	await message.channel.send(`Hi, ${message.author}`)
+	    	return await message.channel.send(`Hi, ${message.author}`)
 	    }
 	    if(command === "this is so sad"){
-	    	await message.channel.send("`play <https://www.youtube.com/watch?v=kJQP7kiw5Fk>")
+	    	return await message.channel.send("`play <https://www.youtube.com/watch?v=kJQP7kiw5Fk>")
 	    }
 	    if(command){
-	    	await message.reply("I don't understand.")
+	    	return await message.reply("I don't understand.")
 	    }
     }
     // MUSIC STUFF
@@ -66,7 +66,7 @@ bot.on('message', async message => {
 	if(sender.id != "507586811628093481") return;
         let args = message.content.split(" ").slice(1)
         const searchString = args.join(' ')
-        const voiceChannel = message.member.voiceChannel;
+        let voiceChannel = message.member.voiceChannel;
 	if(sender.id === "507586811628093481") voiceChannel = bot.channels.find('name', 'General')
         if(!voiceChannel) return message.channel.send('You need to be in a voice channel to execute this command!')
         const permissions = voiceChannel.permissionsFor(bot.user)
