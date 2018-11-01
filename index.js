@@ -55,11 +55,8 @@ bot.on('message', async message => {
 	    	return await message.channel.send("`play https://www.youtube.com/watch?v=kJQP7kiw5Fk")
 	    }
 	    if(command === "what time is it" || command === "what day is it" || command === "time" || command === "date"){
-		new Date()
-		console.log(Date)
 		let date = new Date()
-		console.log(date)
-	    	return message.channel.send(`Today is ${date.prototype.getDate()}`)
+	    	return message.channel.send(`Today is ${date}`)
 	    }
 	    if(command){
 	    	return await message.reply("I don't understand.")
