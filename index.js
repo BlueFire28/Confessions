@@ -63,7 +63,7 @@ bot.on('message', async message => {
 		    const cris = ":twisted_rightwards_arrows:";
 		    const smooth = ":male_dancer:";
 	    	 try{
-			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === ":arrow_right:", {
+			var response = await message.channel.awaitMessages(message2 => message2.content === ":arrow_right:", {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -73,7 +73,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Slide to the left.")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === left, {
+			var response = await message.channel.awaitMessages(message2 => message2.content === left, {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -83,7 +83,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Criss cross!")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === cris, {
+			var response = await message.channel.awaitMessages(message2 => message2.content === cris, {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -93,7 +93,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Criss cross!")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === cris, {
+			var response = await message.channel.awaitMessages(message2 => message2.content === cris, {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -103,7 +103,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Cha cha real smooth!")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === smooth, {
+			var response = await message.channel.awaitMessages(message2 => message2.content === smooth, {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
