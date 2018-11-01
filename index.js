@@ -68,7 +68,7 @@ bot.on('message', async message => {
 			     "Before you criticize someone, walk a mile in their shoes.  Then when you do criticize them, you'll be a mile away and have their shoes."
 			    ]
 		let results = Math.floor(Math.random() * (jokes.length + 1))
-		return message.channel.send(jokes[results])
+		return await message.channel.send(jokes[results])
             }
 	    if(command){
 	    	return await message.reply("I don't understand.")
