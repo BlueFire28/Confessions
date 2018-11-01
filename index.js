@@ -127,7 +127,7 @@ bot.on('message', async message => {
 		return await message.channel.send(jokes[results])
             }
 	    if(command.split(" ")[0] === "roll"){
-	    	let args = command.content.split(" ").slice(2)
+	    	let args = command.split(" ").slice(2)
 		let input = args.join("").slice(1)
 		console.log(input)
 	    }
