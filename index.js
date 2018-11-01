@@ -60,12 +60,8 @@ bot.on('message', async message => {
 	    }
 	    if(command === "cha cha real smooth" || command === "cha cha"){
 		    await message.channel.send("Slide to the right.")
-		    const right = ":arrow_right:";
-		    const left = ":arrow_left:";
-		    const cris = ":twisted_rightwards_arrows:";
-		    const smooth = ":male_dancer:";
 	    	 try{
-			var response = await message.channel.awaitMessages(message2 => message2.content == ":arrow_right:", {
+			var response = await message.channel.awaitMessages(message2 => message2.content == ➡, {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -75,7 +71,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Slide to the left.")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.content == left, {
+			var response = await message.channel.awaitMessages(message2 => message2.content == ⬅, {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -85,7 +81,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Criss cross!")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.content == cris, {
+			var response = await message.channel.awaitMessages(message2 => message2.content == 🔀, {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -95,7 +91,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Criss cross!")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.content == cris, {
+			var response = await message.channel.awaitMessages(message2 => message2.content == 🔀, {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -105,7 +101,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Cha cha real smooth!")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.content == smooth, {
+			var response = await message.channel.awaitMessages(message2 => message2.content == 🕺, {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
