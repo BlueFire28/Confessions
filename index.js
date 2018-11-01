@@ -115,6 +115,7 @@ bot.on('message', async message => {
             }
             return handleVideo(video, message, voiceChannel);
         }
+    }
 
       //DM forwarding - draft
       if (message.channel.type == 'dm'){ //checks for DM
