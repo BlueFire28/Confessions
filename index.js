@@ -32,7 +32,6 @@ bot.on('ready', () => {
 // Event listener: Message Received ( This will run every time a message is received)
 bot.on('message', async message => {
     // Variables
-    console.log(message.content);
     let sender = message.author; // The person who sent the message
     let msg = message.content.toLowerCase();
     let nick = sender.username
@@ -61,7 +60,7 @@ bot.on('message', async message => {
 	    if(command === "cha cha real smooth" || command === "cha cha"){
 		    await message.channel.send("Slide to the right.")
 	    	 try{
-			var response = await message.channel.awaitMessages(message2 => message2.content == ➡, {
+			var response = await message.channel.awaitMessages(message2 => message2.content == "➡", {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -71,7 +70,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Slide to the left.")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.content == ⬅, {
+			var response = await message.channel.awaitMessages(message2 => message2.content == "⬅", {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -81,7 +80,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Criss cross!")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.content == 🔀, {
+			var response = await message.channel.awaitMessages(message2 => message2.content == "🔀", {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -91,7 +90,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Criss cross!")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.content == 🔀, {
+			var response = await message.channel.awaitMessages(message2 => message2.content == "🔀", {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
@@ -101,7 +100,7 @@ bot.on('message', async message => {
 	   	}
 		await message.channel.send("Cha cha real smooth!")
 	         try{
-			var response = await message.channel.awaitMessages(message2 => message2.content == 🕺, {
+			var response = await message.channel.awaitMessages(message2 => message2.content == "🕺", {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
