@@ -38,7 +38,8 @@ bot.on('message', async message => {
     
     if(msg === "hey alexa"){
 	const alexa = bot.emojis.find(emoji => emoji.name === "alexa");
-    	await message.channel.send(`Boop. \n${alexa}`)
+    	await message.channel.send(`Boop.`)
+	await message.channel.send(`${alexa}`)   
 	    try{
 		var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id, {
 				maxMatches: 1,
