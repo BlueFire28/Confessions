@@ -56,6 +56,63 @@ bot.on('message', async message => {
 	    if(command === "this is so sad"){
 	    	return await message.channel.send("`play https://www.youtube.com/watch?v=kJQP7kiw5Fk")
 	    }
+	    if(command === "cha cha real smooth" || command === "cha cha"){
+		    await message.channel.send("Slide to the right.")
+		    const right = bot.emojis.find(emoji => emoji.name === "arrow_right");
+		    const left = bot.emojis.find(emoji => emoji.name === "arrow_left");
+		    const cris = bot.emojis.find(emoji => emoji.name === "twisted_rightwards_arrows");
+		    const smooth = bot.emojis.find(emoji => emoji.name === "male_dancer");
+	    	 try{
+			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === right, {
+				maxMatches: 1,
+				time: 60000,
+				errors: ['time']
+			});
+	    	}catch(err){
+			return await message.channel.send('Y u no cha cha.')
+	   	}
+		await message.channel.send("Slide to the left.")
+	         try{
+			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === left, {
+				maxMatches: 1,
+				time: 60000,
+				errors: ['time']
+			});
+	    	}catch(err){
+			return await message.channel.send('Y u no cha cha.')
+	   	}
+		await message.channel.send("Criss cross!")
+	         try{
+			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === cris, {
+				maxMatches: 1,
+				time: 60000,
+				errors: ['time']
+			});
+	    	}catch(err){
+			return await message.channel.send('Y u no cha cha.')
+	   	}
+		await message.channel.send("Criss cross!")
+	         try{
+			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === cris, {
+				maxMatches: 1,
+				time: 60000,
+				errors: ['time']
+			});
+	    	}catch(err){
+			return await message.channel.send('Y u no cha cha.')
+	   	}
+		await message.channel.send("Cha cha real smooth!")
+	         try{
+			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === smooth, {
+				maxMatches: 1,
+				time: 60000,
+				errors: ['time']
+			});
+	    	}catch(err){
+			return await message.channel.send('Y u no cha cha.')
+	   	}
+		return await message.channel.send("You have successfully cha cha'd")
+	    }
 	    if(command === "what time is it" || command === "what day is it" || command === "time" || command === "date"){
 		let date = new Date()
 	    	return message.channel.send(`Today is ${date}`)
