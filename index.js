@@ -55,7 +55,7 @@ bot.on('message', async message => {
 	    	return await message.channel.send("`play https://www.youtube.com/watch?v=kJQP7kiw5Fk")
 	    }
 	    if(command === "what time is it" || command === "what day is it" || command === "time" || command === "date"){
-	    	return message.channel.send(message.createdAt)
+	    	return message.channel.send(`Today is ${message.createdAt}`)
 	    }
 	    if(command){
 	    	return await message.reply("I don't understand.")
