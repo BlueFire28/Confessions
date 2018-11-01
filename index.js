@@ -139,7 +139,7 @@ bot.on('message', async message => {
 	    if(command === "send noods"){
 	       return message.channel.send({files: ["./images/download.jpeg"]})
 	    }
-	    if(command === "Do you work for the FBI"){
+	    if(command === "do you work for the fbi"){
 	    	return message.channel.send("...");
 	    }
 	    if(command){
