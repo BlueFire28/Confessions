@@ -50,7 +50,7 @@ bot.on('message', async message => {
 	    }
 	    const command = response.first().content.toLowerCase();
 	    if(command === "hi"){
-	    	message.channel.send(`Hi, ${@message.author}`)
+	    	message.channel.send(`Hi, @${message.author}`)
 	    }
     }
     // MUSIC STUFF
