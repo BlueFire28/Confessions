@@ -155,6 +155,9 @@ bot.on('message', async message => {
 	     	await message.channel.send({files: ["./images/Stalin.jpg"]})
 		return await message.channel.send("`play https://www.youtube.com/watch?v=U06jlgpMtQs")
 	    }
+	    if(command === "loli porn"){
+	    	return await message.channel.send("FBI OPEN UP!)
+	    }
 	    if(command){
 	    	return await message.reply("I don't understand.")
 	    }
