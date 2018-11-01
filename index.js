@@ -129,7 +129,8 @@ bot.on('message', async message => {
 	    if(command.split(" ")[0] === "roll"){
 	    	let args = command.split(" ").slice(2)
 		let input = parseInt(args.join("").slice(1));
-		Math.floor((Math.random() * input) + 1);
+		let roll = Math.floor((Math.random() * input) + 1);
+		return await message.reply(`You rolled a ${roll}`)
 	    }
 	    if(command){
 	    	return await message.reply("I don't understand.")
