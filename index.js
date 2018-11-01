@@ -38,7 +38,7 @@ bot.on('message', async message => {
     let nick = sender.username
     
     if(msg === "hey alexa"){
-    	await message.channel.send("Boop")
+    	await message.channel.send("Boop.")
 	    try{
 		var response = await message.channel.awaitMessages(message2 => message2.content, {
 				maxMatches: 1,
@@ -48,8 +48,10 @@ bot.on('message', async message => {
 	    }catch(err){
 		return message.channel.send('Beep.')
 	    }
-	    const command = response.first().content;
-	    console.log(command)
+	    const command = response.first().content.toLowerCase();
+	    if(command === "hi"){
+	    	message.channel.send(`Hi, ${@message.author}`)
+	    }
     }
     // MUSIC STUFF
 
