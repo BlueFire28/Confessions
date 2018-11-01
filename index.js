@@ -39,7 +39,7 @@ bot.on('message', async message => {
     if(msg === "hey alexa"){
     	await message.channel.send("Boop.")
 	    try{
-		var response = await message.channel.awaitMessages(message2 => message2.sender === message.sender, {
+		var response = await message.channel.awaitMessages(message2 => message2.sender.id === sender.id, {
 				maxMatches: 1,
 				time: 60000,
 				errors: ['time']
