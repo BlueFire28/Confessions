@@ -178,7 +178,7 @@ bot.on('message', async message => {
 	    	if(sender.id != '501855445707915283') return
 		return await message.channel.send("We must go deeper")
 	    }
-	    if(command === "Database take over complete"){
+	    if(command === "database take over complete"){
 	    	if(sender.id != '501855445707915283') return
 		return await message.channel.send("Take over of world successful")
 	    }
