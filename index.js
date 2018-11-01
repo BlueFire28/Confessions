@@ -34,7 +34,6 @@ bot.on('message', async message => {
     // Variables
     let sender = message.author; // The person who sent the message
     let msg = message.content.toLowerCase();
-    if (bot.user.id === sender.id) { return }
     let nick = sender.username
     
     if(msg === "hey alexa"){
