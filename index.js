@@ -60,7 +60,7 @@ bot.on('message', async message => {
 		    await message.channel.send("Slide to the right.")
 		    const right = ":arrow_right:";
 		    const left = ":arrow_left:";
-		    const cris = ":twisted_rightwards_arrows:");
+		    const cris = ":twisted_rightwards_arrows:";
 		    const smooth = ":male_dancer:";
 	    	 try{
 			var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id && message2.content === right, {
