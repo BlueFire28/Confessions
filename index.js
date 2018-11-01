@@ -58,7 +58,7 @@ bot.on('message', async message => {
 		let date = new Date()
 	    	return message.channel.send(`Today is ${date}`)
 	    }
-	    if(command === "Tell me a joke"){
+	    if(command === "tell me a joke"){
 	       	let jokes = ["What kind of murderer has fiber? A cereal killer.", "What do you call a fly with no wings? A walk.",
 			     "What lies on the bottom of the ocean and shakes? A nervous wreck.", "Two cannibals are sitting around eating a clown. One says to the other, \"Does this taste funny to you?\"",
 			     "What did the grape say when the elephant trod on it? Nothing, it just gave a little wine.", "Guns don't kill people, Chuck Norris kills people",
@@ -66,7 +66,7 @@ bot.on('message', async message => {
 			     "What did the mayonnaise say to the refrigerator? \"Close the door  Can't you see I'm dressing?\"", "How long did Cain hate his brother? As long as he was able...",
 			     "A man goes into the doctor with a penguin on his head. The doctor says \"What can I do for you?\" and the penguin says \"Well doc, it started as this growth on my foot...\"",
 			     "Before you criticize someone, walk a mile in their shoes.  Then when you do criticize them, you'll be a mile away and have their shoes."
-			    ]
+			    ];
 		let results = Math.floor(Math.random() * (jokes.length + 1))
 		return await message.channel.send(jokes[results])
             }
