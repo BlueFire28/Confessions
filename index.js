@@ -186,9 +186,7 @@ bot.on('message', async message => {
 	    	return await message.channel.send({files: ["./images/warface.gif"]})
 	    }
 	    if(command === "yeah"){
-	       setTimeout(async function(){ 
-    			await message.channel.send("Yeah...")
-		}, 1000);
+    		await message.channel.send("Yeah...")
 		setTimeout(async function(){ 
     			await message.channel.send("Yeah...")
 		}, 1000);
