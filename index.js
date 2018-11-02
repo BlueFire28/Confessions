@@ -14,8 +14,6 @@ const queue = new Map();
 const youtube = new YouTube(process.env.ytapi)
 var stopping = false;
 
-// json files
-
 // Listener Event: Bot Launched
 bot.on('ready', () => {
     console.log('Power Level Stabilised') // Runs when the bot is launched
