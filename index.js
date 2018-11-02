@@ -37,6 +37,7 @@ bot.on('message', async message => {
     let nick = sender.username
     
     if(msg === "hey alexa"){
+	let yeah = false;
 	const caller = sender;
 	const alexa = bot.emojis.find(emoji => emoji.name === "alexa");
     	await message.channel.send(`Boop.`)
@@ -186,6 +187,7 @@ bot.on('message', async message => {
 	    	return await message.channel.send({files: ["./images/warface.gif"]})
 	    }
 	    if(command === "yeah"){
+		yeah = true;
     		await message.channel.send("Yeah...")
 		setTimeout(async function(){ 
     			await message.channel.send("Yeah...")
@@ -194,6 +196,7 @@ bot.on('message', async message => {
 				setTimeout(async function(){ 
     			 		await message.channel.send("Yeah...")
 					setTimeout(async function(){ 
+						yeah = false
     			 			return await message.channel.send("Yeah...")
 					}, 1000);
 				}, 1000);
@@ -201,6 +204,7 @@ bot.on('message', async message => {
 		}, 1000);
 	    }
 	    if(command){
+		if(yeah) return;
 	    	return await message.reply("I don't understand.")
 	    }
     }
