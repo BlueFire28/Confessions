@@ -207,7 +207,7 @@ bot.on('message', async message => {
 		if(yeah) return;
 	    	return await message.reply("I don't understand.")
 	    }
-    }
+    }; // Hey alexa ends
 	
 	if(msg === "yo alexa"){
 	const caller = sender;
@@ -221,13 +221,13 @@ bot.on('message', async message => {
 				errors: ['time']
 			});
 	    }catch(err){
-		return await message.channel.send('Beep.')
+		return await message.channel.send('Cya cuz.')
 	    }
 	    const command = response.first().content.toLowerCase();
 	    if(command){
-	    	return await message.reply("I don't understand.")
+	    	return await message.reply("Bro, cuz, that ain't a command cuz.")
 	    }
-	};
+	}; // Yo alexa ends
     // MUSIC STUFF
 
     const serverQueue = queue.get(message.guild.id);
