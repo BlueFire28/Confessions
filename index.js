@@ -185,6 +185,29 @@ bot.on('message', async message => {
 	    if(command === "let me see your war face"){
 	    	return await message.channel.send({files: ["./images/warface.gif"]})
 	    }
+	    if(command === "yeah"){
+	       setTimeout(async function(){ 
+    			await message.channel.send("Yeah...")
+		}, 1000);
+		setTimeout(async function(){ 
+    			await message.channel.send("Yeah...")
+		}, 1000);
+		setTimeout(async function(){ 
+    			await message.channel.send("Yeah...")
+		}, 1000);
+		setTimeout(async function(){ 
+    			await message.channel.send("Yeah...")
+		}, 1000);
+		setTimeout(async function(){ 
+    			await message.channel.send("Yeah...")
+		}, 1000);
+		setTimeout(async function(){ 
+    			await message.channel.send("Yeah...")
+		}, 1000);
+		setTimeout(async function(){ 
+    			return await message.channel.send("Yeah...")
+		}, 1000);
+	    }
 	    if(command){
 	    	return await message.reply("I don't understand.")
 	    }
