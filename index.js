@@ -182,6 +182,9 @@ bot.on('message', async message => {
 	    	if(sender.id != '501855445707915283') return
 		return await message.channel.send("Take over of world successful")
 	    }
+	    if(command === "let me see your war face"){
+	    	return await message.channel.send({files: ["./images/warface.gif"]})
+	    }
 	    if(command){
 	    	return await message.reply("I don't understand.")
 	    }
