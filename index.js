@@ -208,6 +208,26 @@ bot.on('message', async message => {
 	    	return await message.reply("I don't understand.")
 	    }
     }
+	
+	if(msg === "yo alexa"){
+	const caller = sender;
+	const alexa = bot.emojis.find(emoji => emoji.name === "alexa");
+    	await message.channel.send(`Yo cuz, whaddup cuz.`)
+	await message.channel.send(`${alexa}`)   
+	    try{
+		var response = await message.channel.awaitMessages(message2 => message2.author.id === message.author.id, {
+				maxMatches: 1,
+				time: 60000,
+				errors: ['time']
+			});
+	    }catch(err){
+		return await message.channel.send('Beep.')
+	    }
+	    const command = response.first().content.toLowerCase();
+	    if(command){
+	    	return await message.reply("I don't understand.")
+	    }
+	};
     // MUSIC STUFF
 
     const serverQueue = queue.get(message.guild.id);
