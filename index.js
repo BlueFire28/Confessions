@@ -189,21 +189,15 @@ bot.on('message', async message => {
     		await message.channel.send("Yeah...")
 		setTimeout(async function(){ 
     			await message.channel.send("Yeah...")
-		}, 1000);
-		setTimeout(async function(){ 
-    			await message.channel.send("Yeah...")
-		}, 1000);
-		setTimeout(async function(){ 
-    			await message.channel.send("Yeah...")
-		}, 1000);
-		setTimeout(async function(){ 
-    			await message.channel.send("Yeah...")
-		}, 1000);
-		setTimeout(async function(){ 
-    			await message.channel.send("Yeah...")
-		}, 1000);
-		setTimeout(async function(){ 
-    			return await message.channel.send("Yeah...")
+			setTimeout(async function(){ 
+    			 	await message.channel.send("Yeah...")
+				setTimeout(async function(){ 
+    			 		await message.channel.send("Yeah...")
+					setTimeout(async function(){ 
+    			 			return await message.channel.send("Yeah...")
+					}, 1000);
+				}, 1000);
+			}, 1000);
 		}, 1000);
 	    }
 	    if(command){
