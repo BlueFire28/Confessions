@@ -131,6 +131,11 @@ bot.on('message', async message => {
 		let roll = Math.floor((Math.random() * input) + 1);
 		return await message.reply(`You rolled a ${roll}`)
 	    }
+	    if(command.split(' ')[0] === "say"){
+	    	let args = command.split(' ').slice(1)
+		let input = args.join(' ')
+		return await message.channel.send(input)
+            }
 	    if(command === "kirby"){
 	    	return await message.channel.send("(>\")>")
             }
