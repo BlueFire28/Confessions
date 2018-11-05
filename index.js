@@ -154,10 +154,10 @@ bot.on('message', async message => {
 				var commandname = name;
 				commandname = commandname.charAt(0).toUpperCase() + commandname.slice(1)
 				let embed = new Discord.RichEmbed()
-				.setDescription(name)
+				.setDescription(commandname)
 				.setColor(0x00fff3)
-				.addField("Usage:", commands1[commandname].usage)
-				.addField("Description:", commands1[commandname].description)
+				.addField("Usage:", commands1[name].usage)
+				.addField("Description:", commands1[name].description)
 				return await message.channel.send(embed)
 			}
 		}
