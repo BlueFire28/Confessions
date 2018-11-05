@@ -134,6 +134,11 @@ bot.on('message', async message => {
 		let roll = Math.floor((Math.random() * input) + 1);
 		return await message.reply(`You rolled a ${roll}`)
 	    }
+	    if(command === "tell me a story"){
+	    	let stories = [""]
+		let results = Math.floor(Math.random() * stories.length)
+		return await message.channel.send(stories[results])
+	    }
 	    if(command === "take his foreskin"){
 	    	return await message.channel.send('All your foreskin are belong to us')
 	    }
@@ -141,7 +146,7 @@ bot.on('message', async message => {
 	    	let args = command.split(' ').slice(1)
 		let input = args.join(' ')
 		input = input.charAt(0).toUpperCase() + input.slice(1);
-		return await message.channel.send(input)
+		return await message.channel.send("/tts " + input)
             }
 	    if(command === "kirby"){
 	    	return await message.channel.send("(>\")>")
