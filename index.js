@@ -128,6 +128,9 @@ bot.on('message', async message => {
 	    if(command.split(" ")[0] === "roll"){
 	    	let args = command.split(" ").slice(2)
 		let input = parseInt(args.join("").slice(1));
+		if(input < 1){
+			return await message.channel.send(`ERROR, ERROR, CANNOT ROLL A DIE WITH ${input} SIDE(S) AS IT IS IMPOSSIBLE AND WILL CREATE MULTIPLE PARADOXES!`)
+		}
 		let roll = Math.floor((Math.random() * input) + 1);
 		return await message.reply(`You rolled a ${roll}`)
 	    }
