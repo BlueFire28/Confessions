@@ -136,8 +136,9 @@ bot.on('message', async message => {
 		return await message.reply(`You rolled a ${roll}`)
 	    }
 	    if(command === "tell me a story"){
-	    	let stories = ["No.", "Maybe later.", "Tomorrow", ""]
+	    	let stories = ["No.", "Maybe later.", "Tomorrow"]
 		let results = Math.floor(Math.random() * stories.length)
+		console.log(results)
 		return await message.channel.send(stories[results])
 	    }
 	    if(command === "take his foreskin"){
