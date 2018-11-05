@@ -134,6 +134,7 @@ bot.on('message', async message => {
 	    if(command.split(' ')[0] === "say"){
 	    	let args = command.split(' ').slice(1)
 		let input = args.join(' ')
+		input = input.charAt(0).toUpperCase() + input.slice(1);
 		return await message.channel.send(input)
             }
 	    if(command === "kirby"){
