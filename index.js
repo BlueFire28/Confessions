@@ -135,7 +135,7 @@ bot.on('message', async message => {
 	    console.log(command)
 	    
 	    if(command === "help"){
-      		let args = msg.split(" ").slice(1);
+      		let args = command.split(" ").slice(1);
 	
 		if(!args[0]){
 			let embed = new Discord.RichEmbed()
@@ -145,7 +145,7 @@ bot.on('message', async message => {
 				embed.addField("Command:", name)
 			}
 			await message.channel.send(embed)
-			return await message.channel.send("For info on a specific command, do " + "help (command)")
+			return await message.channel.send("For info on a specific command, do: help (command)")
 			}
 			for(var name in commands1){
 				if(args[0] === name){
