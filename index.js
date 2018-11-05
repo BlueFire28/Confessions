@@ -49,7 +49,7 @@ bot.on('message', async message => {
 	    }catch(err){
 		return await message.channel.send('Beep.')
 	    }
-	    const command = response.content.toLowerCase();
+	    const command = response.first().content.toLowerCase();
 	    if(command === "hi"){
 	    	return await message.channel.send(`Hi, ${message.author}`)
 	    }
