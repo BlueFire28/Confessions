@@ -13,6 +13,88 @@ const prefix = '`' // The text before commands
 const queue = new Map();
 const youtube = new YouTube(process.env.ytapi)
 var stopping = false;
+var commands1 = {
+	hi: {
+		usage: "hi",
+		description: `Hello.`
+	},
+	boop: {
+		usage: "boop",
+		description: `DO NOT BOOP.`
+	},
+	"cha cha": {
+		usage: "cha cha",
+		description: `You lika do da cha cha.`
+	},
+	"this is so sad": {
+		usage: "this is so sad",
+		description: `You're right, it is.`
+	},
+	"what time is it": {
+		usage: "what time is it",
+		description: `Get the time.`
+	},
+	"tell me a joke": {
+		usage: "tell me a joke",
+		description: `Random joke, we don't have that many though.`
+	},
+	"roll": {
+		usage: "roll a d(num)",
+		description: `Roll a die, any number above 1.`
+	},
+	"tell me a story": {
+		usage: "tell me a story",
+		description: `Once upon a time...`
+	},
+	"take his foreskin": {
+		usage: "take his foreskin",
+		description: `Thine foreskin mine!`
+	},
+	"say": {
+		usage: "say (stuff)",
+		description: `Say anything, except an everyone ping.`
+	},
+	"kirby": {
+		usage: "kirby",
+		description: `Get your own Kirby.`
+	},
+	"send noods": {
+		usage: "send noods",
+		description: `Get some delicious noods.`
+	},
+	"fbi": {
+		usage: "do you work for the fbi",
+		description: `No, I swear.`
+	},
+	"hotel": {
+		usage: "hotel",
+		description: `Trivago.`
+	},
+	"i love you": {
+		usage: "i love you",
+		description: `Do you?`
+	},
+	"ur mom gay": {
+		usage: "ur mom gay",
+		description: `No u.`
+	},
+	"sharing is caring": {
+		usage: "sharing is caring",
+		description: `Stalin would be proud.`
+	},
+	"loli porn": {
+		usage: "loli porn",
+		description: `Oh yea boi, love me some loli (pls no).`
+	},
+	"war face": {
+		usage: "let me see your war face",
+		description: `AHHHHHHHHH.`
+	},
+	"yeah": {
+		usage: "yeah",
+		description: `Yeah.`
+	},
+}
 
 // Listener Event: Bot Launched
 bot.on('ready', () => {
@@ -51,6 +133,34 @@ bot.on('message', async message => {
 	    }
 	    const command = response.first().content.toLowerCase();
 	    console.log(command)
+	    
+	    if(command === "help"){
+      		let args = msg.split(" ").slice(1);
+	
+		if(!args[0]){
+			let embed = new Discord.RichEmbed()
+			.setDescription("All available commands")
+			.setColor(0x00fff3)
+			for(var name in commands1){
+				embed.addField("Command:", name)
+			}
+			await message.channel.send(embed)
+			return await message.channel.send("For info on a specific command, do " + "help (command)")
+			}
+			for(var name in commands1){
+				if(args[0] === name){
+					var commandname = name;
+					let embed = new Discord.RichEmbed()
+					.setDescription(name)
+					.setColor(0x00fff3)
+					.addField("Usage:", commands1[commandname].usage)
+					.addField("Description:", commands1[commandname].description)
+					return await message.channel.send(embed)
+				}
+		}
+		if(args[0]) return message.channel.send("Hm, check your spelling and try again!");
+	
+	    };
 	    if(command === "hi"){
 	    	return await message.channel.send(`Hi, ${message.author}`)
 	    }
