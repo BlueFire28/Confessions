@@ -134,7 +134,7 @@ bot.on('message', async message => {
 	    const command = response.first().content.toLowerCase();
 	    console.log(command)
 	    
-	    if(command === "help"){
+	    if(command.split(' ')[0] === "help"){
       		let args = command.split(" ").slice(1);
 	
 		if(!args[0]){
