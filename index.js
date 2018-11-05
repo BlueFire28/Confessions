@@ -137,6 +137,7 @@ bot.on('message', async message => {
 	    }
 	    if(command === "tell me a story"){
 	    	let stories = ["No.", "Maybe later.", "Tomorrow"]
+		console.log(stories.length)
 		let results = Math.floor(Math.random() * stories.length)
 		console.log(results)
 		return await message.channel.send(stories[results])
