@@ -150,7 +150,7 @@ bot.on('message', async message => {
 			return await message.channel.send("For info on a specific command, do: help (command)")
 			}
 			for(var name in commands1){
-				if(args[0] === name){
+				if(args.join(' ') === name){
 					var commandname = name;
 					let embed = new Discord.RichEmbed()
 					.setDescription(name)
