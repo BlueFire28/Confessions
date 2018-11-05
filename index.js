@@ -149,16 +149,17 @@ bot.on('message', async message => {
 			await message.channel.send(embed)
 			return await message.channel.send("For info on a specific command, do: help (command)")
 			}
-			for(var name in commands1){
-				if(args.join(' ') === name){
-					var commandname = name;
-					let embed = new Discord.RichEmbed()
-					.setDescription(name)
-					.setColor(0x00fff3)
-					.addField("Usage:", commands1[commandname].usage)
-					.addField("Description:", commands1[commandname].description)
-					return await message.channel.send(embed)
-				}
+		for(var name in commands1){
+			if(args.join(' ') === name){
+				var commandname = name;
+				commandname = commandname.charAt(0).toUpperCase() + commandname.slice(1)
+				let embed = new Discord.RichEmbed()
+				.setDescription(name)
+				.setColor(0x00fff3)
+				.addField("Usage:", commands1[commandname].usage)
+				.addField("Description:", commands1[commandname].description)
+				return await message.channel.send(embed)
+			}
 		}
 		if(args[0]) return message.channel.send("Hm, check your spelling and try again!");
 	
