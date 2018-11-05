@@ -146,7 +146,9 @@ bot.on('message', async message => {
 	    	let args = command.split(' ').slice(1)
 		let input = args.join(' ')
 		input = input.charAt(0).toUpperCase() + input.slice(1);
-		return await message.channel.send("/tts " + input)
+		return await message.channel.send(input, {
+		tts: true
+		}) 
             }
 	    if(command === "kirby"){
 	    	return await message.channel.send("(>\")>")
