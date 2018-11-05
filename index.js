@@ -138,10 +138,14 @@ bot.on('message', async message => {
       		let args = command.split(" ").slice(1);
 	
 		if(!args[0]){
+			let commands = []
+			for(var name in commands1){
+				commands.push(name)
+			}
 			let embed = new Discord.RichEmbed()
 			.setDescription("All available commands")
 			.setColor(0x00fff3)
-			.addField("Commands:", commands1.map(name => name))
+			.addField("Commands:", commands.map(name => `${name}, `))
 			await message.channel.send(embed)
 			return await message.channel.send("For info on a specific command, do: help (command)")
 			}
