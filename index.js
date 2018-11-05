@@ -145,7 +145,7 @@ bot.on('message', async message => {
 			let embed = new Discord.RichEmbed()
 			.setDescription("All available commands")
 			.setColor(0x00fff3)
-			.addField("Commands:", commands.map(name => `${name}, `))
+			.addField("Commands:", commands.map(name => name.charAt(0).toUpperCase() + name.slice(1)))
 			await message.channel.send(embed)
 			return await message.channel.send("For info on a specific command, do: help (command)")
 			}
