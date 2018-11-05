@@ -50,6 +50,7 @@ bot.on('message', async message => {
 		return await message.channel.send('Beep.')
 	    }
 	    const command = response.first().content.toLowerCase();
+	    cosnole.log(command)
 	    if(command === "hi"){
 	    	return await message.channel.send(`Hi, ${message.author}`)
 	    }
@@ -135,7 +136,7 @@ bot.on('message', async message => {
 		return await message.reply(`You rolled a ${roll}`)
 	    }
 	    if(command === "tell me a story"){
-	    	let stories = [""]
+	    	let stories = ["No.", "Maybe later.", "Tomorrow", ""]
 		let results = Math.floor(Math.random() * stories.length)
 		return await message.channel.send(stories[results])
 	    }
@@ -146,6 +147,10 @@ bot.on('message', async message => {
 	    	let args = command.split(' ').slice(1)
 		let input = args.join(' ')
 		input = input.charAt(0).toUpperCase() + input.slice(1);
+		if(input.includes('@everyone')) {
+			message.delete()
+			return message.channel.send("Don't mention everyone, you meanie.")
+		}
 		return await message.channel.send(input, {
 		tts: true
 		}) 
